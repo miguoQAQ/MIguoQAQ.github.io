@@ -506,7 +506,7 @@ details ul {
   padding-left: 1.7em;
 }
 summary {
-  cursor: url(https://pic.imgdb.cn/item/65af5f4e871b83018a160279.webp),auto;
+  cursor: url("https://pic.imgdb.cn/item/65af5f4e871b83018a160279.webp");
 }
 summary i {
   margin-right: 0.3em;
@@ -693,7 +693,7 @@ article figure.highlight > .codeblock-copy-wrapper {
   background-position: 50%;
   background-size: 20px;
   background-repeat: no-repeat;
-  cursor: url(https://pic.imgdb.cn/item/65af5f4e871b83018a160279.webp),auto;
+  cursor: url("https://pic.imgdb.cn/item/65af5f4e871b83018a160279.webp");
   opacity: 0;
   transition: opacity 0.25s;
 }
