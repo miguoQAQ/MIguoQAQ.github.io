@@ -35,7 +35,7 @@
 }
 
 #tabs li {
-  cursor: pointer;
+  cursor: url(https://pic.imgdb.cn/item/65af5f4e871b83018a160279.webp), auto;
   width: 100px;
   height: 40px;
   line-height: 40px;
@@ -105,7 +105,7 @@
   margin-right: 20px;
   text-align: center;
   list-style: none !important;
-  cursor: default;
+  cursor: url(https://pic.imgdb.cn/item/65af5f4e871b83018a160279.webp), auto;
 }
 
 .icon_lists li .code-name {

@@ -592,10 +592,10 @@ body.mdui-locked {
 }
 .mdui-typo [draggable],
 .mdui-typo [draggable="true"] {
-  cursor: move;
+  cursor: url(https://pic.imgdb.cn/item/65af5f4e871b83018a160279.webp), auto;
 }
 .mdui-typo [draggable="false"] {
-  cursor: inherit;
+  cursor: url(https://pic.imgdb.cn/item/65af5f4e871b83018a160279.webp), auto;
 }
 .mdui-typo p,
 .mdui-typo pre,
@@ -723,7 +723,7 @@ body.mdui-locked {
 }
 .mdui-typo abbr[title] {
   text-decoration: none;
-  cursor: help;
+  cursor: url(https://pic.imgdb.cn/item/65af5f4e871b83018a160279.webp), auto;
   border-bottom: 1px dotted;
 }
 .mdui-typo ins {
@@ -1226,7 +1226,7 @@ th.mdui-table-cell-checkbox .mdui-checkbox {
 .mdui-ripple {
   position: relative;
   overflow: hidden;
-  cursor: pointer;
+  cursor: url(https://pic.imgdb.cn/item/65af5f4e871b83018a160279.webp), auto;
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
@@ -1396,7 +1396,7 @@ th.mdui-table-cell-checkbox .mdui-checkbox {
   opacity: .42;
 }
 .mdui-textfield-input:not([disabled]):hover {
-  cursor: pointer;
+  cursor: url(https://pic.imgdb.cn/item/65af5f4e871b83018a160279.webp), auto;
   border-bottom: 1px solid rgba(0, 0, 0, .87);
   -webkit-box-shadow: 0 1px 0 0 rgba(0, 0, 0, .87);
           box-shadow: 0 1px 0 0 rgba(0, 0, 0, .87);
@@ -1566,7 +1566,7 @@ th.mdui-table-cell-checkbox .mdui-checkbox {
 }
 .mdui-textfield-disabled .mdui-textfield-input {
   color: rgba(0, 0, 0, .42);
-  cursor: default;
+  cursor: url(https://pic.imgdb.cn/item/65af5f4e871b83018a160279.webp), auto;
 }
 .mdui-textfield-disabled .mdui-textfield-input {
   border-bottom: 1px dashed rgba(0, 0, 0, .42);
@@ -1972,7 +1972,7 @@ th.mdui-table-cell-checkbox .mdui-checkbox {
   height: 36px;
   padding-left: 36px;
   line-height: 36px;
-  cursor: pointer;
+  cursor: url(https://pic.imgdb.cn/item/65af5f4e871b83018a160279.webp), auto;
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
@@ -2317,7 +2317,7 @@ th.mdui-table-cell-checkbox .mdui-checkbox {
   height: 36px;
   padding-left: 36px;
   line-height: 36px;
-  cursor: pointer;
+  cursor: url(https://pic.imgdb.cn/item/65af5f4e871b83018a160279.webp), auto;
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
@@ -2601,7 +2601,7 @@ th.mdui-table-cell-checkbox .mdui-checkbox {
   display: inline-block;
   height: 36px;
   line-height: 36px;
-  cursor: pointer;
+  cursor: url(https://pic.imgdb.cn/item/65af5f4e871b83018a160279.webp), auto;
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
@@ -2988,7 +2988,7 @@ th.mdui-table-cell-checkbox .mdui-checkbox {
   height: 20px;
   -webkit-appearance: none;
   margin-top: -10px;
-  cursor: pointer;
+  cursor: url(https://pic.imgdb.cn/item/65af5f4e871b83018a160279.webp), auto;
   opacity: 0;
 
      -moz-appearance: none;
@@ -3188,7 +3188,7 @@ th.mdui-table-cell-checkbox .mdui-checkbox {
 }
 /* 禁用状态 */
 .mdui-slider-disabled input[type="range"] {
-  cursor: default;
+  cursor: url(https://pic.imgdb.cn/item/65af5f4e871b83018a160279.webp), auto;
 }
 .mdui-slider-disabled .mdui-slider-track:before {
   background-color: #bdbdbd;
@@ -3316,7 +3316,7 @@ th.mdui-table-cell-checkbox .mdui-checkbox {
   vertical-align: middle;
   -ms-touch-action: manipulation;
       touch-action: manipulation;
-  cursor: pointer;
+  cursor: url(https://pic.imgdb.cn/item/65af5f4e871b83018a160279.webp), auto;
   zoom: 1;
   -webkit-user-select: none;
      -moz-user-select: none;
@@ -3396,7 +3396,7 @@ input.mdui-btn[type="submit"] {
 .mdui-btn[disabled]:focus,
 .mdui-fab[disabled]:focus {
   color: rgba(0, 0, 0, .26) !important;
-  cursor: default !important;
+  cursor: url(https://pic.imgdb.cn/item/65af5f4e871b83018a160279.webp), auto !important;
   background-color: transparent !important;
   -webkit-box-shadow: none !important;
           box-shadow: none !important;
@@ -3722,7 +3722,7 @@ input.mdui-btn[type="submit"] {
   font-family: Roboto, Noto, Helvetica, Arial, sans-serif;
   font-size: 16px;
   vertical-align: middle;
-  cursor: pointer;
+  cursor: url(https://pic.imgdb.cn/item/65af5f4e871b83018a160279.webp), auto;
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
@@ -3820,7 +3820,7 @@ input.mdui-btn[type="submit"] {
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
   color: rgba(0, 0, 0, .87);
-  cursor: default;
+  cursor: url(https://pic.imgdb.cn/item/65af5f4e871b83018a160279.webp), auto;
   visibility: hidden;
   background-color: #fff;
   border-radius: 2px;
@@ -3864,7 +3864,7 @@ input.mdui-btn[type="submit"] {
   line-height: 48px;
   text-overflow: ellipsis;
   white-space: nowrap;
-  cursor: pointer;
+  cursor: url(https://pic.imgdb.cn/item/65af5f4e871b83018a160279.webp), auto;
 }
 .mdui-select-menu-item:hover {
   background-color: #eee;
@@ -3877,7 +3877,7 @@ input.mdui-btn[type="submit"] {
 }
 .mdui-select-menu-item[disabled] {
   color: rgba(0, 0, 0, .38) !important;
-  cursor: default;
+  cursor: url(https://pic.imgdb.cn/item/65af5f4e871b83018a160279.webp), auto;
 }
 .mdui-select-menu-item[disabled]:hover {
   background-color: inherit !important;
@@ -3900,7 +3900,7 @@ select.mdui-select[multiple] {
   height: auto;
   padding: 0;
   font-size: 15px;
-  cursor: default;
+  cursor: url(https://pic.imgdb.cn/item/65af5f4e871b83018a160279.webp), auto;
   background-color: #fff;
   background-image: none;
   border: 1px solid rgba(0, 0, 0, .38);
@@ -5217,7 +5217,7 @@ select.mdui-select[multiple] option:last-child {
   text-decoration: none;
   text-overflow: ellipsis;
   text-transform: uppercase;
-  cursor: pointer;
+  cursor: url(https://pic.imgdb.cn/item/65af5f4e871b83018a160279.webp), auto;
           flex-direction: column;
   -webkit-user-select: none;
      -moz-user-select: none;
@@ -5276,17 +5276,17 @@ select.mdui-select[multiple] option:last-child {
 .mdui-tab a label {
   display: block;
   width: 100%;
-  cursor: pointer;
+  cursor: url(https://pic.imgdb.cn/item/65af5f4e871b83018a160279.webp), auto;
 }
 .mdui-tab a .mdui-icon + label {
   margin-top: 8px;
 }
 .mdui-tab a[disabled] {
-  cursor: default;
+  cursor: url(https://pic.imgdb.cn/item/65af5f4e871b83018a160279.webp), auto;
   opacity: .38;
 }
 .mdui-tab a[disabled] label {
-  cursor: default;
+  cursor: url(https://pic.imgdb.cn/item/65af5f4e871b83018a160279.webp), auto;
 }
 .mdui-tab .mdui-tab-active {
   color: #3f51b5;
@@ -5517,7 +5517,7 @@ select.mdui-select[multiple] option:last-child {
   color: rgba(0, 0, 0, .54);
   text-overflow: ellipsis;
   white-space: nowrap;
-  cursor: default;
+  cursor: url(https://pic.imgdb.cn/item/65af5f4e871b83018a160279.webp), auto;
 }
 .mdui-subheader-inset {
   padding-left: 72px;
@@ -5726,7 +5726,7 @@ select.mdui-select[multiple] option:last-child {
           box-sizing: border-box;
   padding: 0 16px;
   text-decoration: none;
-  cursor: pointer;
+  cursor: url(https://pic.imgdb.cn/item/65af5f4e871b83018a160279.webp), auto;
   -webkit-transition: background-color .3s cubic-bezier(.4, 0, .2, 1);
           transition: background-color .3s cubic-bezier(.4, 0, .2, 1);
 
@@ -6666,7 +6666,7 @@ body.mdui-loaded .mdui-drawer {
           box-sizing: border-box;
   margin: 2px 0;
   white-space: nowrap;
-  cursor: pointer;
+  cursor: url(https://pic.imgdb.cn/item/65af5f4e871b83018a160279.webp), auto;
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
@@ -6731,7 +6731,7 @@ body.mdui-loaded .mdui-drawer {
   text-align: center;
   text-decoration: none;
   vertical-align: middle;
-  cursor: pointer;
+  cursor: url(https://pic.imgdb.cn/item/65af5f4e871b83018a160279.webp), auto;
   border-radius: 50%;
   opacity: .54;
   -webkit-transition: opacity .25s cubic-bezier(.4, 0, .2, 1);
@@ -6803,7 +6803,7 @@ body.mdui-loaded .mdui-drawer {
   text-align: center;
   text-decoration: none;
   text-overflow: ellipsis;
-  cursor: pointer;
+  cursor: url(https://pic.imgdb.cn/item/65af5f4e871b83018a160279.webp), auto;
           flex-direction: column;
   -webkit-user-select: none;
      -moz-user-select: none;
@@ -6842,7 +6842,7 @@ body.mdui-loaded .mdui-drawer {
 .mdui-bottom-nav a label {
   display: block;
   width: 100%;
-  cursor: pointer;
+  cursor: url(https://pic.imgdb.cn/item/65af5f4e871b83018a160279.webp), auto;
   -webkit-transition: -webkit-transform .2s cubic-bezier(.4, 0, .2, 1);
           transition: -webkit-transform .2s cubic-bezier(.4, 0, .2, 1);
           transition:         transform .2s cubic-bezier(.4, 0, .2, 1);
@@ -7712,7 +7712,7 @@ body.mdui-loaded .mdui-drawer {
   font-size: 15px;
   text-overflow: ellipsis;
   white-space: nowrap;
-  cursor: pointer;
+  cursor: url(https://pic.imgdb.cn/item/65af5f4e871b83018a160279.webp), auto;
   -webkit-transition: all .3s cubic-bezier(.4, 0, .2, 1);
           transition: all .3s cubic-bezier(.4, 0, .2, 1);
 
@@ -7965,7 +7965,7 @@ body.mdui-loaded .mdui-drawer {
 }
 .mdui-menu-item[disabled] > a {
   color: rgba(0, 0, 0, .38) !important;
-  cursor: default;
+  cursor: url(https://pic.imgdb.cn/item/65af5f4e871b83018a160279.webp), auto;
 }
 .mdui-menu-item[disabled] > a:hover {
   background-color: inherit !important;
