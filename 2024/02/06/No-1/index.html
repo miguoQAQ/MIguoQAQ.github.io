@@ -1,0 +1,926 @@
+<!doctype html>
+<html lang="zh"><head>
+<title>Forensics 学习 No.1 - MiguoQAQ&#39;s_blog</title>
+<meta charset="UTF-8">
+<meta name="keywords" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+
+<link rel="shortcut icon" href="https://pic.imgdb.cn/item/65ae9c48871b83018a9749c0.jpg" type="image/png" />
+<meta name="description" content="Forensics学习No.1-内存取证工具volatility#     volatility安装，环境配置及其插件安装 volatility安装 volatility插件安装   官方帮助 命令格式 常用命令- 查看镜像文件系统摘要信息： 用户相关 查看用户名和密码（hash值） 从注册表中查看密码： 使用mimikatz插件查看密码（需要进入插件目录）   cmd相关 查看cmd使用情况 查">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Forensics 学习 No.1">
+<meta property="og:url" content="https://miguoqaq.github.io/2024/02/06/No-1/index.html">
+<meta property="og:site_name" content="MiguoQAQ&#39;s_blog">
+<meta property="og:description" content="Forensics学习No.1-内存取证工具volatility#     volatility安装，环境配置及其插件安装 volatility安装 volatility插件安装   官方帮助 命令格式 常用命令- 查看镜像文件系统摘要信息： 用户相关 查看用户名和密码（hash值） 从注册表中查看密码： 使用mimikatz插件查看密码（需要进入插件目录）   cmd相关 查看cmd使用情况 查">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/02/06/No-1/image-20240205183853869.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/02/06/No-1/image-20240205184017521.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/02/06/No-1/image-20240205184935661.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/02/06/No-1/image-20240205185534976.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/02/06/No-1/image-20240205190146615.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/02/06/No-1/image-20240205191218731.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/02/06/No-1/image-20240205194757596.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/02/06/No-1/image-20240205193936358.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/02/06/No-1/image-20240205194113581.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/02/06/No-1/image-20240205194950380.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/02/06/No-1/image-20240205195256122.png">
+<meta property="article:published_time" content="2024-02-06T08:14:09.000Z">
+<meta property="article:modified_time" content="2024-02-27T13:26:00.123Z">
+<meta property="article:author" content="MiguoQAQ">
+<meta property="article:tag" content="Forensics">
+<meta property="article:tag" content="Misc">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://miguoqaq.github.io/2024/02/06/No-1/image-20240205183853869.png">
+
+<link rel="stylesheet" href="/lib/fancybox/fancybox.css">
+<link rel="stylesheet" href="/lib/mdui_043tiny/mdui.css">
+
+
+<link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1710348604901">
+
+<link rel="stylesheet" href="/css/style.css?v=1710348604901">
+
+
+
+
+    
+        <link rel="stylesheet" href="/custom.css?v=1710348604901">
+    
+
+
+
+<script src="/lib/mdui_043tiny/mdui.js" async></script>
+<script src="/lib/fancybox/fancybox.umd.js" async></script>
+<script src="/lib/lax.min.js" async></script>
+
+
+<script async src="/js/app.js?v=1710348604901"></script>
+
+ 
+
+
+<script type="text/javascript" color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="dist/canvas-nest.js"></script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4D4ZJ9G024"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag("js", new Date());
+
+  gtag("config", "G-4D4ZJ9G024");
+</script>
+
+
+<!-- 同时兼容http与https -->
+<script src="//cdn1.lncld.net/static/js/2.5.0/av-min.js"></script>
+<script>
+// 第一个参数是appid，第二个参数是appkey，此处的只是示例
+AV.initialize("rvljNzkPVAvS0doP7TVjTxCw-gzGzoHsz", "CPWph4DaI33XDrIC2gVeBgo3");
+// 自己创建的Class的名字
+var name='Counter';
+function createRecord(Counter){
+  // 设置 ACL
+  var acl = new AV.ACL();
+  acl.setPublicReadAccess(true);
+  acl.setPublicWriteAccess(true);
+  // 获得span的所有元素
+  var elements=document.getElementsByClassName('leancloud_visitors');
+  // 一次创建多条记录
+  var allcounter=[];
+  for (var i = 0; i < elements.length ; i++) {
+    // 若某span的内容不包括 '-' ，则不必创建记录
+    if(elements[i].textContent.indexOf('-') == -1){
+      continue;
+    }
+    var title = elements[i].getAttribute('data-flag-title');
+    var url = elements[i].id;
+    var newcounter = new Counter();
+    newcounter.setACL(acl);
+    newcounter.set("title", title);
+    newcounter.set("url", url);
+    newcounter.set("time", 0);
+    allcounter.push(newcounter);
+    // 顺便更新显示span为默认值0
+    elements[i].textContent=0;
+  }
+  AV.Object.saveAll(allcounter).then(function (todo) {
+    // 成功保存记录之后
+    console.log('创建记录成功！');
+  }, function (error) {
+    // 异常错误 
+    console.error('创建记录失败: ' + error.message);
+  });
+}
+function showCount(Counter){
+  // 是否需要创建新纪录的标志（添加一篇新文章）
+  var flag=false;
+  var query = new AV.Query(name);
+  query.greaterThanOrEqualTo('time', 0);
+  query.find().then(function (results) {
+    // 当获取到的记录为0时置默认值
+    if(results.length==0){
+      $('.leancloud_visitors').text('-');
+      flag=true;
+      console.log('返回查询记录为空');
+      // 如果获取到空记录就创建新记录
+      createRecord(Counter);
+      return;
+    }
+    // 将获取到的数据设置为text
+    for (var i = 0; i < results.length; i++) {
+      var item = results[i];
+      var url = item.get('url');
+      var time = item.get('time');
+      var element = document.getElementById(url);
+      element.textContent = time;
+    }
+    // 当某个span含有默认值时说明需要创建记录
+    if($('.leancloud_visitors').text().indexOf("-") != -1){
+      flag=true;
+    }
+    // 当获取的记录数与span个数不吻合时
+    if(results.length != $('.leancloud_visitors').length){
+      flag=true;
+    }
+    if(flag){
+      createRecord(Counter);
+    }
+  }, function (error) {
+    console.log('query error:'+error.message);
+  });
+}
+$(function() {
+  var Counter = AV.Object.extend(name);
+  showCount(Counter);
+});
+</script>
+      <!-- 网页鼠标点击特效（爱心） -->
+      <script type="text/javascript">
+          ! function (e, t, a) {
+          function r() {
+              for (var e = 0; e < s.length; e++) s[e].alpha <= 0 ? (t.body.removeChild(s[e].el), s.splice(e, 1)) : (s[
+                      e].y--, s[e].scale += .004, s[e].alpha -= .013, s[e].el.style.cssText = "left:" + s[e].x +
+                  "px;top:" + s[e].y + "px;opacity:" + s[e].alpha + ";transform:scale(" + s[e].scale + "," + s[e]
+                  .scale + ") rotate(45deg);background:" + s[e].color + ";z-index:99999");
+              requestAnimationFrame(r)
+              }
+
+          function n() {
+              var t = "function" == typeof e.onclick && e.onclick;
+              e.onclick = function (e) {
+                  t && t(), o(e)
+                  }
+              }
+
+          function o(e) {
+              var a = t.createElement("div");
+              a.className = "heart", s.push({
+                  el: a,
+                  x: e.clientX - 5,
+                  y: e.clientY - 5,
+                  scale: 1,
+                  alpha: 1,
+                  color: c()
+              }), t.body.appendChild(a)
+          }
+
+          function i(e) {
+              var a = t.createElement("style");
+              a.type = "text/css";
+              try {
+                  a.appendChild(t.createTextNode(e))
+              } catch (t) {
+                  a.styleSheet.cssText = e
+              }
+              t.getElementsByTagName("head")[0].appendChild(a)
+          }
+
+          function c() {
+              return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math
+                  .random()) + ")"
+          }
+          var s = [];
+          e.requestAnimationFrame = e.requestAnimationFrame || e.webkitRequestAnimationFrame || e
+              .mozRequestAnimationFrame || e.oRequestAnimationFrame || e.msRequestAnimationFrame || function (e) { setTimeout(e, 1e3 / 60)
+              }, i(
+                  ".heart{width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;}.heart:after{top: -5px;}.heart:before{left: -5px;}"
+              ), n(), r()
+      }(window, document);
+      </script>			
+  
+
+
+  
+
+
+<link rel="stylesheet"  href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head><body class="nexmoe mdui-drawer-body-left"><div id="nexmoe-background"><div class="nexmoe-bg" style="background-image: url(https://pic.imgdb.cn/item/65aea2b0871b83018aabe502.jpg)"></div><div class="mdui-appbar mdui-shadow-0"><div class="mdui-toolbar"><a class="mdui-btn mdui-btn-icon mdui-ripple" mdui-drawer="{target: &#039;#drawer&#039;, swipe: true}" title="menu"><i class="mdui-icon nexmoefont icon-menu"></i></a><div class="mdui-toolbar-spacer"></div><a class="mdui-btn mdui-btn-icon" href="/" title="MiguoQAQ"><img src="https://pic.imgdb.cn/item/65ae9c48871b83018a9749c0.jpg" alt="MiguoQAQ"></a></div></div></div><div id="nexmoe-header"><div class="nexmoe-drawer mdui-drawer" id="drawer">
+    <div class="nexmoe-avatar mdui-ripple">
+        <a href="/" title="MiguoQAQ">
+            <img src="https://pic.imgdb.cn/item/65ae9c48871b83018a9749c0.jpg" alt="MiguoQAQ" alt="MiguoQAQ">
+        </a>
+    </div>
+    <div class="nexmoe-count">
+        <div><span>文章</span>4</div>
+        <div><span>标签</span>2</div>
+        <div><span>分类</span>0</div>
+    </div>
+    <div class="nexmoe-list mdui-list" mdui-collapse="{accordion: true}">
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/" title="回到首页">
+            <i class="mdui-list-item-icon nexmoefont icon-home"></i>
+            <div class="mdui-list-item-content">
+                回到首页
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/archive.html" title="文章归档">
+            <i class="mdui-list-item-icon nexmoefont icon-container"></i>
+            <div class="mdui-list-item-content">
+                文章归档
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/friends.html" title="我的朋友">
+            <i class="mdui-list-item-icon nexmoefont icon-coffee"></i>
+            <div class="mdui-list-item-content">
+                我的朋友
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/about.html" title="关于本人">
+            <i class="mdui-list-item-icon nexmoefont icon-info-circle"></i>
+            <div class="mdui-list-item-content">
+                关于本人
+            </div>
+        </a>
+        
+    </div>
+    
+    
+        
+        <div class="nexmoe-widget-wrap">
+    <div class="nexmoe-widget nexmoe-search">
+        
+            <form id="search_form">
+                <label><input class="st-default-search-input" id="search_value" name="q" type="search" placeholder="搜索" style="
+                    font-size: 15px !important;
+                    height: 56px !important;
+                    background-image: none;
+                "></label>
+            </form>
+         
+    </div>
+</div>
+
+
+	<script async src="/js/search.js?v=1710348604901"></script>
+
+
+
+    
+        
+        <div class="nexmoe-widget-wrap">
+	<div class="nexmoe-widget nexmoe-social">
+		<a
+			class="mdui-ripple"
+			href="tencent://AddContact/?fromId=45&fromSubId=1&subcmd=all&uin=1636547713&website=www.oicqzone.com"
+			target="_blank"
+			mdui-tooltip="{content: 'QQ'}"
+			style="
+				color: rgb(49, 174, 255);
+				background-color: rgba(49, 174, 255, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-QQ"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://space.bilibili.com/58378010"
+			target="_blank"
+			mdui-tooltip="{content: '哔哩哔哩'}"
+			style="
+				color: rgb(231, 106, 141);
+				background-color: rgba(231, 106, 141, .15);
+			"
+		>
+			<i
+				class="nexmoefont icon-bilibili"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://github.com/miguoQAQ/"
+			target="_blank"
+			mdui-tooltip="{content: 'GitHub'}"
+			style="
+				color: rgb(25, 23, 23);
+				background-color: rgba(25, 23, 23, .15);
+			"
+		>
+			<i
+				class="nexmoefont icon-github"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://pic.imgdb.cn/item/65ddcd2e9f345e8d0374454c.jpg"
+			target="_blank"
+			mdui-tooltip="{content: 'wechat'}"
+			style="
+				color: rgb(165, 15, 15);
+				background-color: rgba(165, 15, 15, .15);
+			"
+		>
+			<i
+				class="nexmoefont icon-wechat-fill"
+			></i> </a
+		>
+	</div>
+</div>
+
+    
+        
+        
+
+    
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <div id="randomtagcloud" class="nexmoe-widget tagcloud nexmoe-rainbow">
+      <a href="/tags/Forensics/" style="font-size: 10px;">Forensics</a> <a href="/tags/Misc/" style="font-size: 10px;">Misc</a>
+    </div>
+    
+      <script>
+        var maxTagcloud = parseInt(17);
+        var tags_length = parseInt(2);
+        var tags_arr = [];
+        for(var i = 0; i < tags_length; i++){
+          tags_arr.push(i);
+        }
+        tags_arr.sort(function (l, r) {
+          return Math.random() > 0.5 ? -1 : 1;
+        });
+        tags_arr = tags_arr.slice(0, maxTagcloud < tags_length ? tags_length - maxTagcloud : 0);
+        for(var tag_i = 0; tag_i < tags_arr.length; tag_i++){
+          document.getElementById("randomtagcloud").children[tags_arr[tag_i]].style.display = 'none';
+        }
+      </script>
+    
+  </div>
+
+    
+        
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">文章归档</h3>
+    <div class="nexmoe-widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/">2024</a><span class="archive-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+
+
+    
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">最新文章</h3>
+    <div class="nexmoe-widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/03/13/OtterCTF/">OtterCTF 2018 取证系列 WP by MiguoQAQ</a>
+          </li>
+        
+          <li>
+            <a href="/2024/03/10/pearlCTF%20%5BForensics%5DSoundScape%20WP%20by%20MiguoQAQ/">pearlCTF [Forensics]SoundScape WP by MiguoQAQ</a>
+          </li>
+        
+          <li>
+            <a href="/2024/02/06/No-1/">Forensics 学习 No.1</a>
+          </li>
+        
+          <li>
+            <a href="/2024/01/23/uh-hi/">uh,hi?</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+    
+        
+        <div class="nexmoe-widget-wrap">
+    <div class="nexmoe-widget nexmoe-link">
+		<ul>
+        
+            <li>
+                <a href="https://miguoqaq.github.io/" target="_blank" >
+                    <img src="https://pic.imgdb.cn/item/65ae9c48871b83018a9749c0.jpg" alt="MiguoQAQ"></img>
+                    <p>MiguoQAQ</p>
+                </a>
+            </li>
+        
+		</ul>
+    </div>
+</div>
+<style>
+.nexmoe-widget-wrap .nexmoe-link ul li a {
+    text-align : center;
+}
+.nexmoe-widget-wrap .nexmoe-link ul li a img {
+    max-width : 100%;
+}
+.nexmoe-widget-wrap .nexmoe-link ul li a p {
+    margin: 10px 0;
+}
+</style>
+
+    
+   
+    <div class="nexmoe-copyright">
+        &copy; 2024 MiguoQAQ
+        Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+        & <a href="https://github.com/theme-nexmoe/hexo-theme-nexmoe" target="_blank">Nexmoe</a>
+        <center>
+本站已运行 <SPAN id=span_dt_dt style="color: #0196e3;"></SPAN>
+<SCRIPT language=javascript>
+function show_date_time(){
+window.setTimeout("show_date_time()", 1000);
+BirthDay=new Date("1/23/2024 00:00:00");
+today=new Date();
+timeold=(today.getTime()-BirthDay.getTime());
+sectimeold=timeold/1000
+secondsold=Math.floor(sectimeold);
+msPerDay=24*60*60*1000
+e_daysold=timeold/msPerDay
+daysold=Math.floor(e_daysold);
+e_hrsold=(e_daysold-daysold)*24;
+hrsold=Math.floor(e_hrsold);
+e_minsold=(e_hrsold-hrsold)*60;
+minsold=Math.floor((e_hrsold-hrsold)*60);
+seconds=Math.floor((e_minsold-minsold)*60);
+span_dt_dt.innerHTML=""+daysold+"天"+hrsold+"小时"+minsold+"分"+seconds+"秒";
+}
+show_date_time();
+</SCRIPT>
+</center>
+
+    </div>
+</div><!-- .nexmoe-drawer --></div><div id="nexmoe-content"><div class="nexmoe-primary"><div class="nexmoe-post">
+  <article>
+    
+        <div class="nexmoe-post-cover absolute" style="padding-top: 62.5%;"> 
+            <img src="https://cdn.educba.com/academy/wp-content/uploads/2019/12/Cyber-Forensics.jpg" alt="Forensics 学习 No.1" loading="lazy">
+            <h1>Forensics 学习 No.1</h1>
+        </div>
+    
+    
+    <div class="nexmoe-post-meta">
+    <div class="nexmoe-rainbow">
+        <a class="nexmoefont icon-calendar-fill">2024年02月06日</a>
+        
+        
+    <a><i class="nexmoefont icon-areachart"></i>约4.7k字</a>
+    <a><i class="nexmoefont icon-time-circle-fill"></i>预计需要22分钟</a>
+
+    </div>
+    
+    
+    
+    
+    
+</div>
+
+    <h1><span id="forensics-xue-xi-no-1-nei-cun-qu-zheng-gong-ju-volatility">Forensics学习No.1-内存取证工具volatility</span><a href="#forensics-xue-xi-no-1-nei-cun-qu-zheng-gong-ju-volatility" class="header-anchor">#</a></h1><div class="toc">
+
+<!-- toc -->
+
+<ul>
+<li><a href="#volatility-an-zhuang-huan-jing-pei-zhi-ji-qi-cha-jian-an-zhuang">volatility安装，环境配置及其插件安装</a><ul>
+<li><a href="#volatility-an-zhuang">volatility安装</a></li>
+<li><a href="#volatility-cha-jian-an-zhuang">volatility插件安装</a></li>
+</ul>
+</li>
+<li><a href="#guan-fang-bang-zhu">官方帮助</a></li>
+<li><a href="#ming-ling-ge-shi">命令格式</a></li>
+<li><a href="#chang-yong-ming-ling">常用命令</a><br>- <a href="#cha-kan-jing-xiang-wen-jian-xi-tong-zhai-yao-xin-xi">查看镜像文件系统摘要信息：</a><ul>
+<li><a href="#yong-hu-xiang-guan">用户相关</a><ul>
+<li><a href="#cha-kan-yong-hu-ming-he-mi-ma-hash-zhi">查看用户名和密码（hash值）</a></li>
+<li><a href="#cong-zhu-ce-biao-zhong-cha-kan-mi-ma">从注册表中查看密码：</a></li>
+<li><a href="#shi-yong-mimikatz-cha-jian-cha-kan-mi-ma-xu-yao-jin-ru-cha-jian-mu-lu">使用mimikatz插件查看密码（需要进入插件目录）</a></li>
+</ul>
+</li>
+<li><a href="#cmd-xiang-guan">cmd相关</a><ul>
+<li><a href="#cha-kan-cmd-shi-yong-qing-kuang">查看cmd使用情况</a></li>
+<li><a href="#cha-kan-cmd-xiang-xi-qing-kuang">查看cmd详细情况</a></li>
+<li><a href="#zhua-qu-kong-zhi-tai-xia-zhi-xing-de-ming-ling-yi-ji-hui-xian-shu-ju">抓取控制台下执行的命令以及回显数据</a></li>
+</ul>
+</li>
+<li><a href="#jin-cheng-xiang-guan">进程相关</a><ul>
+<li><a href="#sao-miao-nei-cun-zhong-de-jin-cheng">扫描内存中的进程</a></li>
+<li><a href="#lie-ju-quan-bu-jin-cheng">列举全部进程</a></li>
+<li><a href="#cha-kan-jin-cheng-jie-gou-tu">查看进程结构图</a></li>
+<li><a href="#cha-kan-yin-cang-jin-cheng">查看隐藏进程</a></li>
+<li><a href="#zhao-chu-yin-cang-zai-nei-cun-zhong-de-dll-wen-jian-he-dai-ma">找出隐藏在内存中的dll文件和代码</a></li>
+<li><a href="#lie-chu-mei-ge-jin-cheng-yi-jia-zai-de-dll">列出每个进程已加载的dll</a></li>
+<li><a href="#jiang-jin-cheng-cheng-xu-ti-qu-chu-lai">将进程程序提取出来</a></li>
+<li><a href="#xian-shi-nei-cun-zhong-duo-chong-shi-jian-de-shi-jian-xian">显示内存中多种事件的时间线</a></li>
+<li><a href="#xian-shi-jin-cheng-de-huan-jing-bian-liang">显示进程的环境变量</a></li>
+<li><a href="#xian-shi-jin-cheng-de-yun-xing-quan-xian">显示进程的运行权限</a></li>
+<li><a href="#dao-chu-dang-qian-jin-cheng-de-ke-zhi-xing-wen-jian">导出当前进程的可执行文件</a></li>
+<li><a href="#zui-da-cheng-xu-ti-qu-xin-xi">最大程序提取信息</a></li>
+<li><a href="#cheng-xu-ban-ben-xin-xi">程序版本信息</a></li>
+<li><a href="#tong-guo-yarascan-lai-ding-yi-yara-gui-ze-jin-xing-sou-suo">通过yarascan来定义YARA规则进行搜索</a></li>
+</ul>
+</li>
+<li><a href="#wen-jian-xiang-guan">文件相关</a><ul>
+<li><a href="#sao-miao-wen-jian">扫描文件</a></li>
+<li><a href="#ti-qu-wen-jian">提取文件</a></li>
+<li><a href="#zhua-qu-shan-chu-de-wen-jian">抓取删除的文件</a></li>
+<li><a href="#sao-miao-nei-cun-zhong-qian-zai-de-zhu-yin-dao-ji-lu">扫描内存中潜在的主引导记录</a></li>
+<li><a href="#sao-miao-zai-nei-cun-zhong-qian-zai-ntfs-zhu-wen-jian-biao-ji-lu-mft">扫描在内存中潜在NTFS主文件表记录(MFT)</a></li>
+<li><a href="#jian-ce-he-fen-xi-nei-cun-zhong-de-e-yi-ruan-jian-te-zheng">检测和分析内存中的恶意软件特征</a></li>
+<li><a href="#cong-nei-cun-wen-jian-zhong-zhao-dao-yi-chang-cheng-xu-zhi-ru-dao-xi-tong-de-kai-ji-zi-qi-hen-ji">从内存文件中找到异常程序植入到系统的开机自启痕迹</a></li>
+</ul>
+</li>
+<li><a href="#zhu-ce-biao-xiang-guan">注册表相关</a><ul>
+<li><a href="#da-yin-userassist-zhu-ce-biao-xiang-he-xin-xi-cha-kan-yun-xing-cheng-xu-xiang-guan-ji-lu">打印 userassist 注册表项和信息，查看运行程序相关记录</a></li>
+<li><a href="#cha-kan-zhu-ce-biao-feng-chao-wen-jian-xian-shi-nei-cun-zhong-de-zhu-ce-biao-pei-zhi-dan-yuan-he-dui-ying-de-lu-jing">查看注册表蜂巢文件，显示内存中的注册表配置单元和对应的路径</a></li>
+<li><a href="#ke-yi-dui-feng-chao-gen-mu-lu-jin-xing-dump-cha-kan-zhu-ce-biao-jian-ming-zi-xiang">可以对蜂巢根目录进行dump，查看注册表键名子项</a></li>
+<li><a href="#cha-kan-zhu-ce-biao-jian-zhi">查看注册表键值</a></li>
+<li><a href="#dao-chu-shellbags-zhu-ce-biao-xiang">导出shellbags注册表项</a></li>
+<li><a href="#jiang-nei-cun-zhong-de-zhu-ce-biao-pei-zhi-dan-yuan-dao-chu-zhi-ci-pan">将内存中的注册表配置单元导出至磁盘</a></li>
+</ul>
+</li>
+<li><a href="#wang-luo-xiang-guan">网络相关</a><ul>
+<li><a href="#sao-miao-quan-bu-wang-luo-lian-jie">扫描全部网络连接</a></li>
+<li><a href="#jian-suo-yi-jian-li-de-wang-luo-lian-jie-zhuang-tai-xian-shi-huo-yue-de-tcp-lian-jie-win7sp1x64-bu-ke-yong">检索已建立的网络连接状态，显示活跃的TCP连接（&#x2F;win7sp1x64不可用）</a></li>
+<li><a href="#cha-kan-wang-luo-lian-jie-zhuang-tai-xian-shi-suo-you-de-tcp-lian-jie-win7sp1x64-bu-ke-yong">查看网络连接状态，显示所有的TCP连接（&#x2F;win7sp1x64不可用）</a></li>
+<li><a href="#xian-shi-suo-you-de-tao-jie-zi-lian-jie-win7sp1x64-bu-ke-yong">显示所有的套接字连接（&#x2F;win7sp1x64不可用）</a></li>
+<li><a href="#sao-miao-biao-qian-chi-cha-zhao-address-object-jie-gou-ti-win7sp1x64-bu-ke-yong">扫描标签池查找_ADDRESS_OBJECT结构体（&#x2F;win7sp1x64不可用）</a></li>
+</ul>
+</li>
+<li><a href="#windows-xi-tong-xiang-guan">windows系统相关</a><ul>
+<li><a href="#cha-kan-zhuo-mian-jie-tu-bing-cun-chu-zhi-you-xian-kuang-tu-he-biao-ti">查看桌面截图并存储（只有线框图和标题）</a></li>
+<li><a href="#cha-kan-notepad-wen-jian-zhi-neng-cha-kan-jin-cheng-zhong-de-notepad-exe-zhong-de-nei-rong">查看notepad文件（只能查看进程中的notepad.exe中的内容）</a></li>
+<li><a href="#cha-kan-nei-cun-zhong-windows-jian-qie-ban-zhong-de-nei-rong">查看内存中Windows剪切板中的内容</a></li>
+<li><a href="#da-yin-xi-tong-suo-you-zhuo-mian-chuang-kou-de-xin-xi">打印系统所有桌面窗口的信息</a></li>
+<li><a href="#yi-shu-zhuang-xing-shi-da-yin-xi-tong-suo-you-de-chuang-kou-jian-lue-xin-xi">以树状形式打印系统所有的窗口简略信息</a></li>
+<li><a href="#cha-kan-bian-ji-kong-jian-xin-xi">查看编辑控件信息</a></li>
+<li><a href="#cha-kan-ie-liu-lan-qi-li-shi-liu-lan-ji-lu">查看ie浏览器历史浏览记录</a></li>
+<li><a href="#sao-miao-windows-de-fu-wu">扫描windows的服务</a></li>
+<li><a href="#cha-kan-huan-jing-bian-liang">查看环境变量</a></li>
+<li><a href="#nei-cun-ying-xiang-jiao-hu-fang-wen-ming-ling-xing-gong-ju">内存映像交互访问命令行工具</a></li>
+</ul>
+</li>
+<li><a href="#linux-xiang-guan">linux相关</a><ul>
+<li><a href="#cha-kan-linux-bash-ming-ling">查看linux_bash命令</a></li>
+<li><a href="#fen-xi-linux-xi-tong-zhong-de-jin-cheng-he-jin-cheng-huan-jing">分析Linux系统中的进程和进程环境</a></li>
+<li><a href="#cha-kan-linux-xi-tong-de-dmesg-huan-chong-qu-zhong-ri-zhi-xiao-xi">查看linux系统的dmesg缓冲区中日志消息</a></li>
+<li><a href="#jian-cha-linux-xi-tong-diao-yong-biao-shi-fou-bei-xiu-gai-guo">检查Linux系统调用表是否被修改过</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<!-- tocstop -->
+
+</div>
+
+<h2><span id="volatility-an-zhuang-huan-jing-pei-zhi-ji-qi-cha-jian-an-zhuang">volatility安装，环境配置及其插件安装</span><a href="#volatility-an-zhuang-huan-jing-pei-zhi-ji-qi-cha-jian-an-zhuang" class="header-anchor">#</a></h2><h3><span id="volatility-an-zhuang">volatility安装</span><a href="#volatility-an-zhuang" class="header-anchor">#</a></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">参考文档：<br>https://cloud.tencent.com/developer/article/2375403<br>https://blog.csdn.net/weixin_44895005/article/details/123917324<br>https://bbs.huaweicloud.com/blogs/399904<br></code></pre></td></tr></table></figure>
+
+<p>配置环境：<code>kali linux2023</code></p>
+<p>python环境：<code>python2</code></p>
+<p>安装源码：<a target="_blank" rel="noopener" href="https://github.com/volatilityfoundation/volatility">https://github.com/volatilityfoundation/volatility</a>  针对<code>python2</code></p>
+<p>在安装之前，需要配置下本地的<code>pip2</code>环境，因为在<code>kali2023</code>里面，<code>pip</code>和<code>pip3</code>都是<code>python3</code>的，并没有给<code>python2</code>配置<code>pip</code>，所以需要自己单独安装下，不然后面配置的环境都跑到<code>python3</code>里面去了。</p>
+<img src="/2024/02/06/No-1/image-20240205183853869.png" class title="image-20240205183853869">
+
+<p>所以在这里单独配置<code>pip2</code>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">curl https://bootstrap.pypa.io/pip/2.7/get-pip.py -o get-pip.py<br></code></pre></td></tr></table></figure>
+
+<p>安装：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">python2 setup.py install<br></code></pre></td></tr></table></figure>
+
+<p>安装完之后，使用<code>pip2</code>看下当前的版本信息：</p>
+<img src="/2024/02/06/No-1/image-20240205184017521.png" class title="image-20240205184017521">
+
+<p>然后准备安装<code>volatility</code>：去下载<a target="_blank" rel="noopener" href="https://github.com/volatilityfoundation/volatility">https://github.com/volatilityfoundation/volatility</a>，然后进入volatility目录内直接安装：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">python2 setup.py install<br></code></pre></td></tr></table></figure>
+
+<img src="/2024/02/06/No-1/image-20240205184935661.png" class title="image-20240205184935661">
+
+<p>继续安装必须的模块：</p>
+<ul>
+<li><p><code>crypto</code>模块</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">pip2 install pycryptodome -i https://pypi.tuna.tsinghua.edu.cn/simple<br></code></pre></td></tr></table></figure>
+
+<p>如果出现类似报错：<code>Command errored out with exit status 1: python setup.py egg_info Check the logs for full command</code> ，</p>
+<p>那么需要升级一下pip2</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">pip2 install --upgrade setuptools<br></code></pre></td></tr></table></figure>
+
+<p>然后再次进行安装即可。</p>
+</li>
+<li><p><code>distorm3</code>模块</p>
+<p>依赖：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">pip2 install pycryptodome<br></code></pre></td></tr></table></figure>
+
+<p>在这里需要先将模块下载下来：<a target="_blank" rel="noopener" href="https://github.com/vext01/distorm3">https://github.com/vext01/distorm3</a></p>
+<p>将模块存入volatility目录内，然后进入distorm3目录内使用命令行安装：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">python2 setup.py install<br></code></pre></td></tr></table></figure>
+
+<img src="/2024/02/06/No-1/image-20240205185534976.png" class title="image-20240205185534976">
+</li>
+<li><p>construct库</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">pip2 install construct <br></code></pre></td></tr></table></figure></li>
+</ul>
+<p>此时基础的模块就算安装好了，可以在任意目录下输入<code>vol.py</code></p>
+<img src="/2024/02/06/No-1/image-20240205190146615.png" class title="image-20240205190146615">
+
+<p>如果出现这个，就说明安装好了</p>
+<h3><span id="volatility-cha-jian-an-zhuang">volatility插件安装</span><a href="#volatility-cha-jian-an-zhuang" class="header-anchor">#</a></h3><ul>
+<li><p>安装<code>mimikatz</code>插件</p>
+<p><a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/RealityNet/hotoloti/master/volatility/mimikatz.py">https://raw.githubusercontent.com/RealityNet/hotoloti/master/volatility/mimikatz.py</a></p>
+<p>需要将这个文件移动到<code>python2</code>的<code>volatility</code>的插件目录下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">cd /usr/lib/python2.7/dist-packages<br>mkdir volatility<br>cd volatility<br>mkdir plugins<br></code></pre></td></tr></table></figure>
+
+<p>然后将这个文件复制过去：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">cp mimikatz.py /usr/lib/python2.7/dist-packages/volatility/plugins/<br></code></pre></td></tr></table></figure>
+
+<p>最后对于文件赋予权限：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">chmod 777 *<br></code></pre></td></tr></table></figure>
+
+<p>现在可以尝试一下了，这里需要注意一下，一定要在保存的目录内使用<code>--plugin=./</code>参数调用插件（在其他地方调用会出现找不到插件的错误）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">vol.py --plugin=./ -f &#x27;/home/kali/Desktop/学取证咯.raw&#x27; --profile=Win7SP1x64  mimikatz<br></code></pre></td></tr></table></figure>
+
+<img src="/2024/02/06/No-1/image-20240205191218731.png" class title="image-20240205191218731">
+</li>
+<li><p>安装yara插件</p>
+<p>一定要通过手动下载然后转移到kali内！！不要使用<code>pip，apt-get</code>等方式获取！</p>
+<p>下载yara：<a target="_blank" rel="noopener" href="https://virustotal.github.io/yara/">https://virustotal.github.io/yara/</a>（下载4.2.3版本）</p>
+<p>下载yara-python：<a target="_blank" rel="noopener" href="https://github.com/VirusTotal/yara-python">https://github.com/VirusTotal/yara-python</a>（下载4.2.3版本）</p>
+<p>（本人实验只有对应的4.2.3版本可以正常运行，版本过高会有不兼容问题，具体错误报告见<a target="_blank" rel="noopener" href="https://github.com/volatilityfoundation/volatility/issues/869">https://github.com/volatilityfoundation/volatility/issues/869</a>）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">参考文章（官方文档）：<br>https://yara.readthedocs.io/en/v4.2.3/gettingstarted.html<br>https://github.com/VirusTotal/yara-python/blob/master/README.rst<br></code></pre></td></tr></table></figure>
+
+<p><strong>本文只摘取官方文档中部分基础内容，建议阅读官方文档进行安装</strong></p>
+<p>安装yara所需的模块&#x2F;库</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">sudo apt-get install automake libtool make gcc pkg-config<br>sudo apt-get install libjansson-dev<br>sudo apt install libmagic-dev<br></code></pre></td></tr></table></figure>
+
+<p>下载yara4.2.3压缩包后按照标准方式编译并安装YARA：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">tar -zxf yara-4.2.3.tar.gz<br>cd yara-4.2.3<br>./bootstrap.sh<br>./configure<br>make<br>sudo make install<br></code></pre></td></tr></table></figure>
+
+<p>运行测试用例以确保一切正常：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">make check<br></code></pre></td></tr></table></figure>
+
+<p>这时可以通过运行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">yara --version<br></code></pre></td></tr></table></figure>
+
+<p>来测试yara</p>
+<img src="/2024/02/06/No-1/image-20240205194757596.png" class title="image-20240205194757596">
+
+<p>编译yara-python-4.2.3（解压缩到yara-4.2.3目录内，在yara-4.2.3目录内安装）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">tar -zxf yara-python-4.2.3.tar.gz<br>cd yara-python-4.2.3<br>python2 setup.py build<br></code></pre></td></tr></table></figure>
+
+<p>此时将<code>yara-4.2.3</code>文件夹内文件拷贝一份，复制到yara-python-4.2.3文件夹内的yara文件夹中，去除<code>yara-python-4.2.3</code>文件夹</p>
+<img src="/2024/02/06/No-1/image-20240205193936358.png" class title="image-20240205193936358">
+
+<img src="/2024/02/06/No-1/image-20240205194113581.png" class title="image-20240205194113581">
+
+<p>这个时候安装yara-python-4.2.3</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">sudo python2 setup.py install<br></code></pre></td></tr></table></figure>
+
+<p>如果您想动态链接共享<code>libyara</code>库，请使用：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">python2 setup.py build --dynamic-linking<br></code></pre></td></tr></table></figure>
+
+<p>这时可以使用</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">python2<br>import yara<br>print(yara.__version__)<br></code></pre></td></tr></table></figure>
+
+<p>来测试yara-python</p>
+<img src="/2024/02/06/No-1/image-20240205194950380.png" class title="image-20240205194950380">
+
+<p>最后尝试使用volatility中的yarascan</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">vol.py -f &#x27;/home/kali/Desktop/学取证咯.raw&#x27; --profile=Win7SP1x64 yarascan -p 2304,2392 -Y &quot;/(URL|REDR|LEAK)/&quot;<br></code></pre></td></tr></table></figure>
+
+<img src="/2024/02/06/No-1/image-20240205195256122.png" class title="image-20240205195256122">
+
+<p>能扫出结果就说明yara以及yarapython安装成功</p>
+</li>
+<li><p>PyCrypto（加密工具集）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">pip2 install pycrypto<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>PIL（图片处理库）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">pip2 install Pillow<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>OpenPyxl（读写excel文件）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">pip2 install openpyxl<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>ujson（JSON解析）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">pip2 install ujson<br></code></pre></td></tr></table></figure></li>
+</ul>
+<hr>
+<h2><span id="guan-fang-bang-zhu">官方帮助</span><a href="#guan-fang-bang-zhu" class="header-anchor">#</a></h2><p><strong>输入<code>vol.py --h</code> 查看官方做出的帮助</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">Volatility Foundation Volatility Framework 2.6.1<br>Usage: Volatility - A memory forensics analysis platform.<br><br>Options:<br>  -h, --help            list all available options and their default values.<br>                        Default values may be set in the configuration file<br>                        (/etc/volatilityrc)<br>  --conf-file=/root/.volatilityrc<br>                        User based configuration file<br>  -d, --debug           Debug volatility<br>  --plugins=PLUGINS     Additional plugin directories to use (colon separated)<br>  --info                Print information about all registered objects<br>  --cache-directory=/root/.cache/volatility<br>                        Directory where cache files are stored<br>  --cache               Use caching<br>  --tz=TZ               Sets the (Olson) timezone for displaying timestamps<br>                        using pytz (if installed) or tzset<br>  -f FILENAME, --filename=FILENAME<br>                        Filename to use when opening an image<br>  --profile=WinXPSP2x86<br>                        Name of the profile to load (use --info to see a list<br>                        of supported profiles)<br>  -l LOCATION, --location=LOCATION<br>                        A URN location from which to load an address space<br>  -w, --write           Enable write support<br>  --dtb=DTB             DTB Address<br>  --shift=SHIFT         Mac KASLR shift address<br>  --output=text         Output in this format (support is module specific, see<br>                        the Module Output Options below)<br>  --output-file=OUTPUT_FILE<br>                        Write output in this file<br>  -v, --verbose         Verbose information<br>  --physical_shift=PHYSICAL_SHIFT<br>                        Linux kernel physical shift address<br>  --virtual_shift=VIRTUAL_SHIFT<br>                        Linux kernel virtual shift address<br>  -g KDBG, --kdbg=KDBG  Specify a KDBG virtual address (Note: for 64-bit<br>                        Windows 8 and above this is the address of<br>                        KdCopyDataBlock)<br>  --force               Force utilization of suspect profile<br>  --cookie=COOKIE       Specify the address of nt!ObHeaderCookie (valid for<br>                        Windows 10 only)<br>  -k KPCR, --kpcr=KPCR  Specify a specific KPCR address<br><br>        Supported Plugin Commands:<br><br>                amcache         Print AmCache information<br>                apihooks        Detect API hooks in process and kernel memory<br>                atoms           Print session and window station atom tables<br>                atomscan        Pool scanner for atom tables<br>                auditpol        Prints out the Audit Policies from HKLM\SECURITY\Policy\PolAdtEv<br>                bigpools        Dump the big page pools using BigPagePoolScanner<br>                bioskbd         Reads the keyboard buffer from Real Mode memory<br>                cachedump       Dumps cached domain hashes from memory<br>                callbacks       Print system-wide notification routines<br>                clipboard       Extract the contents of the windows clipboard<br>                cmdline         Display process command-line arguments<br>                cmdscan         Extract command history by scanning for _COMMAND_HISTORY<br>                connections     Print list of open connections [Windows XP and 2003 Only]<br>                connscan        Pool scanner for tcp connections<br>                consoles        Extract command history by scanning for _CONSOLE_INFORMATION<br>                crashinfo       Dump crash-dump information<br>                deskscan        Poolscaner for tagDESKTOP (desktops)<br>                devicetree      Show device tree<br>                dlldump         Dump DLLs from a process address space<br>                dlllist         Print list of loaded dlls for each process<br>                driverirp       Driver IRP hook detection<br>                drivermodule    Associate driver objects to kernel modules<br>                driverscan      Pool scanner for driver objects<br>                dumpcerts       Dump RSA private and public SSL keys<br>                dumpfiles       Extract memory mapped and cached files<br>                dumpregistry    Dumps registry files out to disk <br>                editbox         Displays information about Edit controls. (Listbox experimental.)<br>                envars          Display process environment variables<br>                eventhooks      Print details on windows event hooks<br>                evtlogs         Extract Windows Event Logs (XP/2003 only)<br>                filescan        Pool scanner for file objects<br>                gahti           Dump the USER handle type information<br>                gditimers       Print installed GDI timers and callbacks<br>                gdt             Display Global Descriptor Table<br>                getservicesids  Get the names of services in the Registry and return Calculated SID<br>                getsids         Print the SIDs owning each process<br>                handles         Print list of open handles for each process<br>                hashdump        Dumps passwords hashes (LM/NTLM) from memory<br>                hibinfo         Dump hibernation file information<br>                hivedump        Prints out a hive<br>                hivelist        Print list of registry hives.<br>                hivescan        Pool scanner for registry hives<br>                hpakextract     Extract physical memory from an HPAK file<br>                hpakinfo        Info on an HPAK file<br>                idt             Display Interrupt Descriptor Table<br>                iehistory       Reconstruct Internet Explorer cache / history<br>                imagecopy       Copies a physical address space out as a raw DD image<br>                imageinfo       Identify information for the image <br>                impscan         Scan for calls to imported functions<br>                joblinks        Print process job link information<br>                kdbgscan        Search for and dump potential KDBG values<br>                kpcrscan        Search for and dump potential KPCR values<br>                ldrmodules      Detect unlinked DLLs<br>                lsadump         Dump (decrypted) LSA secrets from the registry<br>                machoinfo       Dump Mach-O file format information<br>                malfind         Find hidden and injected code<br>                mbrparser       Scans for and parses potential Master Boot Records (MBRs) <br>                memdump         Dump the addressable memory for a process<br>                memmap          Print the memory map<br>                messagehooks    List desktop and thread window message hooks<br>                mftparser       Scans for and parses potential MFT entries <br>                moddump         Dump a kernel driver to an executable file sample<br>                modscan         Pool scanner for kernel modules<br>                modules         Print list of loaded modules<br>                multiscan       Scan for various objects at once<br>                mutantscan      Pool scanner for mutex objects<br>                notepad         List currently displayed notepad text<br>                objtypescan     Scan for Windows object type objects<br>                patcher         Patches memory based on page scans<br>                poolpeek        Configurable pool scanner plugin<br>                printkey        Print a registry key, and its subkeys and values<br>                privs           Display process privileges<br>                procdump        Dump a process to an executable file sample<br>                pslist          Print all running processes by following the EPROCESS lists <br>                psscan          Pool scanner for process objects<br>                pstree          Print process list as a tree<br>                psxview         Find hidden processes with various process listings<br>                qemuinfo        Dump Qemu information<br>                raw2dmp         Converts a physical memory sample to a windbg crash dump<br>                screenshot      Save a pseudo-screenshot based on GDI windows<br>                servicediff     List Windows services (ala Plugx)<br>                sessions        List details on _MM_SESSION_SPACE (user logon sessions)<br>                shellbags       Prints ShellBags info<br>                shimcache       Parses the Application Compatibility Shim Cache registry key<br>                shutdowntime    Print ShutdownTime of machine from registry<br>                sockets         Print list of open sockets<br>                sockscan        Pool scanner for tcp socket objects<br>                ssdt            Display SSDT entries<br>                strings         Match physical offsets to virtual addresses (may take a while, VERY verbose)<br>                svcscan         Scan for Windows services<br>                symlinkscan     Pool scanner for symlink objects<br>                thrdscan        Pool scanner for thread objects<br>                threads         Investigate _ETHREAD and _KTHREADs<br>                timeliner       Creates a timeline from various artifacts in memory <br>                timers          Print kernel timers and associated module DPCs<br>                truecryptmaster Recover TrueCrypt 7.1a Master Keys<br>                truecryptpassphrase     TrueCrypt Cached Passphrase Finder<br>                truecryptsummary        TrueCrypt Summary<br>                unloadedmodules Print list of unloaded modules<br>                userassist      Print userassist registry keys and information<br>                userhandles     Dump the USER handle tables<br>                vaddump         Dumps out the vad sections to a file<br>                vadinfo         Dump the VAD info<br>                vadtree         Walk the VAD tree and display in tree format<br>                vadwalk         Walk the VAD tree<br>                vboxinfo        Dump virtualbox information<br>                verinfo         Prints out the version information from PE images<br>                vmwareinfo      Dump VMware VMSS/VMSN information<br>                volshell        Shell in the memory image<br>                windows         Print Desktop Windows (verbose details)<br>                wintree         Print Z-Order Desktop Windows Tree<br>                wndscan         Pool scanner for window stations<br>                yarascan        Scan process or kernel memory with Yara signatures<br></code></pre></td></tr></table></figure>
+
+<h2><span id="ming-ling-ge-shi">命令格式</span><a href="#ming-ling-ge-shi" class="header-anchor">#</a></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">volatility -f [image] --profile=[profile] [plugin]<br><br>volatility -f [对象] --profile=[操作系统] [插件参数]<br><br>在分析之前，需要先判断当前的镜像信息，分析出是哪个操作系统 命令imageinfo即可获取镜像信息。<br><br>  Volatility -f xxx.vmem imageinfo<br><br>在查到操作系统后如果不确定可以使用以下命令查看<br><br>volatility - f xxx.vmem --profile= [操作系统] volshell<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h2><span id="chang-yong-ming-ling">常用命令</span><a href="#chang-yong-ming-ling" class="header-anchor">#</a></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">123.raw为镜像文件，<br><br>test.xxx为外部保存文件，<br><br>文件路径均默认使用/home/kali/Desktop/，<br><br>Win7SP1x64为系统版本，<br><br>0xffff111111为虚拟内存地址，<br><br>0x0000111111为物理内存地址<br><br>&#x27;/home/kali/Desktop/exes&#x27;是生成文件存放目录<br></code></pre></td></tr></table></figure>
+
+<h5><span id="cha-kan-jing-xiang-wen-jian-xi-tong-zhai-yao-xin-xi">查看镜像文件系统摘要信息：</span><a href="#cha-kan-jing-xiang-wen-jian-xi-tong-zhai-yao-xin-xi" class="header-anchor">#</a></h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">volatility -f home/kali/Desktop/123.raw imageinfo<br></code></pre></td></tr></table></figure>
+
+<p><strong>筛选： <code>| greb abc</code></strong></p>
+<h4><span id="yong-hu-xiang-guan">用户相关</span><a href="#yong-hu-xiang-guan" class="header-anchor">#</a></h4><h5><span id="cha-kan-yong-hu-ming-he-mi-ma-hash-zhi">查看用户名和密码（hash值）</span><a href="#cha-kan-yong-hu-ming-he-mi-ma-hash-zhi" class="header-anchor">#</a></h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">volatility -f home/kali/Desktop/123.raw --profile=Win7SP1x64 hashdump<br></code></pre></td></tr></table></figure>
+
+<h5><span id="cong-zhu-ce-biao-zhong-cha-kan-mi-ma">从注册表中查看密码：</span><a href="#cong-zhu-ce-biao-zhong-cha-kan-mi-ma" class="header-anchor">#</a></h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">vol.py -f home/kali/Desktop/123.raw --profile=Win7SP1x64 lsadump<br></code></pre></td></tr></table></figure>
+
+<h5><span id="shi-yong-mimikatz-cha-jian-cha-kan-mi-ma-xu-yao-jin-ru-cha-jian-mu-lu">使用mimikatz插件查看密码（需要进入插件目录）</span><a href="#shi-yong-mimikatz-cha-jian-cha-kan-mi-ma-xu-yao-jin-ru-cha-jian-mu-lu" class="header-anchor">#</a></h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">vol.py --plugin=./ -f home/kali/Desktop/123.raw --profile=Win7SP1x64  mimikatz<br></code></pre></td></tr></table></figure>
+
+<h4><span id="cmd-xiang-guan">cmd相关</span><a href="#cmd-xiang-guan" class="header-anchor">#</a></h4><h5><span id="cha-kan-cmd-shi-yong-qing-kuang">查看cmd使用情况</span><a href="#cha-kan-cmd-shi-yong-qing-kuang" class="header-anchor">#</a></h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">vol.py -f home/kali/Desktop/123.raw --profile=Win7SP1x64 cmdscan<br></code></pre></td></tr></table></figure>
+
+<h5><span id="cha-kan-cmd-xiang-xi-qing-kuang">查看cmd详细情况</span><a href="#cha-kan-cmd-xiang-xi-qing-kuang" class="header-anchor">#</a></h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">vol.py -f home/kali/Desktop/123.raw --profile=Win7SP1x64 cmdline<br></code></pre></td></tr></table></figure>
+
+<h5><span id="zhua-qu-kong-zhi-tai-xia-zhi-xing-de-ming-ling-yi-ji-hui-xian-shu-ju">抓取控制台下执行的命令以及回显数据</span><a href="#zhua-qu-kong-zhi-tai-xia-zhi-xing-de-ming-ling-yi-ji-hui-xian-shu-ju" class="header-anchor">#</a></h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">vol.py -f home/kali/Desktop/123.raw --profile=Win7SP1x64 consoles<br></code></pre></td></tr></table></figure>
+
+<h4><span id="jin-cheng-xiang-guan">进程相关</span><a href="#jin-cheng-xiang-guan" class="header-anchor">#</a></h4><h5><span id="sao-miao-nei-cun-zhong-de-jin-cheng">扫描内存中的进程</span><a href="#sao-miao-nei-cun-zhong-de-jin-cheng" class="header-anchor">#</a></h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">vol.py -f home/kali/Desktop/123.raw --profile=Win7SP1x64 psscan<br></code></pre></td></tr></table></figure>
+
+<h5><span id="lie-ju-quan-bu-jin-cheng">列举全部进程</span><a href="#lie-ju-quan-bu-jin-cheng" class="header-anchor">#</a></h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">vol.py -f home/kali/Desktop/123.raw --profile=Win7SP1x64 pslist<br></code></pre></td></tr></table></figure>
+
+<h5><span id="cha-kan-jin-cheng-jie-gou-tu">查看进程结构图</span><a href="#cha-kan-jin-cheng-jie-gou-tu" class="header-anchor">#</a></h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">vol.py -f home/kali/Desktop/123.raw --profile=Win7SP1x64 pstree<br></code></pre></td></tr></table></figure>
+
+<h5><span id="cha-kan-yin-cang-jin-cheng">查看隐藏进程</span><a href="#cha-kan-yin-cang-jin-cheng" class="header-anchor">#</a></h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">vol.py -f home/kali/Desktop/123.raw --profile=Win7SP1x64 psxview<br></code></pre></td></tr></table></figure>
+
+<h5><span id="zhao-chu-yin-cang-zai-nei-cun-zhong-de-dll-wen-jian-he-dai-ma">找出隐藏在内存中的dll文件和代码</span><a href="#zhao-chu-yin-cang-zai-nei-cun-zhong-de-dll-wen-jian-he-dai-ma" class="header-anchor">#</a></h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">vol.py -f home/kali/Desktop/123.raw --profile=Win7SP1x64 malfind<br></code></pre></td></tr></table></figure>
+
+<h5><span id="lie-chu-mei-ge-jin-cheng-yi-jia-zai-de-dll">列出每个进程已加载的dll</span><a href="#lie-chu-mei-ge-jin-cheng-yi-jia-zai-de-dll" class="header-anchor">#</a></h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">vol.py -f home/kali/Desktop/123.raw --profile=Win7SP1x64 dlllist -n 111.exe<br></code></pre></td></tr></table></figure>
+
+<p><em>其中<code>111.exe</code>为进程名</em></p>
+<h5><span id="jiang-jin-cheng-cheng-xu-ti-qu-chu-lai">将进程程序提取出来</span><a href="#jiang-jin-cheng-cheng-xu-ti-qu-chu-lai" class="header-anchor">#</a></h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">vol.py -f home/kali/Desktop/123.raw --profile=Win7SP1x64 memdump -p 1111 -D &#x27;/home/kali/Desktop/exes&#x27;<br></code></pre></td></tr></table></figure>
+
+<p><em>其中<code>1111,2222</code>为进程pid</em></p>
+<h5><span id="xian-shi-nei-cun-zhong-duo-chong-shi-jian-de-shi-jian-xian">显示内存中多种事件的时间线</span><a href="#xian-shi-nei-cun-zhong-duo-chong-shi-jian-de-shi-jian-xian" class="header-anchor">#</a></h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">vol.py -f home/kali/Desktop/123.raw --profile=Win7SP1x64 timeliner<br></code></pre></td></tr></table></figure>
+
+<h5><span id="xian-shi-jin-cheng-de-huan-jing-bian-liang">显示进程的环境变量</span><a href="#xian-shi-jin-cheng-de-huan-jing-bian-liang" class="header-anchor">#</a></h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">vol.py -f home/kali/Desktop/123.raw --profile=Win7SP1x64 envar<br></code></pre></td></tr></table></figure>
+
+<h5><span id="xian-shi-jin-cheng-de-yun-xing-quan-xian">显示进程的运行权限</span><a href="#xian-shi-jin-cheng-de-yun-xing-quan-xian" class="header-anchor">#</a></h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">vol.py -f home/kali/Desktop/123.raw --profile=Win7SP1x64 privs<br></code></pre></td></tr></table></figure>
+
+<h5><span id="dao-chu-dang-qian-jin-cheng-de-ke-zhi-xing-wen-jian">导出当前进程的可执行文件</span><a href="#dao-chu-dang-qian-jin-cheng-de-ke-zhi-xing-wen-jian" class="header-anchor">#</a></h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">vol.py -f home/kali/Desktop/123.raw --profile=Win7SP1x64 procdump -p 1111 -D &#x27;/home/kali/Desktop/exes&#x27;<br></code></pre></td></tr></table></figure>
+
+<p><em>其中<code>1111,2222</code>为进程pid</em></p>
+<h5><span id="zui-da-cheng-xu-ti-qu-xin-xi">最大程序提取信息</span><a href="#zui-da-cheng-xu-ti-qu-xin-xi" class="header-anchor">#</a></h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">vol.py -f home/kali/Desktop/123.raw --profile=Win7SP1x64 timeliner<br></code></pre></td></tr></table></figure>
+
+<h5><span id="cheng-xu-ban-ben-xin-xi">程序版本信息</span><a href="#cheng-xu-ban-ben-xin-xi" class="header-anchor">#</a></h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">vol.py -f home/kali/Desktop/123.raw --profile=Win7SP1x64 verinfo<br></code></pre></td></tr></table></figure>
+
+<h5><span id="tong-guo-yarascan-lai-ding-yi-yara-gui-ze-jin-xing-sou-suo">通过yarascan来定义YARA规则进行搜索</span><a href="#tong-guo-yarascan-lai-ding-yi-yara-gui-ze-jin-xing-sou-suo" class="header-anchor">#</a></h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">vol.py -f home/kali/Desktop/123.raw --profile=Win7SP1x64 yarascan -p 1111,2222 -Y &quot;/(URL|REDR|LEAK)/&quot;<br></code></pre></td></tr></table></figure>
+
+<p><em>其中<code>1111,2222</code>为进程pid，<code>&quot;/(URL|REDR|LEAK)/&quot;</code>为yarascan自定义规则</em></p>
+<h4><span id="wen-jian-xiang-guan">文件相关</span><a href="#wen-jian-xiang-guan" class="header-anchor">#</a></h4><h5><span id="sao-miao-wen-jian">扫描文件</span><a href="#sao-miao-wen-jian" class="header-anchor">#</a></h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">vol.py -f home/kali/Desktop/123.raw --profile=Win7SP1x64 filescan<br></code></pre></td></tr></table></figure>
+
+<h5><span id="ti-qu-wen-jian">提取文件</span><a href="#ti-qu-wen-jian" class="header-anchor">#</a></h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">vol.py -f home/kali/Desktop/123.raw --profile=Win7SP1x64  dumpfiles -Q 0x0000111111 --dump-dir=&#x27;/home/kali/Desktop/exes&#x27;<br>-n, --name #在转储出来的文件的文件名中加入原来的文件名<br>-u, --unsafe #放松安全约束来获取更多信息<br>-r, --regex #转储符合正则表达式的文件<br>-i, --ignore-case #在正则表达式中忽略大小写<br>导出的文件名有三种后缀<br>.img .dat .vacb<br>其中.dat文件可以直接修改后缀为原文件后缀使用<br></code></pre></td></tr></table></figure>
+
+<h5><span id="zhua-qu-shan-chu-de-wen-jian">抓取删除的文件</span><a href="#zhua-qu-shan-chu-de-wen-jian" class="header-anchor">#</a></h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">vol.py -f home/kali/Desktop/123.raw --profile=Win7SP1x64 mftparser<br></code></pre></td></tr></table></figure>
+
+<h5><span id="sao-miao-nei-cun-zhong-qian-zai-de-zhu-yin-dao-ji-lu">扫描内存中潜在的主引导记录</span><a href="#sao-miao-nei-cun-zhong-qian-zai-de-zhu-yin-dao-ji-lu" class="header-anchor">#</a></h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">vol.py -f home/kali/Desktop/123.raw --profile=Win7SP1x64 mbrparser<br></code></pre></td></tr></table></figure>
+
+<h5><span id="sao-miao-zai-nei-cun-zhong-qian-zai-ntfs-zhu-wen-jian-biao-ji-lu-mft">扫描在内存中潜在NTFS主文件表记录(MFT)</span><a href="#sao-miao-zai-nei-cun-zhong-qian-zai-ntfs-zhu-wen-jian-biao-ji-lu-mft" class="header-anchor">#</a></h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">vol.py -f home/kali/Desktop/123.raw --profile=Win7SP1x64 mftparser<br></code></pre></td></tr></table></figure>
+
+<p><em>就算删除了文件，在MFT中这条记录会被标记为free，但是实际文件是仍然没有被真正删除的，只要原来的文件没有被新文件覆盖，就可以完整恢复被删除的文件。在mftparser的$DATA就可以看见文件的数据了</em></p>
+<h5><span id="jian-ce-he-fen-xi-nei-cun-zhong-de-e-yi-ruan-jian-te-zheng">检测和分析内存中的恶意软件特征</span><a href="#jian-ce-he-fen-xi-nei-cun-zhong-de-e-yi-ruan-jian-te-zheng" class="header-anchor">#</a></h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">vol.py -f home/kali/Desktop/123.raw --profile=Win7SP1x64 malfind<br></code></pre></td></tr></table></figure>
+
+<h5><span id="cong-nei-cun-wen-jian-zhong-zhao-dao-yi-chang-cheng-xu-zhi-ru-dao-xi-tong-de-kai-ji-zi-qi-hen-ji">从内存文件中找到异常程序植入到系统的开机自启痕迹</span><a href="#cong-nei-cun-wen-jian-zhong-zhao-dao-yi-chang-cheng-xu-zhi-ru-dao-xi-tong-de-kai-ji-zi-qi-hen-ji" class="header-anchor">#</a></h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">vol.py -f home/kali/Desktop/123.raw --profile=Win7SP1x64shimcache<br></code></pre></td></tr></table></figure>
+
+<h4><span id="zhu-ce-biao-xiang-guan">注册表相关</span><a href="#zhu-ce-biao-xiang-guan" class="header-anchor">#</a></h4><h5><span id="da-yin-userassist-zhu-ce-biao-xiang-he-xin-xi-cha-kan-yun-xing-cheng-xu-xiang-guan-ji-lu">打印 userassist 注册表项和信息，查看运行程序相关记录</span><a href="#da-yin-userassist-zhu-ce-biao-xiang-he-xin-xi-cha-kan-yun-xing-cheng-xu-xiang-guan-ji-lu" class="header-anchor">#</a></h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">vol.py -f home/kali/Desktop/123.raw --profile=Win7SP1x64 userassist<br></code></pre></td></tr></table></figure>
+
+<h5><span id="cha-kan-zhu-ce-biao-feng-chao-wen-jian-xian-shi-nei-cun-zhong-de-zhu-ce-biao-pei-zhi-dan-yuan-he-dui-ying-de-lu-jing">查看注册表蜂巢文件，显示内存中的注册表配置单元和对应的路径</span><a href="#cha-kan-zhu-ce-biao-feng-chao-wen-jian-xian-shi-nei-cun-zhong-de-zhu-ce-biao-pei-zhi-dan-yuan-he-dui-ying-de-lu-jing" class="header-anchor">#</a></h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">vol.py -f home/kali/Desktop/123.raw --profile=Win7SP1x64 hivelist<br></code></pre></td></tr></table></figure>
+
+<h5><span id="ke-yi-dui-feng-chao-gen-mu-lu-jin-xing-dump-cha-kan-zhu-ce-biao-jian-ming-zi-xiang">可以对蜂巢根目录进行dump，查看注册表键名子项</span><a href="#ke-yi-dui-feng-chao-gen-mu-lu-jin-xing-dump-cha-kan-zhu-ce-biao-jian-ming-zi-xiang" class="header-anchor">#</a></h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">vol.py -f home/kali/Desktop/123.raw --profile=Win7SP1x64 -o 0xffff111111 hivedump <br></code></pre></td></tr></table></figure>
+
+<p> <em>导出的注册表的后缀为<code>.reg</code>，但是不能直接挂载，可以用WRR转换成Windows可以挂载的格式或直接阅读</em></p>
+<h5><span id="cha-kan-zhu-ce-biao-jian-zhi">查看注册表键值</span><a href="#cha-kan-zhu-ce-biao-jian-zhi" class="header-anchor">#</a></h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">vol.py -f home/kali/Desktop/123.raw --profile=Win7SP1x64 -o 0xffff111111 printkey -K &quot;ControlSet001\Control&quot;<br></code></pre></td></tr></table></figure>
+
+<p><em><code>&quot;ControlSet001\Control&quot;</code>是注册表子项</em></p>
+<p><em>通常主机名位置：<code>ControlSet001\Control\ComputerName\ComputerName</code></em></p>
+<p><em>通常用户名位置：<code>SAM\Domains\Account\Ueers\Names</code></em></p>
+<h5><span id="dao-chu-shellbags-zhu-ce-biao-xiang">导出shellbags注册表项</span><a href="#dao-chu-shellbags-zhu-ce-biao-xiang" class="header-anchor">#</a></h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">vol.py -f home/kali/Desktop/123.raw --profile=Win7SP1x64 shellbags<br></code></pre></td></tr></table></figure>
+
+<p><em>关于shellbags注册表项：是一组用来记录文件夹（包括挂载网络驱动器文件夹和挂载设备的文件夹）的名称、大小、图标、视图、位置的注册表项。每次对文件夹的操作，shellBags的信息都会更新，而且包含时间戳信息。是Windows系统改善用户体验的功能之一。即使删除文件夹后，shellBags仍然会保留文件夹的信息</em></p>
+<h5><span id="jiang-nei-cun-zhong-de-zhu-ce-biao-pei-zhi-dan-yuan-dao-chu-zhi-ci-pan">将内存中的注册表配置单元导出至磁盘</span><a href="#jiang-nei-cun-zhong-de-zhu-ce-biao-pei-zhi-dan-yuan-dao-chu-zhi-ci-pan" class="header-anchor">#</a></h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">vol.py -f home/kali/Desktop/123.raw --profile=Win7SP1x64 dumpregistry -D &#x27;/home/kali/Desktop/exes&#x27; #导出所有注册表到磁盘<br>vol.py -f home/kali/Desktop/123.raw --profile=Win7SP1x64 dumpregistry -o 0xffff111111 -D &#x27;/home/kali/Desktop/exes&#x27; #导出对应虚拟偏移所在的单个注册表<br></code></pre></td></tr></table></figure>
+
+<h4><span id="wang-luo-xiang-guan">网络相关</span><a href="#wang-luo-xiang-guan" class="header-anchor">#</a></h4><h5><span id="sao-miao-quan-bu-wang-luo-lian-jie">扫描全部网络连接</span><a href="#sao-miao-quan-bu-wang-luo-lian-jie" class="header-anchor">#</a></h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">vol.py -f home/kali/Desktop/123.raw --profile=Win7SP1x64 netscan<br></code></pre></td></tr></table></figure>
+
+<h5><span id="jian-suo-yi-jian-li-de-wang-luo-lian-jie-zhuang-tai-xian-shi-huo-yue-de-tcp-lian-jie-x2f-win7sp1x64-bu-ke-yong">检索已建立的网络连接状态，显示活跃的TCP连接（&#x2F;win7sp1x64不可用）</span><a href="#jian-suo-yi-jian-li-de-wang-luo-lian-jie-zhuang-tai-xian-shi-huo-yue-de-tcp-lian-jie-x2f-win7sp1x64-bu-ke-yong" class="header-anchor">#</a></h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">vol.py -f home/kali/Desktop/123.raw --profile=Win7SP1x86 connections<br></code></pre></td></tr></table></figure>
+
+<h5><span id="cha-kan-wang-luo-lian-jie-zhuang-tai-xian-shi-suo-you-de-tcp-lian-jie-x2f-win7sp1x64-bu-ke-yong">查看网络连接状态，显示所有的TCP连接（&#x2F;win7sp1x64不可用）</span><a href="#cha-kan-wang-luo-lian-jie-zhuang-tai-xian-shi-suo-you-de-tcp-lian-jie-x2f-win7sp1x64-bu-ke-yong" class="header-anchor">#</a></h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">vol.py -f home/kali/Desktop/123.raw --profile=Win7SP1x86 connscan<br></code></pre></td></tr></table></figure>
+
+<h5><span id="xian-shi-suo-you-de-tao-jie-zi-lian-jie-x2f-win7sp1x64-bu-ke-yong">显示所有的套接字连接（&#x2F;win7sp1x64不可用）</span><a href="#xian-shi-suo-you-de-tao-jie-zi-lian-jie-x2f-win7sp1x64-bu-ke-yong" class="header-anchor">#</a></h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">vol.py -f home/kali/Desktop/123.raw --profile=Win7SP1x86 sockets<br></code></pre></td></tr></table></figure>
+
+<h5><span id="sao-miao-biao-qian-chi-cha-zhao-address-object-jie-gou-ti-x2f-win7sp1x64-bu-ke-yong">扫描标签池查找_ADDRESS_OBJECT结构体（&#x2F;win7sp1x64不可用）</span><a href="#sao-miao-biao-qian-chi-cha-zhao-address-object-jie-gou-ti-x2f-win7sp1x64-bu-ke-yong" class="header-anchor">#</a></h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">vol.py -f home/kali/Desktop/123.raw --profile=Win7SP1x86 sockscan<br></code></pre></td></tr></table></figure>
+
+<h4><span id="windows-xi-tong-xiang-guan">windows系统相关</span><a href="#windows-xi-tong-xiang-guan" class="header-anchor">#</a></h4><h5><span id="cha-kan-zhuo-mian-jie-tu-bing-cun-chu-zhi-you-xian-kuang-tu-he-biao-ti">查看桌面截图并存储（只有线框图和标题）</span><a href="#cha-kan-zhuo-mian-jie-tu-bing-cun-chu-zhi-you-xian-kuang-tu-he-biao-ti" class="header-anchor">#</a></h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">&#x27;/home/kali/Desktop/exes&#x27;vol.py -f home/kali/Desktop/123.raw --profile=Win7SP1x64 screenshot --dump-dir=&#x27;/home/kali/Desktop/exes&#x27;<br></code></pre></td></tr></table></figure>
+
+<h5><span id="cha-kan-notepad-wen-jian-zhi-neng-cha-kan-jin-cheng-zhong-de-notepad-exe-zhong-de-nei-rong">查看notepad文件（只能查看进程中的notepad.exe中的内容）</span><a href="#cha-kan-notepad-wen-jian-zhi-neng-cha-kan-jin-cheng-zhong-de-notepad-exe-zhong-de-nei-rong" class="header-anchor">#</a></h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">vol.py -f home/kali/Desktop/123.raw --profile=Win7SP1x64 notepad<br></code></pre></td></tr></table></figure>
+
+<h5><span id="cha-kan-nei-cun-zhong-windows-jian-qie-ban-zhong-de-nei-rong">查看内存中Windows剪切板中的内容</span><a href="#cha-kan-nei-cun-zhong-windows-jian-qie-ban-zhong-de-nei-rong" class="header-anchor">#</a></h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">vol.py -f home/kali/Desktop/123.raw --profile=Win7SP1x64 clipboard<br></code></pre></td></tr></table></figure>
+
+<h5><span id="da-yin-xi-tong-suo-you-zhuo-mian-chuang-kou-de-xin-xi">打印系统所有桌面窗口的信息</span><a href="#da-yin-xi-tong-suo-you-zhuo-mian-chuang-kou-de-xin-xi" class="header-anchor">#</a></h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">vol.py -f home/kali/Desktop/123.raw --profile=Win7SP1x64 windows<br></code></pre></td></tr></table></figure>
+
+<h5><span id="yi-shu-zhuang-xing-shi-da-yin-xi-tong-suo-you-de-chuang-kou-jian-lue-xin-xi">以树状形式打印系统所有的窗口简略信息</span><a href="#yi-shu-zhuang-xing-shi-da-yin-xi-tong-suo-you-de-chuang-kou-jian-lue-xin-xi" class="header-anchor">#</a></h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">vol.py -f home/kali/Desktop/123.raw --profile=Win7SP1x64 wintree<br></code></pre></td></tr></table></figure>
+
+<h5><span id="cha-kan-bian-ji-kong-jian-xin-xi">查看编辑控件信息</span><a href="#cha-kan-bian-ji-kong-jian-xin-xi" class="header-anchor">#</a></h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">vol.py -f home/kali/Desktop/123.raw --profile=Win7SP1x64 editbox<br></code></pre></td></tr></table></figure>
+
+<h5><span id="cha-kan-ie-liu-lan-qi-li-shi-liu-lan-ji-lu">查看ie浏览器历史浏览记录</span><a href="#cha-kan-ie-liu-lan-qi-li-shi-liu-lan-ji-lu" class="header-anchor">#</a></h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">vol.py -f home/kali/Desktop/123.raw --profile=Win7SP1x64 iehistory<br></code></pre></td></tr></table></figure>
+
+<h5><span id="sao-miao-windows-de-fu-wu">扫描windows的服务</span><a href="#sao-miao-windows-de-fu-wu" class="header-anchor">#</a></h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">vol.py -f home/kali/Desktop/123.raw --profile=Win7SP1x64 svcscan<br></code></pre></td></tr></table></figure>
+
+<h5><span id="cha-kan-huan-jing-bian-liang">查看环境变量</span><a href="#cha-kan-huan-jing-bian-liang" class="header-anchor">#</a></h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">vol.py -f home/kali/Desktop/123.raw --profile=Win7SP1x64 envars<br></code></pre></td></tr></table></figure>
+
+<h5><span id="nei-cun-ying-xiang-jiao-hu-fang-wen-ming-ling-xing-gong-ju">内存映像交互访问命令行工具</span><a href="#nei-cun-ying-xiang-jiao-hu-fang-wen-ming-ling-xing-gong-ju" class="header-anchor">#</a></h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">vol.py -f home/kali/Desktop/123.raw --profile=Win7SP1x64vvol.py -f home/kali/Desktop/123.raw --profile=Win7SP1x64 volshell<br></code></pre></td></tr></table></figure>
+
+<h4><span id="linux-xiang-guan">linux相关</span><a href="#linux-xiang-guan" class="header-anchor">#</a></h4><h5><span id="cha-kan-linux-bash-ming-ling">查看linux_bash命令</span><a href="#cha-kan-linux-bash-ming-ling" class="header-anchor">#</a></h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">vol.py -f dump.mem --profile=LinuxCentos7_3_10_1062x64 linux_bash<br></code></pre></td></tr></table></figure>
+
+<h5><span id="fen-xi-linux-xi-tong-zhong-de-jin-cheng-he-jin-cheng-huan-jing">分析Linux系统中的进程和进程环境</span><a href="#fen-xi-linux-xi-tong-zhong-de-jin-cheng-he-jin-cheng-huan-jing" class="header-anchor">#</a></h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">vol.py -f dump.mem --profile=LinuxCentos7_3_10_1062x64 linux_psaux<br></code></pre></td></tr></table></figure>
+
+<h5><span id="cha-kan-linux-xi-tong-de-dmesg-huan-chong-qu-zhong-ri-zhi-xiao-xi">查看linux系统的dmesg缓冲区中日志消息</span><a href="#cha-kan-linux-xi-tong-de-dmesg-huan-chong-qu-zhong-ri-zhi-xiao-xi" class="header-anchor">#</a></h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">vol.py -f dump.mem --profile=LinuxCentos7_3_10_1062x64 linux_dmesg<br></code></pre></td></tr></table></figure>
+
+<h5><span id="jian-cha-linux-xi-tong-diao-yong-biao-shi-fou-bei-xiu-gai-guo">检查Linux系统调用表是否被修改过</span><a href="#jian-cha-linux-xi-tong-diao-yong-biao-shi-fou-bei-xiu-gai-guo" class="header-anchor">#</a></h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">vol.py -f dump.mem --profile=LinuxCentos7_3_10_1062x64 linux_check_syscall | grep HOOKED<br></code></pre></td></tr></table></figure>
+
+
+    
+  </article>
+
+  
+      
+    <div class="nexmoe-post-copyright">
+        <strong>本文作者：</strong>MiguoQAQ<br>
+        <strong>本文链接：</strong><a href="https://miguoqaq.github.io/2024/02/06/No-1/" title="https:&#x2F;&#x2F;miguoqaq.github.io&#x2F;2024&#x2F;02&#x2F;06&#x2F;No-1&#x2F;" target="_blank" rel="noopener">https:&#x2F;&#x2F;miguoqaq.github.io&#x2F;2024&#x2F;02&#x2F;06&#x2F;No-1&#x2F;</a><br>
+        
+            <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
+
+        
+    </div>
+    <div style="font-size: 13px">
+            <link rel="stylesheet" href="https://widget.heweather.net/standard/static/css/he-standard.css?v=1.4.0"><script src="https://widget.heweather.net/standard/static/js/he-standard.js?v=1.4.0"></script><script async="" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            本站总访问量  <a id="busuanzi_value_site_pv"></a> 次<br>
+            本站访客数<a id="busuanzi_value_site_uv"></a>人次
+    </div>
+
+
+  
+  
+  <div class="nexmoe-post-meta nexmoe-rainbow">
+   
+    
+        <a class="nexmoefont icon-tag-fill -none-link" href="/tags/Forensics/" rel="tag">Forensics</a> <a class="nexmoefont icon-tag-fill -none-link" href="/tags/Misc/" rel="tag">Misc</a>
+    
+</div>
+  
+  
+    <script async src="/js/copy-codeblock.js?v=1710348604838"></script>
+  
+
+  
+      <div class="nexmoe-post-footer">
+          <script src="https://giscus.app/client.js"
+        data-repo="miguoQAQ/MiguoQAQ.github.io"
+        data-repo-id="R_kgDOLIGx8w"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOLIGx884Ccngv"
+        data-mapping="title"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+<span id="runtime_span"></span>
+
+      </div>
+  
+</div></div><div class="nexmoe-post-right">    <div class="nexmoe-fixed">
+        <div class="nexmoe-tool">
+
+            
+
+            
+            
+            <button class="mdui-fab catalog" style="overflow:unset;">
+                <i class="nexmoefont icon-i-catalog"></i>
+                <div class="nexmoe-toc">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">Forensics学习No.1-内存取证工具volatility</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">1.1.</span> <span class="toc-text">volatility安装，环境配置及其插件安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.1.1.</span> <span class="toc-text">volatility安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.1.2.</span> <span class="toc-text">volatility插件安装</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">1.2.</span> <span class="toc-text">官方帮助</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">1.3.</span> <span class="toc-text">命令格式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">1.4.</span> <span class="toc-text">常用命令</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">1.4.0.0.1.</span> <span class="toc-text">查看镜像文件系统摘要信息：</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-number">1.4.0.1.</span> <span class="toc-text">用户相关</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">1.4.0.1.1.</span> <span class="toc-text">查看用户名和密码（hash值）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">1.4.0.1.2.</span> <span class="toc-text">从注册表中查看密码：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">1.4.0.1.3.</span> <span class="toc-text">使用mimikatz插件查看密码（需要进入插件目录）</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-number">1.4.0.2.</span> <span class="toc-text">cmd相关</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">1.4.0.2.1.</span> <span class="toc-text">查看cmd使用情况</span></a></li><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">1.4.0.2.2.</span> <span class="toc-text">查看cmd详细情况</span></a></li><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">1.4.0.2.3.</span> <span class="toc-text">抓取控制台下执行的命令以及回显数据</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-number">1.4.0.3.</span> <span class="toc-text">进程相关</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">1.4.0.3.1.</span> <span class="toc-text">扫描内存中的进程</span></a></li><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">1.4.0.3.2.</span> <span class="toc-text">列举全部进程</span></a></li><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">1.4.0.3.3.</span> <span class="toc-text">查看进程结构图</span></a></li><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">1.4.0.3.4.</span> <span class="toc-text">查看隐藏进程</span></a></li><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">1.4.0.3.5.</span> <span class="toc-text">找出隐藏在内存中的dll文件和代码</span></a></li><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">1.4.0.3.6.</span> <span class="toc-text">列出每个进程已加载的dll</span></a></li><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">1.4.0.3.7.</span> <span class="toc-text">将进程程序提取出来</span></a></li><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">1.4.0.3.8.</span> <span class="toc-text">显示内存中多种事件的时间线</span></a></li><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">1.4.0.3.9.</span> <span class="toc-text">显示进程的环境变量</span></a></li><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">1.4.0.3.10.</span> <span class="toc-text">显示进程的运行权限</span></a></li><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">1.4.0.3.11.</span> <span class="toc-text">导出当前进程的可执行文件</span></a></li><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">1.4.0.3.12.</span> <span class="toc-text">最大程序提取信息</span></a></li><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">1.4.0.3.13.</span> <span class="toc-text">程序版本信息</span></a></li><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">1.4.0.3.14.</span> <span class="toc-text">通过yarascan来定义YARA规则进行搜索</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-number">1.4.0.4.</span> <span class="toc-text">文件相关</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">1.4.0.4.1.</span> <span class="toc-text">扫描文件</span></a></li><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">1.4.0.4.2.</span> <span class="toc-text">提取文件</span></a></li><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">1.4.0.4.3.</span> <span class="toc-text">抓取删除的文件</span></a></li><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">1.4.0.4.4.</span> <span class="toc-text">扫描内存中潜在的主引导记录</span></a></li><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">1.4.0.4.5.</span> <span class="toc-text">扫描在内存中潜在NTFS主文件表记录(MFT)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">1.4.0.4.6.</span> <span class="toc-text">检测和分析内存中的恶意软件特征</span></a></li><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">1.4.0.4.7.</span> <span class="toc-text">从内存文件中找到异常程序植入到系统的开机自启痕迹</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-number">1.4.0.5.</span> <span class="toc-text">注册表相关</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">1.4.0.5.1.</span> <span class="toc-text">打印 userassist 注册表项和信息，查看运行程序相关记录</span></a></li><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">1.4.0.5.2.</span> <span class="toc-text">查看注册表蜂巢文件，显示内存中的注册表配置单元和对应的路径</span></a></li><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">1.4.0.5.3.</span> <span class="toc-text">可以对蜂巢根目录进行dump，查看注册表键名子项</span></a></li><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">1.4.0.5.4.</span> <span class="toc-text">查看注册表键值</span></a></li><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">1.4.0.5.5.</span> <span class="toc-text">导出shellbags注册表项</span></a></li><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">1.4.0.5.6.</span> <span class="toc-text">将内存中的注册表配置单元导出至磁盘</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-number">1.4.0.6.</span> <span class="toc-text">网络相关</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">1.4.0.6.1.</span> <span class="toc-text">扫描全部网络连接</span></a></li><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">1.4.0.6.2.</span> <span class="toc-text">检索已建立的网络连接状态，显示活跃的TCP连接（&#x2F;win7sp1x64不可用）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">1.4.0.6.3.</span> <span class="toc-text">查看网络连接状态，显示所有的TCP连接（&#x2F;win7sp1x64不可用）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">1.4.0.6.4.</span> <span class="toc-text">显示所有的套接字连接（&#x2F;win7sp1x64不可用）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">1.4.0.6.5.</span> <span class="toc-text">扫描标签池查找_ADDRESS_OBJECT结构体（&#x2F;win7sp1x64不可用）</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-number">1.4.0.7.</span> <span class="toc-text">windows系统相关</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">1.4.0.7.1.</span> <span class="toc-text">查看桌面截图并存储（只有线框图和标题）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">1.4.0.7.2.</span> <span class="toc-text">查看notepad文件（只能查看进程中的notepad.exe中的内容）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">1.4.0.7.3.</span> <span class="toc-text">查看内存中Windows剪切板中的内容</span></a></li><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">1.4.0.7.4.</span> <span class="toc-text">打印系统所有桌面窗口的信息</span></a></li><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">1.4.0.7.5.</span> <span class="toc-text">以树状形式打印系统所有的窗口简略信息</span></a></li><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">1.4.0.7.6.</span> <span class="toc-text">查看编辑控件信息</span></a></li><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">1.4.0.7.7.</span> <span class="toc-text">查看ie浏览器历史浏览记录</span></a></li><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">1.4.0.7.8.</span> <span class="toc-text">扫描windows的服务</span></a></li><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">1.4.0.7.9.</span> <span class="toc-text">查看环境变量</span></a></li><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">1.4.0.7.10.</span> <span class="toc-text">内存映像交互访问命令行工具</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-number">1.4.0.8.</span> <span class="toc-text">linux相关</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">1.4.0.8.1.</span> <span class="toc-text">查看linux_bash命令</span></a></li><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">1.4.0.8.2.</span> <span class="toc-text">分析Linux系统中的进程和进程环境</span></a></li><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">1.4.0.8.3.</span> <span class="toc-text">查看linux系统的dmesg缓冲区中日志消息</span></a></li><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">1.4.0.8.4.</span> <span class="toc-text">检查Linux系统调用表是否被修改过</span></a></li></ol></li></ol></li></ol></li></ol></li></ol>
+                </div>
+            </button>
+            
+
+            
+
+            <a href="#nexmoe-content" class="backtop toc-link" aria-label="Back To Top" title="top"><button class="mdui-fab mdui-ripple"><i class="nexmoefont icon-caret-top"></i></button></a>
+        </div>
+    </div>
+</div></div><div id="nexmoe-footer"><!--!--></div><div id="nexmoe-search-space"><div class="search-container"><div class="search-header"><div class="search-input-container"><input class="search-input" type="text" placeholder="搜索" onInput="sinput();"></div><a class="search-close" onclick="sclose();">×</a></div><div class="search-body"></div></div></div><div><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2058306854838448" crossorigin="anonymous"></script>
+<script color="0,0,0" opacity="0.5" count="99" src="https://cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.js" type="text/javascript" charset="utf-8"></script>
+</div></body></html>

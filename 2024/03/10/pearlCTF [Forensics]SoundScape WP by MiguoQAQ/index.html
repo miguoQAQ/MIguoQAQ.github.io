@@ -1,0 +1,594 @@
+<!doctype html>
+<html lang="zh"><head>
+<title>pearlCTF [Forensics]SoundScape WP by MiguoQAQ - MiguoQAQ&#39;s_blog</title>
+<meta charset="UTF-8">
+<meta name="keywords" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+
+<link rel="shortcut icon" href="https://pic.imgdb.cn/item/65ae9c48871b83018a9749c0.jpg" type="image/png" />
+<meta name="description" content="SoundScape#    第四个是我所在的队伍！我是第四个做出来的！耶！ 👇以下为WriteUp👇 给了三个音频，说音频就是图片，看看音频们   全都是这样的格式，肯定是高低对应10没错了，而且数量如此之多，猜测是文件的二进制值 但为什么有三个这样的文件呢？   文件的名字经过搜索并没有什么特别的，但是大写的首字母是RGB，思路变得清晰起来了！ 接下来就是拿到数据和脚本运算了 打开010看">
+<meta property="og:type" content="article">
+<meta property="og:title" content="pearlCTF [Forensics]SoundScape WP by MiguoQAQ">
+<meta property="og:url" content="https://miguoqaq.github.io/2024/03/10/pearlCTF%20[Forensics]SoundScape%20WP%20by%20MiguoQAQ/index.html">
+<meta property="og:site_name" content="MiguoQAQ&#39;s_blog">
+<meta property="og:description" content="SoundScape#    第四个是我所在的队伍！我是第四个做出来的！耶！ 👇以下为WriteUp👇 给了三个音频，说音频就是图片，看看音频们   全都是这样的格式，肯定是高低对应10没错了，而且数量如此之多，猜测是文件的二进制值 但为什么有三个这样的文件呢？   文件的名字经过搜索并没有什么特别的，但是大写的首字母是RGB，思路变得清晰起来了！ 接下来就是拿到数据和脚本运算了 打开010看">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/03/10/pearlCTF%20%5BForensics%5DSoundScape%20WP%20by%20MiguoQAQ/image-20240310195322196.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/03/10/pearlCTF%20%5BForensics%5DSoundScape%20WP%20by%20MiguoQAQ/image-20240310210042475.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/03/10/pearlCTF%20%5BForensics%5DSoundScape%20WP%20by%20MiguoQAQ/image-20240310195609948.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/03/10/pearlCTF%20%5BForensics%5DSoundScape%20WP%20by%20MiguoQAQ/image-20240310201412844.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/03/10/pearlCTF%20%5BForensics%5DSoundScape%20WP%20by%20MiguoQAQ/image-20240310201648193.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/03/10/pearlCTF%20%5BForensics%5DSoundScape%20WP%20by%20MiguoQAQ/output_image.png">
+<meta property="article:published_time" content="2024-03-10T12:00:01.000Z">
+<meta property="article:modified_time" content="2024-03-10T13:02:19.378Z">
+<meta property="article:author" content="MiguoQAQ">
+<meta property="article:tag" content="Forensics">
+<meta property="article:tag" content="Misc">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://miguoqaq.github.io/2024/03/10/pearlCTF%20%5BForensics%5DSoundScape%20WP%20by%20MiguoQAQ/image-20240310195322196.png">
+
+<link rel="stylesheet" href="/lib/fancybox/fancybox.css">
+<link rel="stylesheet" href="/lib/mdui_043tiny/mdui.css">
+
+
+<link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1710348604899">
+
+<link rel="stylesheet" href="/css/style.css?v=1710348604899">
+
+
+
+
+    
+        <link rel="stylesheet" href="/custom.css?v=1710348604899">
+    
+
+
+
+<script src="/lib/mdui_043tiny/mdui.js" async></script>
+<script src="/lib/fancybox/fancybox.umd.js" async></script>
+<script src="/lib/lax.min.js" async></script>
+
+
+<script async src="/js/app.js?v=1710348604899"></script>
+
+ 
+
+
+<script type="text/javascript" color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="dist/canvas-nest.js"></script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4D4ZJ9G024"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag("js", new Date());
+
+  gtag("config", "G-4D4ZJ9G024");
+</script>
+
+
+<!-- 同时兼容http与https -->
+<script src="//cdn1.lncld.net/static/js/2.5.0/av-min.js"></script>
+<script>
+// 第一个参数是appid，第二个参数是appkey，此处的只是示例
+AV.initialize("rvljNzkPVAvS0doP7TVjTxCw-gzGzoHsz", "CPWph4DaI33XDrIC2gVeBgo3");
+// 自己创建的Class的名字
+var name='Counter';
+function createRecord(Counter){
+  // 设置 ACL
+  var acl = new AV.ACL();
+  acl.setPublicReadAccess(true);
+  acl.setPublicWriteAccess(true);
+  // 获得span的所有元素
+  var elements=document.getElementsByClassName('leancloud_visitors');
+  // 一次创建多条记录
+  var allcounter=[];
+  for (var i = 0; i < elements.length ; i++) {
+    // 若某span的内容不包括 '-' ，则不必创建记录
+    if(elements[i].textContent.indexOf('-') == -1){
+      continue;
+    }
+    var title = elements[i].getAttribute('data-flag-title');
+    var url = elements[i].id;
+    var newcounter = new Counter();
+    newcounter.setACL(acl);
+    newcounter.set("title", title);
+    newcounter.set("url", url);
+    newcounter.set("time", 0);
+    allcounter.push(newcounter);
+    // 顺便更新显示span为默认值0
+    elements[i].textContent=0;
+  }
+  AV.Object.saveAll(allcounter).then(function (todo) {
+    // 成功保存记录之后
+    console.log('创建记录成功！');
+  }, function (error) {
+    // 异常错误 
+    console.error('创建记录失败: ' + error.message);
+  });
+}
+function showCount(Counter){
+  // 是否需要创建新纪录的标志（添加一篇新文章）
+  var flag=false;
+  var query = new AV.Query(name);
+  query.greaterThanOrEqualTo('time', 0);
+  query.find().then(function (results) {
+    // 当获取到的记录为0时置默认值
+    if(results.length==0){
+      $('.leancloud_visitors').text('-');
+      flag=true;
+      console.log('返回查询记录为空');
+      // 如果获取到空记录就创建新记录
+      createRecord(Counter);
+      return;
+    }
+    // 将获取到的数据设置为text
+    for (var i = 0; i < results.length; i++) {
+      var item = results[i];
+      var url = item.get('url');
+      var time = item.get('time');
+      var element = document.getElementById(url);
+      element.textContent = time;
+    }
+    // 当某个span含有默认值时说明需要创建记录
+    if($('.leancloud_visitors').text().indexOf("-") != -1){
+      flag=true;
+    }
+    // 当获取的记录数与span个数不吻合时
+    if(results.length != $('.leancloud_visitors').length){
+      flag=true;
+    }
+    if(flag){
+      createRecord(Counter);
+    }
+  }, function (error) {
+    console.log('query error:'+error.message);
+  });
+}
+$(function() {
+  var Counter = AV.Object.extend(name);
+  showCount(Counter);
+});
+</script>
+      <!-- 网页鼠标点击特效（爱心） -->
+      <script type="text/javascript">
+          ! function (e, t, a) {
+          function r() {
+              for (var e = 0; e < s.length; e++) s[e].alpha <= 0 ? (t.body.removeChild(s[e].el), s.splice(e, 1)) : (s[
+                      e].y--, s[e].scale += .004, s[e].alpha -= .013, s[e].el.style.cssText = "left:" + s[e].x +
+                  "px;top:" + s[e].y + "px;opacity:" + s[e].alpha + ";transform:scale(" + s[e].scale + "," + s[e]
+                  .scale + ") rotate(45deg);background:" + s[e].color + ";z-index:99999");
+              requestAnimationFrame(r)
+              }
+
+          function n() {
+              var t = "function" == typeof e.onclick && e.onclick;
+              e.onclick = function (e) {
+                  t && t(), o(e)
+                  }
+              }
+
+          function o(e) {
+              var a = t.createElement("div");
+              a.className = "heart", s.push({
+                  el: a,
+                  x: e.clientX - 5,
+                  y: e.clientY - 5,
+                  scale: 1,
+                  alpha: 1,
+                  color: c()
+              }), t.body.appendChild(a)
+          }
+
+          function i(e) {
+              var a = t.createElement("style");
+              a.type = "text/css";
+              try {
+                  a.appendChild(t.createTextNode(e))
+              } catch (t) {
+                  a.styleSheet.cssText = e
+              }
+              t.getElementsByTagName("head")[0].appendChild(a)
+          }
+
+          function c() {
+              return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math
+                  .random()) + ")"
+          }
+          var s = [];
+          e.requestAnimationFrame = e.requestAnimationFrame || e.webkitRequestAnimationFrame || e
+              .mozRequestAnimationFrame || e.oRequestAnimationFrame || e.msRequestAnimationFrame || function (e) { setTimeout(e, 1e3 / 60)
+              }, i(
+                  ".heart{width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;}.heart:after{top: -5px;}.heart:before{left: -5px;}"
+              ), n(), r()
+      }(window, document);
+      </script>			
+  
+
+
+  
+
+
+<link rel="stylesheet"  href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head><body class="nexmoe mdui-drawer-body-left"><div id="nexmoe-background"><div class="nexmoe-bg" style="background-image: url(https://pic.imgdb.cn/item/65aea2b0871b83018aabe502.jpg)"></div><div class="mdui-appbar mdui-shadow-0"><div class="mdui-toolbar"><a class="mdui-btn mdui-btn-icon mdui-ripple" mdui-drawer="{target: &#039;#drawer&#039;, swipe: true}" title="menu"><i class="mdui-icon nexmoefont icon-menu"></i></a><div class="mdui-toolbar-spacer"></div><a class="mdui-btn mdui-btn-icon" href="/" title="MiguoQAQ"><img src="https://pic.imgdb.cn/item/65ae9c48871b83018a9749c0.jpg" alt="MiguoQAQ"></a></div></div></div><div id="nexmoe-header"><div class="nexmoe-drawer mdui-drawer" id="drawer">
+    <div class="nexmoe-avatar mdui-ripple">
+        <a href="/" title="MiguoQAQ">
+            <img src="https://pic.imgdb.cn/item/65ae9c48871b83018a9749c0.jpg" alt="MiguoQAQ" alt="MiguoQAQ">
+        </a>
+    </div>
+    <div class="nexmoe-count">
+        <div><span>文章</span>4</div>
+        <div><span>标签</span>2</div>
+        <div><span>分类</span>0</div>
+    </div>
+    <div class="nexmoe-list mdui-list" mdui-collapse="{accordion: true}">
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/" title="回到首页">
+            <i class="mdui-list-item-icon nexmoefont icon-home"></i>
+            <div class="mdui-list-item-content">
+                回到首页
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/archive.html" title="文章归档">
+            <i class="mdui-list-item-icon nexmoefont icon-container"></i>
+            <div class="mdui-list-item-content">
+                文章归档
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/friends.html" title="我的朋友">
+            <i class="mdui-list-item-icon nexmoefont icon-coffee"></i>
+            <div class="mdui-list-item-content">
+                我的朋友
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/about.html" title="关于本人">
+            <i class="mdui-list-item-icon nexmoefont icon-info-circle"></i>
+            <div class="mdui-list-item-content">
+                关于本人
+            </div>
+        </a>
+        
+    </div>
+    
+    
+        
+        <div class="nexmoe-widget-wrap">
+    <div class="nexmoe-widget nexmoe-search">
+        
+            <form id="search_form">
+                <label><input class="st-default-search-input" id="search_value" name="q" type="search" placeholder="搜索" style="
+                    font-size: 15px !important;
+                    height: 56px !important;
+                    background-image: none;
+                "></label>
+            </form>
+         
+    </div>
+</div>
+
+
+	<script async src="/js/search.js?v=1710348604899"></script>
+
+
+
+    
+        
+        <div class="nexmoe-widget-wrap">
+	<div class="nexmoe-widget nexmoe-social">
+		<a
+			class="mdui-ripple"
+			href="tencent://AddContact/?fromId=45&fromSubId=1&subcmd=all&uin=1636547713&website=www.oicqzone.com"
+			target="_blank"
+			mdui-tooltip="{content: 'QQ'}"
+			style="
+				color: rgb(49, 174, 255);
+				background-color: rgba(49, 174, 255, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-QQ"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://space.bilibili.com/58378010"
+			target="_blank"
+			mdui-tooltip="{content: '哔哩哔哩'}"
+			style="
+				color: rgb(231, 106, 141);
+				background-color: rgba(231, 106, 141, .15);
+			"
+		>
+			<i
+				class="nexmoefont icon-bilibili"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://github.com/miguoQAQ/"
+			target="_blank"
+			mdui-tooltip="{content: 'GitHub'}"
+			style="
+				color: rgb(25, 23, 23);
+				background-color: rgba(25, 23, 23, .15);
+			"
+		>
+			<i
+				class="nexmoefont icon-github"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://pic.imgdb.cn/item/65ddcd2e9f345e8d0374454c.jpg"
+			target="_blank"
+			mdui-tooltip="{content: 'wechat'}"
+			style="
+				color: rgb(165, 15, 15);
+				background-color: rgba(165, 15, 15, .15);
+			"
+		>
+			<i
+				class="nexmoefont icon-wechat-fill"
+			></i> </a
+		>
+	</div>
+</div>
+
+    
+        
+        
+
+    
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <div id="randomtagcloud" class="nexmoe-widget tagcloud nexmoe-rainbow">
+      <a href="/tags/Forensics/" style="font-size: 10px;">Forensics</a> <a href="/tags/Misc/" style="font-size: 10px;">Misc</a>
+    </div>
+    
+      <script>
+        var maxTagcloud = parseInt(17);
+        var tags_length = parseInt(2);
+        var tags_arr = [];
+        for(var i = 0; i < tags_length; i++){
+          tags_arr.push(i);
+        }
+        tags_arr.sort(function (l, r) {
+          return Math.random() > 0.5 ? -1 : 1;
+        });
+        tags_arr = tags_arr.slice(0, maxTagcloud < tags_length ? tags_length - maxTagcloud : 0);
+        for(var tag_i = 0; tag_i < tags_arr.length; tag_i++){
+          document.getElementById("randomtagcloud").children[tags_arr[tag_i]].style.display = 'none';
+        }
+      </script>
+    
+  </div>
+
+    
+        
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">文章归档</h3>
+    <div class="nexmoe-widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/">2024</a><span class="archive-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+
+
+    
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">最新文章</h3>
+    <div class="nexmoe-widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/03/13/OtterCTF/">OtterCTF 2018 取证系列 WP by MiguoQAQ</a>
+          </li>
+        
+          <li>
+            <a href="/2024/03/10/pearlCTF%20%5BForensics%5DSoundScape%20WP%20by%20MiguoQAQ/">pearlCTF [Forensics]SoundScape WP by MiguoQAQ</a>
+          </li>
+        
+          <li>
+            <a href="/2024/02/06/No-1/">Forensics 学习 No.1</a>
+          </li>
+        
+          <li>
+            <a href="/2024/01/23/uh-hi/">uh,hi?</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+    
+        
+        <div class="nexmoe-widget-wrap">
+    <div class="nexmoe-widget nexmoe-link">
+		<ul>
+        
+            <li>
+                <a href="https://miguoqaq.github.io/" target="_blank" >
+                    <img src="https://pic.imgdb.cn/item/65ae9c48871b83018a9749c0.jpg" alt="MiguoQAQ"></img>
+                    <p>MiguoQAQ</p>
+                </a>
+            </li>
+        
+		</ul>
+    </div>
+</div>
+<style>
+.nexmoe-widget-wrap .nexmoe-link ul li a {
+    text-align : center;
+}
+.nexmoe-widget-wrap .nexmoe-link ul li a img {
+    max-width : 100%;
+}
+.nexmoe-widget-wrap .nexmoe-link ul li a p {
+    margin: 10px 0;
+}
+</style>
+
+    
+   
+    <div class="nexmoe-copyright">
+        &copy; 2024 MiguoQAQ
+        Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+        & <a href="https://github.com/theme-nexmoe/hexo-theme-nexmoe" target="_blank">Nexmoe</a>
+        <center>
+本站已运行 <SPAN id=span_dt_dt style="color: #0196e3;"></SPAN>
+<SCRIPT language=javascript>
+function show_date_time(){
+window.setTimeout("show_date_time()", 1000);
+BirthDay=new Date("1/23/2024 00:00:00");
+today=new Date();
+timeold=(today.getTime()-BirthDay.getTime());
+sectimeold=timeold/1000
+secondsold=Math.floor(sectimeold);
+msPerDay=24*60*60*1000
+e_daysold=timeold/msPerDay
+daysold=Math.floor(e_daysold);
+e_hrsold=(e_daysold-daysold)*24;
+hrsold=Math.floor(e_hrsold);
+e_minsold=(e_hrsold-hrsold)*60;
+minsold=Math.floor((e_hrsold-hrsold)*60);
+seconds=Math.floor((e_minsold-minsold)*60);
+span_dt_dt.innerHTML=""+daysold+"天"+hrsold+"小时"+minsold+"分"+seconds+"秒";
+}
+show_date_time();
+</SCRIPT>
+</center>
+
+    </div>
+</div><!-- .nexmoe-drawer --></div><div id="nexmoe-content"><div class="nexmoe-primary"><div class="nexmoe-post">
+  <article>
+    
+        <div class="nexmoe-post-cover absolute" style="padding-top: 62.5%;"> 
+            <img src="https://miguoqaq.github.io/2024/03/10/pearlCTF%20%5BForensics%5DSoundScape%20WP%20by%20MiguoQAQ/image-20240310195322196.png" alt="pearlCTF [Forensics]SoundScape WP by MiguoQAQ" loading="lazy">
+            <h1>pearlCTF [Forensics]SoundScape WP by MiguoQAQ</h1>
+        </div>
+    
+    
+    <div class="nexmoe-post-meta">
+    <div class="nexmoe-rainbow">
+        <a class="nexmoefont icon-calendar-fill">2024年03月10日</a>
+        
+        
+    <a><i class="nexmoefont icon-areachart"></i>约528字</a>
+    <a><i class="nexmoefont icon-time-circle-fill"></i>预计需要2分钟</a>
+
+    </div>
+    
+    
+    
+    
+    
+</div>
+
+    <h1><span id="soundscape">SoundScape</span><a href="#soundscape" class="header-anchor">#</a></h1><img src="/2024/03/10/pearlCTF%20%5BForensics%5DSoundScape%20WP%20by%20MiguoQAQ/image-20240310195322196.png" class title="image-20240310195322196">
+
+<img src="/2024/03/10/pearlCTF%20%5BForensics%5DSoundScape%20WP%20by%20MiguoQAQ/image-20240310210042475.png" class title="image-20240310210042475">
+
+<p>第四个是我所在的队伍！我是第四个做出来的！耶！</p>
+<p>👇以下为WriteUp👇</p>
+<p>给了三个音频，说音频就是图片，看看音频们</p>
+<img src="/2024/03/10/pearlCTF%20%5BForensics%5DSoundScape%20WP%20by%20MiguoQAQ/image-20240310195609948.png" class title="image-20240310195609948">
+
+<p>全都是这样的格式，肯定是高低对应10没错了，而且数量如此之多，猜测是文件的二进制值</p>
+<p>但为什么有三个这样的文件呢？</p>
+<img src="/2024/03/10/pearlCTF%20%5BForensics%5DSoundScape%20WP%20by%20MiguoQAQ/image-20240310201412844.png" class title="image-20240310201412844">
+
+<p>文件的名字经过搜索并没有什么特别的，但是大写的首字母是RGB，思路变得清晰起来了！</p>
+<p>接下来就是拿到数据和脚本运算了</p>
+<p>打开010看看能不能从文件格式内得到信息</p>
+<img src="/2024/03/10/pearlCTF%20%5BForensics%5DSoundScape%20WP%20by%20MiguoQAQ/image-20240310201648193.png" class title="image-20240310201648193">
+
+<p>经过比较Audacity内的信息，发现wav文件并没有被压缩破坏，还是很有灵性的~导出16进制，把7F改成1，把00改成0就可以得到二进制了，其他两个文件同理。</p>
+<p>因为得到的01二进制数据有1769472位，每8位转换成一个2位的16进制数，所以得到的数据对应的有221184个，分离因数可以猜出图片大小</p>
+<p>接下来就是写脚本环节！</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">import numpy as np<br>import matplotlib.pyplot as plt<br><br>def convert_binary_to_hex(binary_string):<br>    decimal_value = int(binary_string, 2)<br>    hex_string = format(decimal_value, &#x27;02X&#x27;)<br>    return hex_string<br><br>def main():<br>    with open(&#x27;Raine1.txt&#x27;, &#x27;r&#x27;) as file1, open(&#x27;Gideon1.txt&#x27;, &#x27;r&#x27;) as file2, open(&#x27;Beryl1.txt&#x27;, &#x27;r&#x27;) as file3:<br>        binary1 = file1.read()<br>        binary2 = file2.read()<br>        binary3 = file3.read()<br><br>        hex_colors = []<br>        for i in range(0, len(binary1), 8):<br>            r = convert_binary_to_hex(binary1[i:i+8])<br>            g = convert_binary_to_hex(binary2[i:i+8])<br>            b = convert_binary_to_hex(binary3[i:i+8])<br>            hex_colors.append((r+g+b))<br>            #print(hex_colors)<br>            #这里可以打印出来一些RGB像素数据来判断进制转换是否正确<br>            <br>    # 将16进制颜色转换为RGB格式<br>    rgb_colors = [tuple(int(hex[i:i + 2], 16) for i in (0, 2, 4)) for hex in hex_colors]<br><br>    # 创建一个数组以存储像素值<br>    image_array = np.array([rgb_colors], dtype=np.uint8)<br><br>    # 调整数组形状以匹配图像尺寸<br>    #这里我发现的图片尺寸是384*576<br>    image_array = image_array.reshape(384, 576, 3)<br><br>    # 绘制图像<br>    plt.imshow(image_array)<br>    plt.axis(&#x27;off&#x27;)<br><br>    # 保存图像为文件<br>    plt.savefig(&#x27;output_image.png&#x27;)<br><br><br>if __name__ == &quot;__main__&quot;:<br>    main()<br></code></pre></td></tr></table></figure>
+
+<p>运行一下，就可以得到图片力</p>
+<img src="/2024/03/10/pearlCTF%20%5BForensics%5DSoundScape%20WP%20by%20MiguoQAQ/output_image.png" class title="output_image">
+    
+  </article>
+
+  
+      
+    <div class="nexmoe-post-copyright">
+        <strong>本文作者：</strong>MiguoQAQ<br>
+        <strong>本文链接：</strong><a href="https://miguoqaq.github.io/2024/03/10/pearlCTF%20[Forensics]SoundScape%20WP%20by%20MiguoQAQ/" title="https:&#x2F;&#x2F;miguoqaq.github.io&#x2F;2024&#x2F;03&#x2F;10&#x2F;pearlCTF%20[Forensics]SoundScape%20WP%20by%20MiguoQAQ&#x2F;" target="_blank" rel="noopener">https:&#x2F;&#x2F;miguoqaq.github.io&#x2F;2024&#x2F;03&#x2F;10&#x2F;pearlCTF%20[Forensics]SoundScape%20WP%20by%20MiguoQAQ&#x2F;</a><br>
+        
+            <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
+
+        
+    </div>
+    <div style="font-size: 13px">
+            <link rel="stylesheet" href="https://widget.heweather.net/standard/static/css/he-standard.css?v=1.4.0"><script src="https://widget.heweather.net/standard/static/js/he-standard.js?v=1.4.0"></script><script async="" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            本站总访问量  <a id="busuanzi_value_site_pv"></a> 次<br>
+            本站访客数<a id="busuanzi_value_site_uv"></a>人次
+    </div>
+
+
+  
+  
+  <div class="nexmoe-post-meta nexmoe-rainbow">
+   
+    
+        <a class="nexmoefont icon-tag-fill -none-link" href="/tags/Forensics/" rel="tag">Forensics</a> <a class="nexmoefont icon-tag-fill -none-link" href="/tags/Misc/" rel="tag">Misc</a>
+    
+</div>
+  
+  
+    <script async src="/js/copy-codeblock.js?v=1710348604834"></script>
+  
+
+  
+      <div class="nexmoe-post-footer">
+          <script src="https://giscus.app/client.js"
+        data-repo="miguoQAQ/MiguoQAQ.github.io"
+        data-repo-id="R_kgDOLIGx8w"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOLIGx884Ccngv"
+        data-mapping="title"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+<span id="runtime_span"></span>
+
+      </div>
+  
+</div></div><div class="nexmoe-post-right">    <div class="nexmoe-fixed">
+        <div class="nexmoe-tool">
+
+            
+
+            
+            
+            <button class="mdui-fab catalog" style="overflow:unset;">
+                <i class="nexmoefont icon-i-catalog"></i>
+                <div class="nexmoe-toc">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">SoundScape</span></a></li></ol>
+                </div>
+            </button>
+            
+
+            
+
+            <a href="#nexmoe-content" class="backtop toc-link" aria-label="Back To Top" title="top"><button class="mdui-fab mdui-ripple"><i class="nexmoefont icon-caret-top"></i></button></a>
+        </div>
+    </div>
+</div></div><div id="nexmoe-footer"><!--!--></div><div id="nexmoe-search-space"><div class="search-container"><div class="search-header"><div class="search-input-container"><input class="search-input" type="text" placeholder="搜索" onInput="sinput();"></div><a class="search-close" onclick="sclose();">×</a></div><div class="search-body"></div></div></div><div><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2058306854838448" crossorigin="anonymous"></script>
+<script color="0,0,0" opacity="0.5" count="99" src="https://cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.js" type="text/javascript" charset="utf-8"></script>
+</div></body></html>
