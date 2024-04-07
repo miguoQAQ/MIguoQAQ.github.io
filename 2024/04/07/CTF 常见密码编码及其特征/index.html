@@ -1,0 +1,1244 @@
+<!doctype html>
+<html lang="zh"><head>
+<title>CTF 常见密码编码及其解决方案 - MiguoQAQ&#39;s_blog</title>
+<meta charset="UTF-8">
+<meta name="keywords" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+
+<link rel="shortcut icon" href="https://pic.imgdb.cn/item/65ae9c48871b83018a9749c0.jpg" type="image/png" />
+<meta name="description" content="CTF 常见密码编码及其解决方案#一些工具（在线）#CyberChef：very very goooood sojson.com CTF在线工具 随波逐流工作室：very good 千千秀字：里面有一些很多自创的奇怪加密算法…… 一些工具（离线）#CyberChef，[随波逐流]CTF编码工具 计算机常用编码类#字符编码wiki ASCII编码#wiki ASCII（发音： &#x2F;ˈæski">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CTF 常见密码编码及其解决方案">
+<meta property="og:url" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/index.html">
+<meta property="og:site_name" content="MiguoQAQ&#39;s_blog">
+<meta property="og:description" content="CTF 常见密码编码及其解决方案#一些工具（在线）#CyberChef：very very goooood sojson.com CTF在线工具 随波逐流工作室：very good 千千秀字：里面有一些很多自创的奇怪加密算法…… 一些工具（离线）#CyberChef，[随波逐流]CTF编码工具 计算机常用编码类#字符编码wiki ASCII编码#wiki ASCII（发音： &#x2F;ˈæski">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/70.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/194720-20200610165300516-237246127.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/image-20240305200116900.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/image-20240305214842447.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/image-20240305213847111.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/image-20240305214033902.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/320px-Caesar3.svg.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/20231124151423.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/image-20240306183114170.png">
+<meta property="og:image" content="https://wikimedia.org/api/rest_v1/media/math/render/svg/304685422a2b7d486bee3ecfd056f90549310edd">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/image-20240307205547697.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/image-20240307205559820.png">
+<meta property="og:image" content="https://wikimedia.org/api/rest_v1/media/math/render/svg/cc85979401725b40c444efae9cf04af412c379e9">
+<meta property="og:image" content="https://wikimedia.org/api/rest_v1/media/math/render/svg/ffd2487510aa438433a2579450ab2b3d557e5edc">
+<meta property="og:image" content="https://wikimedia.org/api/rest_v1/media/math/render/svg/0a07d98bb302f3856cbabc47b2b9016692e3f7bc">
+<meta property="og:image" content="https://wikimedia.org/api/rest_v1/media/math/render/svg/0a07d98bb302f3856cbabc47b2b9016692e3f7bc">
+<meta property="og:image" content="https://wikimedia.org/api/rest_v1/media/math/render/svg/5b46b1100c0a84e245e6a62867b7f24dd2b66e96">
+<meta property="og:image" content="https://wikimedia.org/api/rest_v1/media/math/render/svg/3f5709c8d86f7fec8fb86069bf5d15a9eabe564e">
+<meta property="og:image" content="https://wikimedia.org/api/rest_v1/media/math/render/svg/ffd2487510aa438433a2579450ab2b3d557e5edc">
+<meta property="og:image" content="https://wikimedia.org/api/rest_v1/media/math/render/svg/5474379674b9a5fd1b1336571cbeacbe81212d34">
+<meta property="og:image" content="https://wikimedia.org/api/rest_v1/media/math/render/svg/91c4130b193c752c2f0859746f89ac4b79aea6c5">
+<meta property="og:image" content="https://wikimedia.org/api/rest_v1/media/math/render/svg/f11423fbb2e967f986e36804a8ae4271734917c3">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/image-20240305215200719.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/image-20240306182010134.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/image-20240306180602794.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/image-20240306181106536.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/image-20240306182153884.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/image-20240306182812302.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/image-20240307204229871.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/300px-Vigen%C3%A8re_square.svg.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/800px-Vigen%C3%A8re_square.svg.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/213849qqj499b4q9mq7boj.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/20231124104449.png">
+<meta property="og:image" content="https://img.npfs06.top/20231124104531.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/20231124103451.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/image-20240407174749227.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/20231124103729.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/b463d8475b7d0803f2b5c4f5f8c442ce-1712483783776-93.jpg">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/image-20240407175542330-1712483743666-90.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/20231124104621.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/20231124104647.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/20231124105155.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/20231124105239.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/20231124141102.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/20231124141127.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/image-20240407175935954.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/20231124152817.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/20231124111557.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/image-20240407192644392.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/image-20240407192902125.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/image-20240407192744766.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/image-20240407192808029.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/20231124111637.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/20231124145621.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/20231124145647.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/20231124151848.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/20231124145702.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/20231124145744.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/20231124145820.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/20231124145839.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/20231124145855.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/20231124145910.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/20231124145930.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/20231124145959.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/20231124151946.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/20231124150012.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/20231124150029.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/20231124150044.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/20231124150115.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/20231124150131.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/20231128084215.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/i2Q185-kubrZ2jT3cSqp-zk.jpg.medium.jpg">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/-klbw3Q2t-fq9yK8T3cSia-76.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/20210214163804727.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/image-20240407172651989.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/image-20240407172715659.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/v2-e8c58b35a421f9837f7ad090a1b623a1_720w-1712481436500-7.webp">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/v2-64d576f0bff2359ca21d8af4fdb47eab_720w.webp">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/20180224135705.jpg">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/v2-63cb8008902f53aca03cb7be7345d83d_720w.webp">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/v2-1ec6376f0b74b2127e563230643a1ecf_720w.webp">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/v2-ec398fd8a4c36ad53cd728851b73861e_720w.webp">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/v2-059ce5af6b368ff647ffd3b646dbcfcb_720w.webp">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/v2-3f375d0d69af093012055910467fd850_720w.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/v2-50754e261ce550dbf8e646c8e07d258b_720w.webp">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/v2-d87086c13b0baffcaba0d070a2bd5d97_720w.webp">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/v2-ce1050c543c14fa6bc5da08f5f7113ee_720w.webp">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/v2-2a447d26640d89e8c9a13a8f38888f8a_720w.webp">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/v2-9c9169ef4896c9ab05220ad386c82dd4_720w.webp">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/v2-d49d978e3808da4f64c0a802b57b794a_720w.png">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/v2-0132e00b45c760db6abafd5ce4ed6926_720w.webp">
+<meta property="og:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/image-20240407173917380.png">
+<meta property="article:published_time" content="2024-04-07T11:52:09.000Z">
+<meta property="article:modified_time" content="2024-04-07T11:52:37.615Z">
+<meta property="article:author" content="MiguoQAQ">
+<meta property="article:tag" content="Misc">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/70.png">
+
+<link rel="stylesheet" href="/lib/fancybox/fancybox.css">
+<link rel="stylesheet" href="/lib/mdui_043tiny/mdui.css">
+
+
+<link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1712490836927">
+
+<link rel="stylesheet" href="/css/style.css?v=1712490836927">
+
+
+
+
+    
+        <link rel="stylesheet" href="/custom.css?v=1712490836927">
+    
+
+
+
+<script src="/lib/mdui_043tiny/mdui.js" async></script>
+<script src="/lib/fancybox/fancybox.umd.js" async></script>
+<script src="/lib/lax.min.js" async></script>
+
+
+<script async src="/js/app.js?v=1712490836927"></script>
+
+ 
+
+<style>
+    /** 普通指针样式**/
+    body {
+        width: 100vw;
+        height: 100vh;
+        cursor:url(https://pic.imgdb.cn/item/65af5f4e871b83018a160279.webp), auto;
+      }
+</style>
+
+<script type="text/javascript" color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="dist/canvas-nest.js"></script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4D4ZJ9G024"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag("js", new Date());
+
+  gtag("config", "G-4D4ZJ9G024");
+</script>
+
+
+      <!-- 网页鼠标点击特效（爱心） -->
+      <script type="text/javascript">
+          ! function (e, t, a) {
+          function r() {
+              for (var e = 0; e < s.length; e++) s[e].alpha <= 0 ? (t.body.removeChild(s[e].el), s.splice(e, 1)) : (s[
+                      e].y--, s[e].scale += .004, s[e].alpha -= .013, s[e].el.style.cssText = "left:" + s[e].x +
+                  "px;top:" + s[e].y + "px;opacity:" + s[e].alpha + ";transform:scale(" + s[e].scale + "," + s[e]
+                  .scale + ") rotate(45deg);background:" + s[e].color + ";z-index:99999");
+              requestAnimationFrame(r)
+              }
+
+          function n() {
+              var t = "function" == typeof e.onclick && e.onclick;
+              e.onclick = function (e) {
+                  t && t(), o(e)
+                  }
+              }
+
+          function o(e) {
+              var a = t.createElement("div");
+              a.className = "heart", s.push({
+                  el: a,
+                  x: e.clientX - 5,
+                  y: e.clientY - 5,
+                  scale: 1,
+                  alpha: 1,
+                  color: c()
+              }), t.body.appendChild(a)
+          }
+
+          function i(e) {
+              var a = t.createElement("style");
+              a.type = "text/css";
+              try {
+                  a.appendChild(t.createTextNode(e))
+              } catch (t) {
+                  a.styleSheet.cssText = e
+              }
+              t.getElementsByTagName("head")[0].appendChild(a)
+          }
+
+          function c() {
+              return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math
+                  .random()) + ")"
+          }
+          var s = [];
+          e.requestAnimationFrame = e.requestAnimationFrame || e.webkitRequestAnimationFrame || e
+              .mozRequestAnimationFrame || e.oRequestAnimationFrame || e.msRequestAnimationFrame || function (e) { setTimeout(e, 1e3 / 60)
+              }, i(
+                  ".heart{width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;}.heart:after{top: -5px;}.heart:before{left: -5px;}"
+              ), n(), r()
+      }(window, document);
+      </script>			
+  
+
+
+  
+
+
+<link rel="stylesheet"  href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head><body class="nexmoe mdui-drawer-body-left"><div id="nexmoe-background"><div class="nexmoe-bg" style="background-image: url(https://pic.imgdb.cn/item/65aea2b0871b83018aabe502.jpg)"></div><div class="mdui-appbar mdui-shadow-0"><div class="mdui-toolbar"><a class="mdui-btn mdui-btn-icon mdui-ripple" mdui-drawer="{target: &#039;#drawer&#039;, swipe: true}" title="menu"><i class="mdui-icon nexmoefont icon-menu"></i></a><div class="mdui-toolbar-spacer"></div><a class="mdui-btn mdui-btn-icon" href="/" title="MiguoQAQ"><img src="https://pic.imgdb.cn/item/65ae9c48871b83018a9749c0.jpg" alt="MiguoQAQ"></a></div></div></div><div id="nexmoe-header"><div class="nexmoe-drawer mdui-drawer" id="drawer">
+    <div class="nexmoe-avatar mdui-ripple">
+        <a href="/" title="MiguoQAQ">
+            <img src="https://pic.imgdb.cn/item/65ae9c48871b83018a9749c0.jpg" alt="MiguoQAQ" alt="MiguoQAQ">
+        </a>
+    </div>
+    <div class="nexmoe-count">
+        <div><span>文章</span>5</div>
+        <div><span>标签</span>2</div>
+        <div><span>分类</span>0</div>
+    </div>
+    <div class="nexmoe-list mdui-list" mdui-collapse="{accordion: true}">
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/" title="回到首页">
+            <i class="mdui-list-item-icon nexmoefont icon-home"></i>
+            <div class="mdui-list-item-content">
+                回到首页
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/archive.html" title="文章归档">
+            <i class="mdui-list-item-icon nexmoefont icon-container"></i>
+            <div class="mdui-list-item-content">
+                文章归档
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/friends.html" title="我的朋友">
+            <i class="mdui-list-item-icon nexmoefont icon-coffee"></i>
+            <div class="mdui-list-item-content">
+                我的朋友
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/about.html" title="关于本人">
+            <i class="mdui-list-item-icon nexmoefont icon-info-circle"></i>
+            <div class="mdui-list-item-content">
+                关于本人
+            </div>
+        </a>
+        
+    </div>
+    
+    
+        
+        <div class="nexmoe-widget-wrap">
+    <div class="nexmoe-widget nexmoe-search">
+        
+            <form id="search_form">
+                <label><input class="st-default-search-input" id="search_value" name="q" type="search" placeholder="搜索" style="
+                    font-size: 15px !important;
+                    height: 56px !important;
+                    background-image: none;
+                "></label>
+            </form>
+         
+    </div>
+</div>
+
+
+	<script async src="/js/search.js?v=1712490836928"></script>
+
+
+
+    
+        
+        <div class="nexmoe-widget-wrap">
+	<div class="nexmoe-widget nexmoe-social">
+		<a
+			class="mdui-ripple"
+			href="tencent://AddContact/?fromId=45&fromSubId=1&subcmd=all&uin=1636547713&website=www.oicqzone.com"
+			target="_blank"
+			mdui-tooltip="{content: 'QQ'}"
+			style="
+				color: rgb(49, 174, 255);
+				background-color: rgba(49, 174, 255, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-QQ"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://space.bilibili.com/58378010"
+			target="_blank"
+			mdui-tooltip="{content: '哔哩哔哩'}"
+			style="
+				color: rgb(231, 106, 141);
+				background-color: rgba(231, 106, 141, .15);
+			"
+		>
+			<i
+				class="nexmoefont icon-bilibili"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://github.com/miguoQAQ/"
+			target="_blank"
+			mdui-tooltip="{content: 'GitHub'}"
+			style="
+				color: rgb(25, 23, 23);
+				background-color: rgba(25, 23, 23, .15);
+			"
+		>
+			<i
+				class="nexmoefont icon-github"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://pic.imgdb.cn/item/65ddcd2e9f345e8d0374454c.jpg"
+			target="_blank"
+			mdui-tooltip="{content: 'wechat'}"
+			style="
+				color: rgb(165, 15, 15);
+				background-color: rgba(165, 15, 15, .15);
+			"
+		>
+			<i
+				class="nexmoefont icon-wechat-fill"
+			></i> </a
+		>
+	</div>
+</div>
+
+    
+        
+        
+
+    
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <div id="randomtagcloud" class="nexmoe-widget tagcloud nexmoe-rainbow">
+      <a href="/tags/Forensics/" style="font-size: 10px;">Forensics</a> <a href="/tags/Misc/" style="font-size: 20px;">Misc</a>
+    </div>
+    
+      <script>
+        var maxTagcloud = parseInt(17);
+        var tags_length = parseInt(2);
+        var tags_arr = [];
+        for(var i = 0; i < tags_length; i++){
+          tags_arr.push(i);
+        }
+        tags_arr.sort(function (l, r) {
+          return Math.random() > 0.5 ? -1 : 1;
+        });
+        tags_arr = tags_arr.slice(0, maxTagcloud < tags_length ? tags_length - maxTagcloud : 0);
+        for(var tag_i = 0; tag_i < tags_arr.length; tag_i++){
+          document.getElementById("randomtagcloud").children[tags_arr[tag_i]].style.display = 'none';
+        }
+      </script>
+    
+  </div>
+
+    
+        
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">文章归档</h3>
+    <div class="nexmoe-widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/">2024</a><span class="archive-list-count">5</span></li></ul>
+    </div>
+  </div>
+
+
+
+    
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">最新文章</h3>
+    <div class="nexmoe-widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/">CTF 常见密码编码及其解决方案</a>
+          </li>
+        
+          <li>
+            <a href="/2024/03/13/OtterCTF/">OtterCTF 2018 取证系列 WP</a>
+          </li>
+        
+          <li>
+            <a href="/2024/03/10/pearlCTF%20%5BForensics%5DSoundScape%20WP%20by%20MiguoQAQ/">pearlCTF [Forensics]SoundScape WP by MiguoQAQ</a>
+          </li>
+        
+          <li>
+            <a href="/2024/02/06/No-1/">Forensics 学习 No.1</a>
+          </li>
+        
+          <li>
+            <a href="/2024/01/23/uh-hi/">uh,hi?</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+    
+        
+        <div class="nexmoe-widget-wrap">
+    <div class="nexmoe-widget nexmoe-link">
+		<ul>
+        
+            <li>
+                <a href="https://miguoqaq.github.io/" target="_blank" >
+                    <img src="https://pic.imgdb.cn/item/65ae9c48871b83018a9749c0.jpg" alt="MiguoQAQ"></img>
+                    <p>MiguoQAQ</p>
+                </a>
+            </li>
+        
+		</ul>
+    </div>
+</div>
+<style>
+.nexmoe-widget-wrap .nexmoe-link ul li a {
+    text-align : center;
+}
+.nexmoe-widget-wrap .nexmoe-link ul li a img {
+    max-width : 100%;
+}
+.nexmoe-widget-wrap .nexmoe-link ul li a p {
+    margin: 10px 0;
+}
+</style>
+
+    
+   
+    <div class="nexmoe-copyright">
+        &copy; 2024 MiguoQAQ
+        Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+        & <a href="https://github.com/theme-nexmoe/hexo-theme-nexmoe" target="_blank">Nexmoe</a>
+        <center>
+本站已运行 <SPAN id=span_dt_dt style="color: #0196e3;"></SPAN>
+<SCRIPT language=javascript>
+function show_date_time(){
+window.setTimeout("show_date_time()", 1000);
+BirthDay=new Date("1/23/2024 00:00:00");
+today=new Date();
+timeold=(today.getTime()-BirthDay.getTime());
+sectimeold=timeold/1000
+secondsold=Math.floor(sectimeold);
+msPerDay=24*60*60*1000
+e_daysold=timeold/msPerDay
+daysold=Math.floor(e_daysold);
+e_hrsold=(e_daysold-daysold)*24;
+hrsold=Math.floor(e_hrsold);
+e_minsold=(e_hrsold-hrsold)*60;
+minsold=Math.floor((e_hrsold-hrsold)*60);
+seconds=Math.floor((e_minsold-minsold)*60);
+span_dt_dt.innerHTML=""+daysold+"天"+hrsold+"小时"+minsold+"分"+seconds+"秒";
+}
+show_date_time();
+</SCRIPT>
+</center>
+
+    </div>
+</div><!-- .nexmoe-drawer --></div><div id="nexmoe-content"><div class="nexmoe-primary"><div class="nexmoe-post">
+  <article>
+    
+        <div class="nexmoe-post-cover absolute" style="padding-top: 53.76344086021505%;"> 
+            <img src="https://www.yijinglab.com/headImg.action?courseLogo=C0007.jpg" alt="CTF 常见密码编码及其解决方案" loading="lazy">
+            <h1>CTF 常见密码编码及其解决方案</h1>
+        </div>
+    
+    
+    <div class="nexmoe-post-meta">
+    <div class="nexmoe-rainbow">
+        <a class="nexmoefont icon-calendar-fill">2024年04月07日</a>
+        
+        
+    <a><i class="nexmoefont icon-areachart"></i>约8.4k字</a>
+    <a><i class="nexmoefont icon-time-circle-fill"></i>预计需要34分钟</a>
+
+    </div>
+    
+    
+    
+    
+    
+</div>
+
+    <h1><span id="ctf-chang-jian-mi-ma-bian-ma-ji-qi-jie-jue-fang-an">CTF 常见密码编码及其解决方案</span><a href="#ctf-chang-jian-mi-ma-bian-ma-ji-qi-jie-jue-fang-an" class="header-anchor">#</a></h1><h2><span id="yi-xie-gong-ju-zai-xian">一些工具（在线）</span><a href="#yi-xie-gong-ju-zai-xian" class="header-anchor">#</a></h2><p><a target="_blank" rel="noopener" href="https://gchq.github.io/CyberChef/">CyberChef</a>：very very goooood</p>
+<p><a target="_blank" rel="noopener" href="https://www.sojson.com/encrypt/">sojson.com</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.hiencode.com/">CTF在线工具</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.1o1o.xyz/ctfsoft.html">随波逐流工作室</a>：very good</p>
+<p><a target="_blank" rel="noopener" href="https://www.qqxiuzi.cn/daohang.htm">千千秀字</a>：里面有一些很多自创的奇怪加密算法……</p>
+<h2><span id="yi-xie-gong-ju-chi-xian">一些工具（离线）</span><a href="#yi-xie-gong-ju-chi-xian" class="header-anchor">#</a></h2><p><code>CyberChef</code>，<code>[随波逐流]CTF编码工具</code></p>
+<h2><span id="ji-suan-ji-chang-yong-bian-ma-lei">计算机常用编码类</span><a href="#ji-suan-ji-chang-yong-bian-ma-lei" class="header-anchor">#</a></h2><p><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/zh-cn/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81">字符编码wiki</a></p>
+<h3><span id="ascii-bian-ma">ASCII编码</span><a href="#ascii-bian-ma" class="header-anchor">#</a></h3><p><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/zh-cn/ASCII">wiki</a></p>
+<p><strong>ASCII</strong>（发音： &#x2F;ˈæski&#x2F;），<strong>A</strong>merican <strong>S</strong>tandard <strong>C</strong>ode for <strong>I</strong>nformation <strong>I</strong>nterchange，<strong>美国信息交换标准代码</strong>）是基于拉丁字母的一套电脑编码系统。它主要用于显示现代英语，而其扩展版本延伸美国标准信息交换码则可以部分支持其他西欧语言，并等同于国际标准**<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/ISO/IEC_646">ISO&#x2F;IEC 646</a>**。</p>
+<img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/70.png" class title="img">
+
+<h3><span id="url-bian-ma">URL编码</span><a href="#url-bian-ma" class="header-anchor">#</a></h3><p><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/zh-cn/%E7%99%BE%E5%88%86%E5%8F%B7%E7%BC%96%E7%A0%81">wiki</a></p>
+<p><strong>百分号编码</strong>（英语：Percent-encoding），又称<strong>URL编码</strong>（URL encoding）是特定上下文的统一资源定位符（URL）的编码机制，实际上也适用于统一资源标志符（URI）的编码。也用于为<em>application&#x2F;x-www-form-urlencoded</em> MIME准备数据，因为它用于通过HTTP的请求操作（request）提交HTML表单数据。</p>
+<img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/194720-20200610165300516-237246127.png" class title="img">
+
+<h3><span id="base-jia-zu">Base家族</span><a href="#base-jia-zu" class="header-anchor">#</a></h3><p><strong>Base64</strong></p>
+<p><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/zh-cn/Base64">wiki</a></p>
+<p>Base64（基底64）是一种基于64个可打印字符来表示二进制数据的表示方法。由于log2⁡64&#x3D;6，所以每6个比特为一个单元，对应某个可打印字符。3个字节相当于24个比特，对应于4个Base64单元，即3个字节可由4个可打印字符来表示。在Base64中的可打印字符包括字母<code>A-Z</code>、<code>a-z</code>、数字<code>0-9</code>，这样共有62个字符，此外两个可打印符号在不同的系统中而不同。</p>
+<p><strong>Base32</strong></p>
+<p><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Base32">wiki</a></p>
+<p><strong>此外还有Base16，Base36，Base58，Base62，Base85，Base91，Base92……</strong></p>
+<h3><span id="shellcode-bian-ma">Shellcode编码</span><a href="#shellcode-bian-ma" class="header-anchor">#</a></h3><p><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/zh-cn/Shellcode">wiki</a></p>
+<p>shellcode是一段用于利用软件漏洞而执行的代码，shellcode为16进制之机械码，以其经常让攻击者获得shell而得名。shellcode常常使用机器语言编写，由于现代电脑系统基本上启用NX位元保护使得机械码无法直接执行，可透过返回导向编程编写shellcode。 可在暂存器eip溢出后，塞入一段可让CPU执行的shellcode机械码，让电脑可以执行攻击者的任意指令。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">特征：Shellcode编码中含有\x，形如：\x66\x6c\x61\x67<br></code></pre></td></tr></table></figure>
+
+<h3><span id="uuencode">UUencode</span><a href="#uuencode" class="header-anchor">#</a></h3><p><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Uuencoding">wiki</a></p>
+<p><strong>uuencode</strong>这个名字是衍生自”Unix-to-Unix encoding”，原先是Unix系统下将二进制的资料借由uucp邮件系统传输的一个编码程式，是一种二进制到文字的编码。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">特征：对于长消息来说:每行开头都是M。<br>对于短消息特征就是字符串有&#x27;($&lt;&gt;)这类字符<br></code></pre></td></tr></table></figure>
+
+<img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/image-20240305200116900.png" class title="image-20240305200116900">
+
+<h3><span id="xxencode-bian-ma">XXEncode编码</span><a href="#xxencode-bian-ma" class="header-anchor">#</a></h3><p><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Xxencoding">wiki</a></p>
+<p><strong>xxencode</strong>是一种二进制到文本的编码类似于uuencode，它仅使用字母数字字符以及加号和减号。它的发明是为了以一种能够在字符集转换中幸存的格式传输文件，特别是在ASCII和IBM 大型机上使用的EBCDIC编码之间。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">特征：大小写字母，数字以及+-字符<br>2NalVNk++<br></code></pre></td></tr></table></figure>
+
+<h3><span id="unicode-bian-ma">Unicode编码</span><a href="#unicode-bian-ma" class="header-anchor">#</a></h3><p><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/Unicode">wiki</a></p>
+<p><strong>Unicode</strong>，全称为<strong>Unicode标准</strong>（The Unicode Standard），其官方机构Unicode联盟所用的中文名称为<strong>统一码</strong>，又译作<strong>万国码</strong>、<strong>统一字元码</strong>、<strong>统一字符编码</strong>，是信息技术领域的业界标准，其整理、编码了世界上大部分的文字系统，使得电脑能以通用划一的字符集来处理和显示文字，不但减轻在不同编码系统间切换和转换的困扰，更提供了一种跨平台的乱码问题解决方案。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">特征：\u5b89\u5c0f\u742a<br></code></pre></td></tr></table></figure>
+
+<h3><span id="escape-bian-ma">Escape编码</span><a href="#escape-bian-ma" class="header-anchor">#</a></h3><p>escape采用ISO Latin字符集对指 定的字符串进行编码。所有的空格符、标点符号、特殊字符以及其他非ASCII字符都将被转化成%xx格式的字符编码(xx等于该字符在字符集表里面的编码的16进制数字)。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">特点：<br>有一组 字符 String ss = &quot;%u5179&quot;，特点是 以%u开头，后接四位16进制数字该字符是4个数字表示一个字符。<br>或者是%开头，后接 //数字//小写字母//大写字母<br></code></pre></td></tr></table></figure>
+
+<h3><span id="quoted-printable-bian-ma">Quoted-printable编码</span><a href="#quoted-printable-bian-ma" class="header-anchor">#</a></h3><p><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/zh-cn/Quoted-printable">wiki</a></p>
+<p><strong>Quoted-printable</strong>或<strong>QP encoding</strong>，没有规范的中文译名，可译为<strong>可打印字符引用编码</strong>或<strong>使用可打印字符的编码</strong>。Quoted-printable是使用可打印的ASCII字符（如字母、数字与“&#x3D;”）表示各种编码格式下的字符，以便能在7-bit数据通路上传输8-bit数据, 或者更一般地说在非8-bit clean媒体上正确处理数据。这被定义为MIME content transfer encoding，用于e-mail。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">特征：=开头<br></code></pre></td></tr></table></figure>
+
+<img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/image-20240305214842447.png" class title="image-20240305214842447">
+
+<h3><span id="zi-fu-zhi-yin-yong">字符值引用</span><a href="#zi-fu-zhi-yin-yong" class="header-anchor">#</a></h3><p><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%AD%97%E7%AC%A6%E5%80%BC%E5%BC%95%E7%94%A8">wiki</a></p>
+<p><strong>字符值引用</strong>（numeric character reference, NCR）是在<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E6%A0%87%E8%AE%B0%E8%AF%AD%E8%A8%80">标记语言</a><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/SGML">SGML</a>以及派生的如<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/HTML">HTML</a>与<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/XML">XML</a>中常见的一种<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E8%BD%AC%E4%B9%89%E5%BA%8F%E5%88%97">转义序列</a>结构，用来表示<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/Unicode">Unicode</a>的<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E9%80%9A%E7%94%A8%E5%AD%97%E7%AC%A6%E9%9B%86">通用字符集</a> （UCS）中的单个字符. NCR可以表示在一个特定文档中不能直接<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E7%BC%96%E7%A0%81">编码</a>的<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%AD%97%E7%AC%A6">字符</a>，而该标记语言阅读器软件把每个NCR当作一个字符来处理。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">特征：&amp;#开头<br></code></pre></td></tr></table></figure>
+
+<img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/image-20240305213847111.png" class title="image-20240305213847111">
+
+<h3><span id="rtf-fu-wen-ben-ge-shi">RTF富文本格式</span><a href="#rtf-fu-wen-ben-ge-shi" class="header-anchor">#</a></h3><p><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/RTF#Character_encoding">wiki</a></p>
+<p><strong>富文本格式</strong>（<strong>Rich Text Format</strong>）即<strong>RTF格式</strong>，又称<strong>多文本格式</strong>，是由<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%BE%AE%E8%BD%AF">微软</a>公司开发的跨平台<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E6%96%87%E6%A1%A3">文档</a>格式。大多数的<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E6%96%87%E5%AD%97%E5%A4%84%E7%90%86">文字处理</a>软件都能读取和保存RTF文档。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">特征：\rtf开头，中间含有\开头的其他组合以及&#123;&#125;<br></code></pre></td></tr></table></figure>
+
+<img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/image-20240305214033902.png" class title="image-20240305214033902">
+
+<h2><span id="ha-xi">哈希</span><a href="#ha-xi" class="header-anchor">#</a></h2><p><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/zh-cn/%E6%95%A3%E5%88%97%E5%87%BD%E6%95%B8">wiki</a></p>
+<table>
+<thead>
+<tr>
+<th align="center">算法名称</th>
+<th align="center">输出大小(<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E4%BD%8D%E5%85%83">bits</a>)</th>
+<th align="center">内部大小</th>
+<th align="center">区块大小</th>
+<th align="center">长度大小</th>
+<th align="center">字符尺寸</th>
+<th align="center">碰撞情形</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><strong><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/w/index.php?title=HAVAL&action=edit&redlink=1">HAVAL</a></strong></td>
+<td align="center">256&#x2F;224&#x2F;192&#x2F;160&#x2F;128</td>
+<td align="center">256</td>
+<td align="center">1024</td>
+<td align="center">64</td>
+<td align="center">32</td>
+<td align="center">是</td>
+</tr>
+<tr>
+<td align="center"><strong><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/MD2">MD2</a></strong></td>
+<td align="center">128</td>
+<td align="center">384</td>
+<td align="center">128</td>
+<td align="center">No</td>
+<td align="center">8</td>
+<td align="center">大多数</td>
+</tr>
+<tr>
+<td align="center"><strong><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/MD4">MD4</a></strong></td>
+<td align="center">128</td>
+<td align="center">128</td>
+<td align="center">512</td>
+<td align="center">64</td>
+<td align="center">32</td>
+<td align="center">是</td>
+</tr>
+<tr>
+<td align="center"><strong><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/MD5">MD5</a></strong></td>
+<td align="center">128</td>
+<td align="center">128</td>
+<td align="center">512</td>
+<td align="center">64</td>
+<td align="center">32</td>
+<td align="center">是</td>
+</tr>
+<tr>
+<td align="center"><strong><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/w/index.php?title=PANAMA&action=edit&redlink=1">PANAMA</a></strong></td>
+<td align="center">256</td>
+<td align="center">8736</td>
+<td align="center">256</td>
+<td align="center">否</td>
+<td align="center">32</td>
+<td align="center">是</td>
+</tr>
+<tr>
+<td align="center"><strong><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/w/index.php?title=RadioGat%C3%BAn&action=edit&redlink=1">RadioGatún</a></strong></td>
+<td align="center">任意长度</td>
+<td align="center">58字</td>
+<td align="center">3字</td>
+<td align="center">否</td>
+<td align="center">1-64</td>
+<td align="center">否</td>
+</tr>
+<tr>
+<td align="center"><strong><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/RIPEMD">RIPEMD</a></strong></td>
+<td align="center">128</td>
+<td align="center">128</td>
+<td align="center">512</td>
+<td align="center">64</td>
+<td align="center">32</td>
+<td align="center">是</td>
+</tr>
+<tr>
+<td align="center"><strong><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/RIPEMD">RIPEMD-128&#x2F;256</a></strong></td>
+<td align="center">128&#x2F;256</td>
+<td align="center">128&#x2F;256</td>
+<td align="center">512</td>
+<td align="center">64</td>
+<td align="center">32</td>
+<td align="center">否</td>
+</tr>
+<tr>
+<td align="center"><strong><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/RIPEMD">RIPEMD-160&#x2F;320</a></strong></td>
+<td align="center">160&#x2F;320</td>
+<td align="center">160&#x2F;320</td>
+<td align="center">512</td>
+<td align="center">64</td>
+<td align="center">32</td>
+<td align="center">否</td>
+</tr>
+<tr>
+<td align="center"><strong><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/SHA-0">SHA-0</a></strong></td>
+<td align="center">160</td>
+<td align="center">160</td>
+<td align="center">512</td>
+<td align="center">64</td>
+<td align="center">32</td>
+<td align="center">是</td>
+</tr>
+<tr>
+<td align="center"><strong><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/SHA-1">SHA-1</a></strong></td>
+<td align="center">160</td>
+<td align="center">160</td>
+<td align="center">512</td>
+<td align="center">64</td>
+<td align="center">32</td>
+<td align="center">有缺陷</td>
+</tr>
+<tr>
+<td align="center"><strong><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/SHA-2">SHA-256&#x2F;224</a></strong></td>
+<td align="center">256&#x2F;224</td>
+<td align="center">256</td>
+<td align="center">512</td>
+<td align="center">64</td>
+<td align="center">32</td>
+<td align="center">否</td>
+</tr>
+<tr>
+<td align="center"><strong><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/SHA-2">SHA-512&#x2F;384</a></strong></td>
+<td align="center">512&#x2F;384</td>
+<td align="center">512</td>
+<td align="center">1024</td>
+<td align="center">128</td>
+<td align="center">64</td>
+<td align="center">否</td>
+</tr>
+<tr>
+<td align="center"><strong><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/w/index.php?title=Tiger_(cryptography)&action=edit&redlink=1">Tiger（2）-192&#x2F;160&#x2F;128</a></strong></td>
+<td align="center">192&#x2F;160&#x2F;128</td>
+<td align="center">192</td>
+<td align="center">512</td>
+<td align="center">64</td>
+<td align="center">64</td>
+<td align="center">否</td>
+</tr>
+<tr>
+<td align="center"><strong><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/w/index.php?title=WHIRLPOOL&action=edit&redlink=1">WHIRLPOOL</a></strong></td>
+<td align="center">512</td>
+<td align="center">512</td>
+<td align="center">512</td>
+<td align="center">256</td>
+<td align="center">8</td>
+<td align="center">否</td>
+</tr>
+</tbody></table>
+<p>一些在线解密网站：</p>
+<p><a target="_blank" rel="noopener" href="https://www.sojson.com/hash.html">https://www.sojson.com/hash.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.somd5.com/">https://www.somd5.com/</a></p>
+<p>python相关库：<a target="_blank" rel="noopener" href="https://docs.python.org/zh-cn/3/library/hashlib.html">hashlib</a></p>
+<h2><span id="ti-huan-mi-ma">替换密码</span><a href="#ti-huan-mi-ma" class="header-anchor">#</a></h2><h3><span id="rot-jia-mi">ROT加密</span><a href="#rot-jia-mi" class="header-anchor">#</a></h3><p><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/ROT13">wiki</a></p>
+<p><strong>ROT13</strong>（<strong>回转13位</strong>，英语：rotate by 13 places，有时也记为<strong>ROT-13</strong>）是一种简易的<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E6%9B%BF%E6%8D%A2%E5%BC%8F%E5%AF%86%E7%A0%81">替换式密码</a>。ROT13 也是过去在<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%8F%A4%E7%BD%97%E9%A9%AC">古罗马</a>开发的<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%87%B1%E6%92%92%E5%AF%86%E7%A2%BC">凯撒加密</a>的一种变体。ROT13是它自己本身的逆反。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">| ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz |<br>| ---------------------------------------------------- |<br>| NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm |<br></code></pre></td></tr></table></figure>
+
+<p>检查字符字母顺序并取代它在13位之后的对应字母，有需要超过时则重新绕回26英文字母开头即可</p>
+<p><strong>rot5,rot18等同理</strong></p>
+<p><strong>rot47在26个字母基础上扩大范围至ascii可打印字符，ascii范围为33－126（原因是由于0-32以及127与字符表示无关）</strong></p>
+<h3><span id="kai-sa-mi-ma">凯撒密码</span><a href="#kai-sa-mi-ma" class="header-anchor">#</a></h3><p><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/zh-cn/%E5%87%B1%E6%92%92%E5%AF%86%E7%A2%BC">wiki</a></p>
+<p><strong>凯撒密码</strong>（英语：Caesar cipher），或称<strong>凯撒加密</strong>、<strong>凯撒变换</strong>、<strong>变换加密</strong>，是一种最简单且最广为人知的加密技术。凯撒密码是一种<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E6%9B%BF%E6%8D%A2%E5%BC%8F%E5%AF%86%E7%A0%81">替换加密</a>技术，<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E6%98%8E%E6%96%87">明文</a>中的所有字母都在<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%AD%97%E6%AF%8D%E8%A1%A8">字母表</a>上向后（或向前）按照一个固定数目进行偏移后被替换成<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%AF%86%E6%96%87">密文</a>。</p>
+<img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/320px-Caesar3.svg.png" class title="img">
+
+<p>当偏移量是3的时候，所有的字母A将被替换成D，B变成E，以此类推。</p>
+<h3><span id="bian-yi-kai-sa">变异凯撒</span><a href="#bian-yi-kai-sa" class="header-anchor">#</a></h3><img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/20231124151423.png" class title="img">
+
+<h3><span id="ai-te-ba-shi-ma">埃特巴什码</span><a href="#ai-te-ba-shi-ma" class="header-anchor">#</a></h3><p><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E9%98%BF%E7%89%B9%E5%B7%B4%E5%B8%8C%E5%AF%86%E7%A2%BC">wiki</a></p>
+<p>埃特巴什码（Atbash Cipher）是<strong>由熊斐特博士发现的密码，其最后一个字母代表第一个字母，倒数第二个字母代表第二个字母</strong></p>
+<img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/image-20240306183114170.png" class title="image-20240306183114170">
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z<br>Z Y X W V U T S R Q P O N M L K J I H G F E D C B A<br></code></pre></td></tr></table></figure>
+
+<h3><span id="hill-mi-ma-xi-er-mi-ma">Hill密码（希尔密码）</span><a href="#hill-mi-ma-xi-er-mi-ma" class="header-anchor">#</a></h3><p><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/zh-cn/%E5%B8%8C%E5%B0%94%E5%AF%86%E7%A0%81">wiki</a></p>
+<p><strong>希尔密码</strong>是运用基本矩阵论原理的替换密码，由Lester S. Hill在1929年发明。</p>
+<p>每个字母当作26进制数字：A&#x3D;0, B&#x3D;1, C&#x3D;2… 一串字母当成n维向量，跟一个n×n的矩阵相乘，再将得出的结果模26。</p>
+<p>注意用作加密的矩阵（即密匙）在<img onerror="imgOnError(this);" data-fancybox="gallery" src="https://wikimedia.org/api/rest_v1/media/math/render/svg/304685422a2b7d486bee3ecfd056f90549310edd" alt="{\displaystyle \mathbb {Z} _{26}^{n}}" data-caption="{\displaystyle \mathbb {Z} _{26}^{n}}" loading="lazy">必须是可逆的，否则就不可能解码。只有矩阵的行列式和26互质，才是可逆的。</p>
+<img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/image-20240307205547697.png" class title="image-20240307205547697">
+
+<img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/image-20240307205559820.png" class title="image-20240307205559820">
+
+<p>在线解密：<a target="_blank" rel="noopener" href="http://www.atoolbox.net/Tool.php?Id=914">http://www.atoolbox.net/Tool.php?Id=914</a></p>
+<h3><span id="fang-she-mi-ma">仿射密码</span><a href="#fang-she-mi-ma" class="header-anchor">#</a></h3><p><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/zh-cn/%E4%BB%BF%E5%B0%84%E5%AF%86%E7%A2%BC">wiki</a></p>
+<p><strong>仿射密码</strong>是一种替换密码。它是一个字母对一个字母的。</p>
+<p>它的加密函数是<img onerror="imgOnError(this);" data-fancybox="gallery" src="https://wikimedia.org/api/rest_v1/media/math/render/svg/cc85979401725b40c444efae9cf04af412c379e9" alt="{\displaystyle e(x)=ax+b{\pmod {m}}}" data-caption="{\displaystyle e(x)=ax+b{\pmod {m}}}" loading="lazy">，其中</p>
+<ul>
+<li><img onerror="imgOnError(this);" data-fancybox="gallery" src="https://wikimedia.org/api/rest_v1/media/math/render/svg/ffd2487510aa438433a2579450ab2b3d557e5edc" alt="{\displaystyle a}" data-caption="{\displaystyle a}" loading="lazy">和<img onerror="imgOnError(this);" data-fancybox="gallery" src="https://wikimedia.org/api/rest_v1/media/math/render/svg/0a07d98bb302f3856cbabc47b2b9016692e3f7bc" alt="{\displaystyle m}" data-caption="{\displaystyle m}" loading="lazy">互质。</li>
+<li><img onerror="imgOnError(this);" data-fancybox="gallery" src="https://wikimedia.org/api/rest_v1/media/math/render/svg/0a07d98bb302f3856cbabc47b2b9016692e3f7bc" alt="{\displaystyle m}" data-caption="{\displaystyle m}" loading="lazy">是字母的数目。</li>
+</ul>
+<p>解码函数是<img onerror="imgOnError(this);" data-fancybox="gallery" src="https://wikimedia.org/api/rest_v1/media/math/render/svg/5b46b1100c0a84e245e6a62867b7f24dd2b66e96" alt="{\displaystyle d(x)=a^{-1}(x-b){\pmod {m}}}" data-caption="{\displaystyle d(x)=a^{-1}(x-b){\pmod {m}}}" loading="lazy">，其中<img onerror="imgOnError(this);" data-fancybox="gallery" src="https://wikimedia.org/api/rest_v1/media/math/render/svg/3f5709c8d86f7fec8fb86069bf5d15a9eabe564e" alt="{\displaystyle a^{-1}}" data-caption="{\displaystyle a^{-1}}" loading="lazy">是<img onerror="imgOnError(this);" data-fancybox="gallery" src="https://wikimedia.org/api/rest_v1/media/math/render/svg/ffd2487510aa438433a2579450ab2b3d557e5edc" alt="{\displaystyle a}" data-caption="{\displaystyle a}" loading="lazy">在<img onerror="imgOnError(this);" data-fancybox="gallery" src="https://wikimedia.org/api/rest_v1/media/math/render/svg/5474379674b9a5fd1b1336571cbeacbe81212d34" alt="{\displaystyle \mathbb {Z} _{m}}" data-caption="{\displaystyle \mathbb {Z} _{m}}" loading="lazy">群的乘法逆元。</p>
+<p><strong>仿射密码</strong> 为 单表加密的一种，字母系统中所有字母都藉一简单数学方程加密，对应至数值，或转回字母。 其仍有所有替代密码之弱处。所有字母皆借由方程 <img onerror="imgOnError(this);" data-fancybox="gallery" src="https://wikimedia.org/api/rest_v1/media/math/render/svg/91c4130b193c752c2f0859746f89ac4b79aea6c5" alt="{\displaystyle (ax+b)\mod (26)}" data-caption="{\displaystyle (ax+b)\mod (26)}" loading="lazy">加密， <img onerror="imgOnError(this);" data-fancybox="gallery" src="https://wikimedia.org/api/rest_v1/media/math/render/svg/f11423fbb2e967f986e36804a8ae4271734917c3" alt="{\displaystyle b}" data-caption="{\displaystyle b}" loading="lazy"> 为移动大小。</p>
+<p>在线解密：<a target="_blank" rel="noopener" href="http://www.hiencode.com/affine.html">http://www.hiencode.com/affine.html</a></p>
+<h2><span id="qi-qi-guai-guai-de-jia-mi">奇奇怪怪的加密</span><a href="#qi-qi-guai-guai-de-jia-mi" class="header-anchor">#</a></h2><h3><span id="utf-8-unicode-luan-ma">UTF-8，unicode乱码</span><a href="#utf-8-unicode-luan-ma" class="header-anchor">#</a></h3><p>锟斤拷，烫烫烫</p>
+<p>注意编码格式捏</p>
+<h3><span id="ling-kuan-zi-fu-yin-xie">零宽字符隐写</span><a href="#ling-kuan-zi-fu-yin-xie" class="header-anchor">#</a></h3><p><strong>零宽度字符隐写术（Zero-Width Space Steganography）</strong>：</p>
+<p>将隐藏消息编码和解码为不可打印&#x2F;可读字符。</p>
+<p><strong>字符包括：</strong></p>
+<p>零宽度空格（\u200b）</p>
+<p>零宽度非连接符（\u200c）</p>
+<p>零宽度连接符（\u200d）</p>
+<p>从左至右书写标记（\u200e）</p>
+<p>从右至左书写标记（\u200f）</p>
+<p><strong>解密</strong></p>
+<ul>
+<li><h5><span id="zai-xian-gong-ju">在线工具</span><a href="#zai-xian-gong-ju" class="header-anchor">#</a></h5><p><a target="_blank" rel="noopener" href="https://www.mzy0.com/ctftools/zerowidth1/">https://www.mzy0.com/ctftools/zerowidth1/</a></p>
+<p><a target="_blank" rel="noopener" href="http://330k.github.io/misc_tools/unicode_steganography.html">http://330k.github.io/misc_tools/unicode_steganography.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://offdev.net/demos/zwsp-steg-js">https://offdev.net/demos/zwsp-steg-js</a></p>
+<p><a target="_blank" rel="noopener" href="https://yuanfux.github.io/zero-width-web/">https://yuanfux.github.io/zero-width-web/</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.atoolbox.net/Tool.php?Id=829">http://www.atoolbox.net/Tool.php?Id=829</a></p>
+</li>
+<li><h5><span id="qi-ta-gong-ju">其他工具</span><a href="#qi-ta-gong-ju" class="header-anchor">#</a></h5><ul>
+<li><p>zwsp-steg-py</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/enodari/zwsp-steg-py">https://github.com/enodari/zwsp-steg-py</a></p>
+</li>
+<li><p>转换</p>
+<p>转化为二进制的加密：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/87919817">https://zhuanlan.zhihu.com/p/87919817</a></p>
+<p>转化为Morse编码的加密：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/75992161">https://zhuanlan.zhihu.com/p/75992161</a></p>
+</li>
+</ul>
+</li>
+</ul>
+<h3><span id="wen-ben-jia-mi-zi-mu-x2f-han-zi-deng-deng-you-gui-lu-xie-wan-wen-dang-qu-bao-po-yi-xia">文本加密字母&#x2F;汉字等等（有规律，写完文档去爆破一下）</span><a href="#wen-ben-jia-mi-zi-mu-x2f-han-zi-deng-deng-you-gui-lu-xie-wan-wen-dang-qu-bao-po-yi-xia" class="header-anchor">#</a></h3><p>自创算法，但会在比赛里出现？</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">特征：一个字母加密后变为两个字母，相邻字母相关，结尾有=<br></code></pre></td></tr></table></figure>
+
+<img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/image-20240305215200719.png" class title="image-20240305215200719">
+
+<p><a target="_blank" rel="noopener" href="https://www.qqxiuzi.cn/bianma/wenbenjiami.php">https://www.qqxiuzi.cn/bianma/wenbenjiami.php</a></p>
+<h3><span id="she-hui-zhu-yi-he-xin-jie-zhi-guan-bian-ma">社会主义核心价值观编码</span><a href="#she-hui-zhu-yi-he-xin-jie-zhi-guan-bian-ma" class="header-anchor">#</a></h3><p>用核心价值观来说些黑话（bushi）</p>
+<img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/image-20240306182010134.png" class title="image-20240306182010134">
+
+<p><a target="_blank" rel="noopener" href="https://sym233.github.io/core-values-encoder/">https://sym233.github.io/core-values-encoder/</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.hiencode.com/cvencode.html">http://www.hiencode.com/cvencode.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://atool.vip/corevalue/">https://atool.vip/corevalue/</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.hiencode.com/cvencode.html">http://www.hiencode.com/cvencode.html</a></p>
+<h3><span id="yu-fo-lun-shan">与佛论禅</span><a href="#yu-fo-lun-shan" class="header-anchor">#</a></h3><p>解密的时候不要忘记加上“佛曰”两个字哦</p>
+<img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/image-20240306180602794.png" class title="image-20240306180602794">
+
+<p><strong>在线加解密</strong>：</p>
+<p><a target="_blank" rel="noopener" href="http://hi.pcmoe.net/buddha.html">http://hi.pcmoe.net/buddha.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.keyfc.net/bbs/tools/tudoucode.aspx">https://www.keyfc.net/bbs/tools/tudoucode.aspx</a></p>
+<p><a target="_blank" rel="noopener" href="https://talk-with-buddha.netlify.app/">https://talk-with-buddha.netlify.app/</a></p>
+<p><a target="_blank" rel="noopener" href="https://ctf.bugku.com/tool/todousharp">https://ctf.bugku.com/tool/todousharp</a></p>
+<p><a target="_blank" rel="noopener" href="https://wtool.com.cn/buddha.html">https://wtool.com.cn/buddha.html</a></p>
+<h3><span id="yu-xiong-lun-dao">与熊论道</span><a href="#yu-xiong-lun-dao" class="header-anchor">#</a></h3><img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/image-20240306181106536.png" class title="image-20240306181106536">
+
+<p><strong>在线解密</strong>：<a target="_blank" rel="noopener" href="http://hi.pcmoe.net/">http://hi.pcmoe.net/</a></p>
+<h3><span id="shou-yin">兽音</span><a href="#shou-yin" class="header-anchor">#</a></h3><p>也可以自定义兽音</p>
+<img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/image-20240306182153884.png" class title="image-20240306182153884">
+
+<p><strong>在线加解密</strong>：</p>
+<p><a target="_blank" rel="noopener" href="https://roar.iiilab.com/">https://roar.iiilab.com/</a></p>
+<p><a target="_blank" rel="noopener" href="http://hi.pcmoe.net/roar.html">http://hi.pcmoe.net/roar.html</a></p>
+<h3><span id="yun-ying-mi-ma">云影密码</span><a href="#yun-ying-mi-ma" class="header-anchor">#</a></h3><p>有1，2，4，8这四个数字，可以通过加法来用这四个数字表示0-9中的任何一个数字，列如0&#x3D;28， 也就是0&#x3D;2+8，同理7&#x3D;124， 9&#x3D;18。这样之后再用1-26来表示26个英文字母，就有了密文与明文之间的对应关系。引入0来作为间隔，以免出现混乱。所以云影密码又叫“01248密码”。</p>
+<p>解密脚本：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">#!/usr/bin/python<br># -*- coding=utf8 -*-<br>&quot;&quot;&quot;<br># @Author : pig<br># @CreatedTime:2019-11-2423:54:02<br># @Description : <br>&quot;&quot;&quot;<br><br><br>def de_code(c):<br>    dic = [chr(i) for i in range(ord(&quot;A&quot;), ord(&quot;Z&quot;) + 1)]<br>    flag = []<br>    c2 = [i for i in c.split(&quot;0&quot;)]<br>    for i in c2:<br>        c3 = 0<br>        for j in i:<br>            c3 += int(j)<br>        flag.append(dic[c3 - 1])<br>    return flag<br><br>def encode(plaintext):<br>    dic = [chr(i) for i in range(ord(&quot;A&quot;), ord(&quot;Z&quot;) + 1)]<br>    m = [i for i in plaintext]<br>    tmp = [];flag = []<br>    for i in range(len(m)):<br>        for j in range(len(dic)):<br>            if m[i] == dic[j]:<br>                tmp.append(j + 1)<br>    for i in tmp:<br>        res = &quot;&quot;<br>        if i &gt;= 8:<br>            res += int(i/8)*&quot;8&quot;<br>        if i%8 &gt;=4:<br>            res += int(i%8/4)*&quot;4&quot;<br>        if i%4 &gt;=2:<br>            res += int(i%4/2)*&quot;2&quot;<br>        if i%2 &gt;= 1:<br>            res += int(i%2/1)*&quot;1&quot;<br>        flag.append(res + &quot;0&quot;)<br>    print (&quot;&quot;.join(flag)[:-1])<br><br>c = input(&quot;输入要解密的数字串:&quot;)<br>print (de_code(c))<br>m_code = input(&quot;请输入要加密的数字串:&quot;)<br>encode(m_code)<br></code></pre></td></tr></table></figure>
+
+<h3><span id="rabbit-mi-ma">Rabbit密码</span><a href="#rabbit-mi-ma" class="header-anchor">#</a></h3><p>Rabbit 是一种<strong>高速流密码</strong>，于 2003 年在 FSE 研讨会上首次提出。 Rabbit 使用一个 128 位密钥和一个 64 位初始化向量。 该加密算法的核心组件是一个位流生成器，该流生成器每次迭代都会加密 128 个消息位。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">特征：1.组成：26个大小写英文字母<br>	 2.以U2FsdGVkX1开头，可能以=结尾<br></code></pre></td></tr></table></figure>
+
+<img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/image-20240306182812302.png" class title="image-20240306182812302">
+
+<p>在线解密：<a target="_blank" rel="noopener" href="https://www.sojson.com/encrypt_rabbit.html">https://www.sojson.com/encrypt_rabbit.html</a></p>
+<h2><span id="fei-dui-cheng-mi-ma-jia-mi">非对称密码加密</span><a href="#fei-dui-cheng-mi-ma-jia-mi" class="header-anchor">#</a></h2><h3><span id="rsa">RSA</span><a href="#rsa" class="header-anchor">#</a></h3><p><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/zh-cn/RSA%E5%8A%A0%E5%AF%86%E6%BC%94%E7%AE%97%E6%B3%95">wiki</a></p>
+<p>在线解密：<a target="_blank" rel="noopener" href="https://www.bejson.com/enc/rsa/">https://www.bejson.com/enc/rsa/</a></p>
+<h3><span id="dsa">DSA</span><a href="#dsa" class="header-anchor">#</a></h3><p><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D%E7%AE%97%E6%B3%95">wiki</a></p>
+<p>在线解密：<a target="_blank" rel="noopener" href="https://try8.cn/tool/cipher/dsa">https://try8.cn/tool/cipher/dsa</a></p>
+<h2><span id="dui-cheng-mi-ma-jia-mi">对称密码加密</span><a href="#dui-cheng-mi-ma-jia-mi" class="header-anchor">#</a></h2><h3><span id="aes">AES</span><a href="#aes" class="header-anchor">#</a></h3><p><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/zh-cn/%E9%AB%98%E7%BA%A7%E5%8A%A0%E5%AF%86%E6%A0%87%E5%87%86">wiki</a></p>
+<p>在线解密：<a target="_blank" rel="noopener" href="https://tool.lmeee.com/jiami/aes">https://tool.lmeee.com/jiami/aes</a></p>
+<h3><span id="des">DES</span><a href="#des" class="header-anchor">#</a></h3><p><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/zh-cn/%E8%B3%87%E6%96%99%E5%8A%A0%E5%AF%86%E6%A8%99%E6%BA%96">wiki</a></p>
+<p>在线解密：<a target="_blank" rel="noopener" href="https://www.sojson.com/encrypt_des.html">https://www.sojson.com/encrypt_des.html</a></p>
+<h3><span id="rc4">RC4</span><a href="#rc4" class="header-anchor">#</a></h3><p><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/RC4">wiki</a></p>
+<p>在线解密：<a target="_blank" rel="noopener" href="https://www.sojson.com/encrypt_rc4.html">https://www.sojson.com/encrypt_rc4.html</a></p>
+<h3><span id="playfair-mi-ma">playfair密码</span><a href="#playfair-mi-ma" class="header-anchor">#</a></h3><p><strong>普莱费尔密码</strong>（英语：Playfair cipher）是一种<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86">对称式密码</a>，是首种<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%8F%96%E4%BB%A3%E5%8A%A0%E5%AF%86%E6%B3%95">双字母取代的加密法</a>。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">加密方法：选取一个英文字作密钥。除去重复出现的字母。将密钥的字母逐个逐个加入5×5的矩阵内，剩下的空间将未加入的英文字母依a-z的顺序加入。（将Q去除，或将I和J视作同一字。）<br>将要加密的讯息分成两个一组。若组内的字母相同，将X（或Q）插入两字母之间，重新分组（例如 HELLO 将分成 HE LX LO）。若剩下一个字，也加入X字。<br>在每组中，找出两个字母在矩阵中的地方。<br>若两个字母不在同一直行或同一横列，在矩阵中找出另外两个字母，使这四个字母成为一个长方形的四个角。<br>若两个字母在同一横行，取这两个字母右方的字母（若字母在最右方则取最左方的字母）。<br>若两个字母在同一直列，取这两个字母下方的字母（若字母在最下方则取最上方的字母）。<br>新找到的两个字母就是原本的两个字母加密的结果。<br></code></pre></td></tr></table></figure>
+
+<img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/image-20240307204229871.png" class title="image-20240307204229871">
+
+<p>解密网站：<a target="_blank" rel="noopener" href="https://www.metools.info/code/playfair_186.html">https://www.metools.info/code/playfair_186.html</a></p>
+<h3><span id="serpent-jia-mi">serpent加密</span><a href="#serpent-jia-mi" class="header-anchor">#</a></h3><p><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/zh-cn/Serpent">wiki</a></p>
+<p>在线解密：<a target="_blank" rel="noopener" href="http://tool.chacuo.net/cryptserpent">http://tool.chacuo.net/cryptserpent</a></p>
+<h3><span id="twofish-jia-mi">twofish加密</span><a href="#twofish-jia-mi" class="header-anchor">#</a></h3><p><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/Twofish">wiki</a></p>
+<p>在线解密：<a target="_blank" rel="noopener" href="https://try8.cn/tool/cipher/twofish">https://try8.cn/tool/cipher/twofish</a></p>
+<h3><span id="bo-fu-te-mi-ma-beaufort-cipher">博福特密码（Beaufort Cipher）</span><a href="#bo-fu-te-mi-ma-beaufort-cipher" class="header-anchor">#</a></h3><p><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%8D%9A%E7%A6%8F%E7%89%B9%E5%AF%86%E7%A0%81">wiki</a></p>
+<p>示例</p>
+<img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/300px-Vigen%C3%A8re_square.svg.png" class title="img">
+
+<p>例如，明文的第一个字母为<code>D</code>，则先在表格中找到第<code>D</code>列。由于密钥的第一个字母为<code>F</code>，于是<code>D</code>列从上往下找到<code>F</code>。这一<code>F</code>对应的行号为<code>C</code>，因而<code>C</code>便是密文的第一个字母。以此类推可以得到密文。以下便是一个密钥为<code>FORTIFICATION</code>时的例子：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">明文：DEFENDTHEEASTWALLOFTHECASTLE<br>密钥：FORTIFICATIONFORTIFICATIONFO<br>密文：CKMPVCPVWPIWUJOGIUAPVWRIWUUK<br></code></pre></td></tr></table></figure>
+
+<p>在线解密：<a target="_blank" rel="noopener" href="http://www.hiencode.com/beaufort.html">http://www.hiencode.com/beaufort.html</a></p>
+<h3><span id="wei-ji-ni-ya-mi-ma">维吉尼亚密码</span><a href="#wei-ji-ni-ya-mi-ma" class="header-anchor">#</a></h3><p><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E7%BB%B4%E5%90%89%E5%B0%BC%E4%BA%9A%E5%AF%86%E7%A0%81">wiki</a></p>
+<img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/800px-Vigen%C3%A8re_square.svg.png" class title="undefined">
+
+<p>一个凯撒密码中，字母表中的每一字母都会作一定的偏移，例如偏移量为3时，<code>A</code>就转换为了<code>D</code>、<code>B</code>转换为了<code>E</code>……而维吉尼亚密码则是由一些偏移量不同的凯撒密码组成。</p>
+<p>为了生成密码，需要使用表格法。这一表格包括了26行字母表，每一行都由前一行向左偏移一位得到。具体使用哪一行字母表进行编译是基于密钥进行的，在过程中会不断地变换。</p>
+<p>例如，假设明文为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">ATTACKATDAWN<br></code></pre></td></tr></table></figure>
+
+<p>选择某一关键词并重复而得到密钥，如关键词为<code>LEMON</code>时，密钥为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">LEMONLEMONLE<br></code></pre></td></tr></table></figure>
+
+<p>对于明文的第一个字母<code>A</code>，对应密钥的第一个字母<code>L</code>，于是使用表格中<code>L</code>行字母表进行加密，得到<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%AF%86%E6%96%87">密文</a>第一个字母<code>L</code>。类似地，明文第二个字母为<code>T</code>，在表格中使用对应的<code>E</code>行进行加密，得到密文第二个字母<code>X</code>。以此类推，可以得到：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">明文：ATTACKATDAWN<br>密钥：LEMONLEMONLE<br>密文：LXFOPVEFRNHR<br></code></pre></td></tr></table></figure>
+
+<p>解密的过程则与加密相反。例如：根据密钥第一个字母<code>L</code>所对应的<code>L</code>行字母表，发现密文第一个字母<code>L</code>位于<code>A</code>列，因而明文第一个字母为<code>A</code>。密钥第二个字母<code>E</code>对应<code>E</code>行字母表，而密文第二个字母<code>X</code>位于此行<code>T</code>列，因而明文第二个字母为<code>T</code>。以此类推便可得到明文</p>
+<p>在线解密：<a target="_blank" rel="noopener" href="http://www.hiencode.com/vigenere.html">http://www.hiencode.com/vigenere.html</a></p>
+<h3><span id="gun-dong-mi-yao-mi-ma">滚动密钥密码</span><a href="#gun-dong-mi-yao-mi-ma" class="header-anchor">#</a></h3><p>同维吉尼亚密码</p>
+<p>在线解密：<a target="_blank" rel="noopener" href="http://www.hiencode.com/runkey.html">http://www.hiencode.com/runkey.html</a></p>
+<h3><span id="tong-yin-ti-huan-mi-ma">同音替换密码</span><a href="#tong-yin-ti-huan-mi-ma" class="header-anchor">#</a></h3><img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/213849qqj499b4q9mq7boj.png" class title="img">
+
+<p>大多为自创密码表，难以破解，很少见的啦</p>
+<h3><span id="pei-gen-mi-ma">培根密码</span><a href="#pei-gen-mi-ma" class="header-anchor">#</a></h3><p><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/zh-cn/%E5%9F%B9%E6%A0%B9%E5%AF%86%E7%A2%BC">wiki</a></p>
+<img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/20231124104449.png" class title="img">
+
+<h3><span id="mo-si-mi-ma">摩斯密码</span><a href="#mo-si-mi-ma" class="header-anchor">#</a></h3><p><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/zh-cn/%E6%91%A9%E5%B0%94%E6%96%AF%E7%94%B5%E7%A0%81">wiki</a></p>
+<p><img onerror="imgOnError(this);" data-fancybox="gallery" src="https://img.npfs06.top/20231124104531.png" alt="img" data-caption="img" loading="lazy"></p>
+<p>在线解密：<a target="_blank" rel="noopener" href="https://www.bejson.com/enc/morse/">https://www.bejson.com/enc/morse/</a></p>
+<h3><span id="zha-lan-mi-ma">栅栏密码</span><a href="#zha-lan-mi-ma" class="header-anchor">#</a></h3><p>所谓栅栏密码，就是把要加密的明文分成N个一组，然后把每组的第1个字连起来，形成一段无规律的话。</p>
+<img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/20231124103451.png" class title="img">
+
+<p>在线解密：<a target="_blank" rel="noopener" href="https://www.metools.info/code/fence155.html">https://www.metools.info/code/fence155.html</a></p>
+<h3><span id="zha-lan-mi-ma-bian-chong-w-xing">栅栏密码变种W型</span><a href="#zha-lan-mi-ma-bian-chong-w-xing" class="header-anchor">#</a></h3><p><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/zh-cn/%E7%B1%AC%E7%AC%86%E5%AF%86%E7%A2%BC%E6%B3%95">wiki</a></p>
+<img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/image-20240407174749227.png" class title="image-20240407174749227">
+
+<p>在线解密：<a target="_blank" rel="noopener" href="https://www.metools.info/code/fence154.html">https://www.metools.info/code/fence154.html</a></p>
+<h3><span id="ci-pin-fen-xi">词频分析</span><a href="#ci-pin-fen-xi" class="header-anchor">#</a></h3><p>在线解密：<a target="_blank" rel="noopener" href="http://www.aihanyu.org/cncorpus/CpsTongji.aspx">http://www.aihanyu.org/cncorpus/CpsTongji.aspx</a></p>
+<p><a target="_blank" rel="noopener" href="https://quipqiup.com/">https://quipqiup.com/</a></p>
+<h3><span id="jian-pan-mi-ma-qwe-ti-huan">键盘密码·QWE替换</span><a href="#jian-pan-mi-ma-qwe-ti-huan" class="header-anchor">#</a></h3><img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/20231124103729.png" class title="img">
+
+<h3><span id="jian-pan-mi-ma-qwe-bao-wei">键盘密码·QWE包围</span><a href="#jian-pan-mi-ma-qwe-bao-wei" class="header-anchor">#</a></h3><p>解密方式：每组密文所围住的按键上的字符<br>例: yujnbg, 观察键盘发现这六个字母围住了h，故明文为h。</p>
+<h3><span id="jian-pan-mi-ma-jiu-yi">键盘密码·九一</span><a href="#jian-pan-mi-ma-jiu-yi" class="header-anchor">#</a></h3><p>此类键盘密码的特征是有两种形式，重复的数字、重复的英文。</p>
+<p>ooo yyy ii w uuu ee uuuu yyy uuuu y w uuu </p>
+<p>·发现密文全在键盘字母第一行，若再上一行，则会得到字母与数字的映射关系，例如：q对应1，w对映2。</p>
+<p>·此时会发现数字全都是小于10的，对应九宫格拼音，又重复次数在四次以内，则重复次数是一宫中的行坐标。</p>
+<p>例：ooo -&gt; 999 -&gt; y</p>
+<h3><span id="jian-pan-mi-ma-jiu-jian">键盘密码·九键</span><a href="#jian-pan-mi-ma-jiu-jian" class="header-anchor">#</a></h3><img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/b463d8475b7d0803f2b5c4f5f8c442ce-1712483783776-93.jpg" class title="b463d8475b7d0803f2b5c4f5f8c442ce">
+
+<p>两个一组对照：例如21对应A，52对应K，94对应Z</p>
+<h3><span id="qu-lu-mi-ma">曲路密码</span><a href="#qu-lu-mi-ma" class="header-anchor">#</a></h3><img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/image-20240407175542330-1712483743666-90.png" class title="image-20240407175542330">
+
+<h3><span id="zhu-quan-mi-ma">猪圈密码</span><a href="#zhu-quan-mi-ma" class="header-anchor">#</a></h3><p><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/zh-cn/%E8%B1%AC%E5%9C%88%E5%AF%86%E7%A2%BC">wiki</a></p>
+<img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/20231124104621.png" class title="img">
+
+<h3><span id="zhu-quan-mi-ma-bian-chong">猪圈密码变种</span><a href="#zhu-quan-mi-ma-bian-chong" class="header-anchor">#</a></h3><img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/20231124104647.png" class title="img">
+
+<h3><span id="qi-pan-mi-ma-polybius-mi-ma">棋盘密码Polybius密码</span><a href="#qi-pan-mi-ma-polybius-mi-ma" class="header-anchor">#</a></h3><img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/20231124105155.png" class title="img">
+
+<p>明文：HELLO 密文：23 15 31 31 34</p>
+<h3><span id="qi-pan-mi-ma-bian-chong-adfgx-mi-ma">棋盘密码变种（ADFGX 密码）</span><a href="#qi-pan-mi-ma-bian-chong-adfgx-mi-ma" class="header-anchor">#</a></h3><img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/20231124105239.png" class title="img">
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">·使用这种密码表的加密也叫作 ADFGX 密码（密文中只有 A D F G X）<br>·明文：HELLO 密文：DD XF AG AG DF<br></code></pre></td></tr></table></figure>
+
+<img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/20231124141102.png" class title="img">
+
+<h3><span id="adfgvx-mi-ma">ADFGVX密码</span><a href="#adfgvx-mi-ma" class="header-anchor">#</a></h3><p><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/zh-cn/ADFGVX%E5%AF%86%E7%A2%BC">wiki</a></p>
+<img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/20231124141127.png" class title="img">
+
+<p>在线解密：<a target="_blank" rel="noopener" href="http://www.atoolbox.net/Tool.php?Id=917">http://www.atoolbox.net/Tool.php?Id=917</a></p>
+<h3><span id="qi-pan-mi-ma-bian-chong-guan-jian-zi-mi-ma-nihilist">棋盘密码变种 (关键字密码Nihilist)</span><a href="#qi-pan-mi-ma-bian-chong-guan-jian-zi-mi-ma-nihilist" class="header-anchor">#</a></h3><p>关键字就是一种秘钥，由字母组成，由加密双方约定而成。密码表有25个位置，依次不重复的填入秘钥，在不重复的填入a~z.</p>
+<img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/image-20240407175935954.png" class title="image-20240407175935954">
+
+<h3><span id="shuang-mi-ma">双密码</span><a href="#shuang-mi-ma" class="header-anchor">#</a></h3><p>两个密钥进行加密</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">   1 2 3 4 5<br>1| p h q g m<br>2| e a y l n<br>3| o f d x k<br>4| r c v s z<br>5| w b u t i/j<br></code></pre></td></tr></table></figure>
+
+<p>明文:<code>THE QUICK BROWN FOX</code></p>
+<p>经过密阵转换：</p>
+<p>行:<code>512 15543 54352 333</code></p>
+<p>列:<code>421 33525 21115 214</code></p>
+<p>分组:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">51215 54354 35233 3<br>42133 52521 11521 4<br></code></pre></td></tr></table></figure>
+
+<p>合并：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">5121542133 5435452521 3523311521 34<br></code></pre></td></tr></table></figure>
+
+<p>在经过密阵转换后密文:<code>WETED TKZNE KYOME X</code></p>
+<p>在线解密：<a target="_blank" rel="noopener" href="http://www.hiencode.com/bifid.html">http://www.hiencode.com/bifid.html</a></p>
+<h3><span id="san-fen-mi-ma">三分密码</span><a href="#san-fen-mi-ma" class="header-anchor">#</a></h3><p><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/zh-cn/%E4%B8%89%E5%88%86%E5%AF%86%E7%A2%BC">wiki</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">三分密码与双密码非常相似，差别之处就是用除了3×3×3的密阵代替5×5密阵。<br></code></pre></td></tr></table></figure>
+
+<p>示例密阵:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">密阵顺序 = EPSDUCVWYM.ZLKXNBTFGORIJHAQ<br>密阵顺序 = EPSDUCVWYM.ZLKXNBTFGORIJHAQ      <br> <br>方阵 1      方阵 2      方阵 3                                     <br>  1 2 3      1 2 3      1 2 3    <br>1 E P S    1 M . Z    1 F G O    <br>2 D U C    2 L K X    2 R I J    <br>3 V W Y    3 N B T    3 H A Q <br></code></pre></td></tr></table></figure>
+
+<p>明文:<code>THE QUICK BROWN FOX.</code> 经过密阵转换：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">T H E Q U I C K B R O W N F O X .<br>2 3 1 3 1 3 1 2 2 3 3 1 2 3 3 2 2<br>3 3 1 3 2 2 2 2 3 2 1 3 3 1 1 2 1<br>3 1 1 3 2 2 3 2 2 1 3 2 1 1 3 3 2<br>T(233)表示T在第一个方阵第三行第三列的<br></code></pre></td></tr></table></figure>
+
+<p>位置 分组(分组密钥以5为例):</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">THEQU ICKBR OWNFO X.<br>23131 31223 31233 22<br>33132 22232 13311 21<br>31132 23221 32113 32<br></code></pre></td></tr></table></figure>
+
+<p>合并：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">23131 33132 31132 31223 22232 23221 31233 13311 32113 22 21 32<br></code></pre></td></tr></table></figure>
+
+<p>在经过密阵转换后密文:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">231313313231132312232223223221312331331132113222132<br>N  O  O  N  W  G  B  X  X  L  G  H  H  W  S  K  W<br></code></pre></td></tr></table></figure>
+
+<h3><span id="si-fang-mi-ma">四方密码</span><a href="#si-fang-mi-ma" class="header-anchor">#</a></h3><p><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%9B%9B%E6%96%B9%E5%AF%86%E7%A2%BC">wiki</a></p>
+<p>首先选择两个英文字作<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/w/index.php?title=%E5%AF%86%E5%8C%99&action=edit&redlink=1">密匙</a>，例如example和keyword。对于每一个密匙，将重复出现的字母去除，即example要转成exampl，然后将每个字母顺序放入矩阵，再将余下的字母顺序放入矩阵，便得出加密矩阵。</p>
+<p>将这两个加密矩阵放在右上角和左下角，余下的两个角放a到z顺序的矩阵：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">a b c d e   E X A M P<br>f g h i j   L B C D F<br>k l m n o   G H I J K<br>p r s t u   N O R S T<br>v w x y z   U V W Y Z<br> <br>K E Y W O   a b c d e<br>R D A B C   f g h i j<br>F G H I J   k l m n o<br>L M N P S   p r s t u<br>T U V X Z   v w x y z<br></code></pre></td></tr></table></figure>
+
+<p>加密的步骤：</p>
+<ul>
+<li>两个字母一组地分开讯息：（例如hello world变成he ll ow or ld）</li>
+<li>找出第一个字母在左上角矩阵的位置</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">a b c d e   E X A M P<br>f g h i j   L B C D F<br>k l m n o   G H I J K<br>p r s t u   N O R S T<br>v w x y z   U V W Y Z<br>K E Y W O   a b c d e<br>R D A B C   f g h i j<br>F G H I J   k l m n o<br>L M N P S   p r s t u<br>T U V X Z   v w x y z<br></code></pre></td></tr></table></figure>
+
+<p>同样道理，找第二个字母在右下角矩阵的位置：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">a b c d e   E X A M P<br>f g h i j   L B C D F<br>k l m n o   G H I J K<br>p r s t u   N O R S T<br>v w x y z   U V W Y Z<br>K E Y W O   a b c d e<br>R D A B C   f g h i j<br>F G H I J   k l m n o<br>L M N P S   p r s t u<br>T U V X Z   v w x y z<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>找右上角矩阵中，和第一个字母同row(横)，第二个字母同column(直)的字母：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">a b c d e   E X A M P<br>f g h i j   L B C D F<br>k l m n o   G H I J K<br>p r s t u   N O R S T<br>v w x y z   U V W Y Z<br>K E Y W O   a b c d e<br>R D A B C   f g h i j<br>F G H I J   k l m n o<br>L M N P S   p r s t u<br>T U V X Z   v w x y z<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>找左下角矩阵中，和第一个字母同column(直) ，第二个字母同row(横)的字母：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">a b c d e   E X A M P<br>f g h i j   L B C D F<br>k l m n o   G H I J K<br>p r s t u   N O R S T<br>v w x y z   U V W Y Z<br>K E Y W O   a b c d e<br>R D A B C   f g h i j<br>F G H I J   k l m n o<br>L M N P S   p r s t u<br>T U V X Z   v w x y z<br></code></pre></td></tr></table></figure>
+
+<p>这两个字母就是加密过的讯息。</p>
+<p>help me obiwan kenobi的加密结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">he lp me ob iw an ke no bi<br>FY GM KY HO BX MF KK KI MD<br></code></pre></td></tr></table></figure>
+
+<p>在线解密：<a target="_blank" rel="noopener" href="http://www.metools.info/code/four-square244.html">http://www.metools.info/code/four-square244.html</a></p>
+<h3><span id="er-fang-mi-ma">二方密码</span><a href="#er-fang-mi-ma" class="header-anchor">#</a></h3><p><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%9B%9B%E6%96%B9%E5%AF%86%E7%A2%BC">wiki</a></p>
+<p><strong>二方密码</strong>比四方密码用更少的矩阵。</p>
+<p>得出加密矩阵的方法和四方密码一样。</p>
+<p>例如用“example”和“keyword”作密匙，加密“lp”。首先找出第一个字母（L）在上方矩阵的位置，再找出第二个字母（P）在下方矩阵的位置：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">E X A M P<br>L B C D F<br>G H I J K<br>N O R S T<br>U V W Y Z<br> <br>K E Y W O<br>R D A B C<br>F G H I J<br>L M N P S<br>T U V X Z<br></code></pre></td></tr></table></figure>
+
+<p>在上方矩阵找第一个字母同行，第二个字母同列的字母；在下方矩阵找第一个字母同列，第二个字母同行的字母，那两个字母就是加密的结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">E X A M P<br>L B C D F<br>G H I J K<br>N O R S T<br>U V W Y Z<br> <br>K E Y W O<br>R D A B C<br>F G H I J<br>L M N P S<br>T U V X Z<br></code></pre></td></tr></table></figure>
+
+<p>help me的加密结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">he lp me<br>HE DL XW<br></code></pre></td></tr></table></figure>
+
+<p>这种加密法的弱点是若两个字同列，便采用原来的字母，例如he便加密作HE。约有二成的内容都因此而暴露。</p>
+<h3><span id="porta-mi-ma">Porta密码</span><a href="#porta-mi-ma" class="header-anchor">#</a></h3><p>Porta密码(Porta Cipher)是一个由意大利那不勒斯的医生Giovanni Battista della Porta发明的多表代换密码 Porta密码具有加密解密过程的是相同的特点</p>
+<img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/20231124152817.png" class title="img">
+
+<p>明文：<code>THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG</code> 密钥(循环使用，密钥越长相对破解难度越大)：<code>CULTURE</code> 加密过程：明文字母’T’列与密钥字母’C’行交点就是密文字母’F’,以此类推。 密文：<code>FRW HKQRY YMFMF UAA OLWHD ALWI JPT ZXHC NGV</code></p>
+<p>在线解密：<a target="_blank" rel="noopener" href="http://www.hiencode.com/porta.html">http://www.hiencode.com/porta.html</a></p>
+<h3><span id="bo-li-bi-ao-si-fang-zhen">波利比奥斯方阵</span><a href="#bo-li-bi-ao-si-fang-zhen" class="header-anchor">#</a></h3><p>波利比奥斯方阵密码（Polybius Square Cipher或称波利比奥斯棋盘）是棋盘密码的一种，是利用波利比奥斯方阵进行加密的密码方式，简单的来说就是把字母排列好，用坐标(行列)的形式表现出来。字母是密文，明文便是字母的坐标。</p>
+<h3><span id="bazeries-mi-ma">Bazeries密码</span><a href="#bazeries-mi-ma" class="header-anchor">#</a></h3><p>Bazeries密码(Bazeries Cipher)是换位密码和替换密码的组合，使用两个波利比奥斯方阵，一个明文字母方阵，使用一个随机的数字(一般小于1000000)的生成一个密钥矩阵同时作为第一轮明文划分分组，比如2333这个数字翻译为英文便是TWO THOUSAND THREE HUNDRED THIRTY THREE,从第一个字母T开始选取不重复的字母，之后再从字母表中按序选取没有出现的字母组成密钥矩阵。</p>
+<p>明文:<code>THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG</code> 随机数字:<code>2333</code> </p>
+<p>明文矩阵:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">A  F  L  Q  V<br>B  G  M  R  W<br>C  H  N  S  X<br>D I/J O  T  Y<br>E  K  P  U  Z<br></code></pre></td></tr></table></figure>
+
+<p>示例密钥矩阵：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">T  W  O  H  U<br>S  A  N  D  R<br>E I/J Y  B  C<br>F  G  K  L  M<br>P  Q  V  X  Z<br></code></pre></td></tr></table></figure>
+
+<p>明文分组：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">2  3   3   3    2  3   3   3  2   3   3   3  3<br>TH EQU ICK BRO WN FOX JUM PSO VE RTH ELA ZYD OG<br>分组明文反序:<br>HT UQE KCI ORB WN XOF MUJ OSP EV EHT ALE DYZ GO<br></code></pre></td></tr></table></figure>
+
+<p>使用密钥矩阵替换:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">IL XHP QEG KDS YR CKW NXG KBV PU ILD TOP FMZ AK<br>(比如’H’在明文矩阵对应到密钥矩阵的位置就是’I’）<br></code></pre></td></tr></table></figure>
+
+<h3><span id="digrafid-mi-ma">Digrafid密码</span><a href="#digrafid-mi-ma" class="header-anchor">#</a></h3><p>Digrafid密码(Digrafid Cipher)使用两个密钥生成分别生成类似波利比奥斯方阵的3×9方格的密表。</p>
+<h3><span id="ge-lang-pu-lei-mi-ma">格朗普雷密码</span><a href="#ge-lang-pu-lei-mi-ma" class="header-anchor">#</a></h3><p>简介：格朗普雷密码是替换密码的一种，一般使用8个8字母的单词横向填充8x8方阵，且第一列为一个单词，并且在方阵中26个字母都必须出现一次以上。</p>
+<p>举例：</p>
+<p>说明：明文中的字母在密阵位置可能不止一个，所以加密结果可能有多种，但是不影响解密。密阵还有6×6、7×7、9×9、10×10、几种。显然密阵越大每个字母被替换的情况就可能越多，那么加密效果就更好。</p>
+<h3><span id="bi-er-mi-ma">比尔密码</span><a href="#bi-er-mi-ma" class="header-anchor">#</a></h3><p><strong>比尔密码</strong>（英文：<strong>Beale ciphers</strong>）是在1885年出版的一本小册子中提到的三份密码；根据被破解的第二份密码，第一份密码说明了财宝的位置，第二份密码则说明了财宝的内容，第三份密码则列出了财宝所有者的姓名。</p>
+<h3><span id="dang-pu-mi-ma">当铺密码</span><a href="#dang-pu-mi-ma" class="header-anchor">#</a></h3><p>原理：根据当前汉字有多少笔画出头，对应的明文就是数字几。</p>
+<p>在线解密：<a target="_blank" rel="noopener" href="https://dsb.ink/ctf/dangpu.html">https://dsb.ink/ctf/dangpu.html</a></p>
+<h2><span id="js-hun-yao-lei">JS混淆类</span><a href="#js-hun-yao-lei" class="header-anchor">#</a></h2><h3><span id="yan-wen-zi-fu-hao-aaencode">颜文字符号（aaencode）</span><a href="#yan-wen-zi-fu-hao-aaencode" class="header-anchor">#</a></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">特征：一堆颜文字构成的js代码<br></code></pre></td></tr></table></figure>
+
+<p>在线解密：<a target="_blank" rel="noopener" href="http://www.atoolbox.net/Tool.php?Id=703">http://www.atoolbox.net/Tool.php?Id=703</a></p>
+<h3><span id="jjencode-bian-ma">JJEncode编码</span><a href="#jjencode-bian-ma" class="header-anchor">#</a></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">特征：大量 $、_ 符号，大量重复的自定义变量<br><br>[]()!+,\&quot;$.:;_&#123;&#125;~=<br></code></pre></td></tr></table></figure>
+
+<p>在线解密：<a target="_blank" rel="noopener" href="https://www.toolkk.com/tools/jjencode-encode-decode">https://www.toolkk.com/tools/jjencode-encode-decode</a></p>
+<h3><span id="jother-bian-ma">jother编码</span><a href="#jother-bian-ma" class="header-anchor">#</a></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">特征：只用! + ( ) [ ] &#123; &#125;这八个字符就能完成对任意字符串的编码。也可在F12中解密执行<br></code></pre></td></tr></table></figure>
+
+<p>在线解密：<a target="_blank" rel="noopener" href="https://vulsee.com/tools/jother/index.htm">https://vulsee.com/tools/jother/index.htm</a></p>
+<h3><span id="jsfuck-bian-ma">JSFuck编码</span><a href="#jsfuck-bian-ma" class="header-anchor">#</a></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">特征：[]()!+组成<br><br>(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(![]+[+[]]+([]+[])[([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(![]+[])[!+[]+!+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(![]+[])[!+[]+!+[]]])[+!+[]+<br></code></pre></td></tr></table></figure>
+
+<p>在线解密：<a target="_blank" rel="noopener" href="http://www.hiencode.com/jsfuck.html">http://www.hiencode.com/jsfuck.html</a></p>
+<h3><span id="brainfuck">Brainfuck</span><a href="#brainfuck" class="header-anchor">#</a></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">++++++++++[&gt;+++++++&gt;++++++++++&gt;+++&gt;+&lt;&lt;&lt;&lt;-]++.&gt;+.+++++++…+++.&gt;++.&lt;&lt;+++++++++++++++…+++.------.--------.&gt;+.&gt;<br></code></pre></td></tr></table></figure>
+
+<p>在线解密：<a target="_blank" rel="noopener" href="https://ctf.bugku.com/tool/brainfuck">https://ctf.bugku.com/tool/brainfuck</a></p>
+<h3><span id="ook-jia-mi">Ook加密</span><a href="#ook-jia-mi" class="header-anchor">#</a></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">Ook! Ook!<br></code></pre></td></tr></table></figure>
+
+<p>在线解密：<a target="_blank" rel="noopener" href="https://ctf.bugku.com/tool/brainfuck">https://ctf.bugku.com/tool/brainfuck</a></p>
+<h3><span id="jia-mi">.!?加密</span><a href="#jia-mi" class="header-anchor">#</a></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">特征：.!?密码中只含有.!?三个不同的语法元素，使用Ook解密即可。<br></code></pre></td></tr></table></figure>
+
+<p>在线解密：<a target="_blank" rel="noopener" href="https://www.splitbrain.org/services/ook">https://www.splitbrain.org/services/ook</a></p>
+<h3><span id="yin-yang-guai-qi">阴阳怪气</span><a href="#yin-yang-guai-qi" class="header-anchor">#</a></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">就 这 ¿ 就 这 ¿ 就 这 ¿ 不 会 吧 ？ 不 会 吧 ？ 就 这 ¿ 就 这 ¿ 就 这 ¿ 不 会 吧 ？ 就 这 ¿ 就 这 ¿ 就 这 ¿ 不 会 吧 ？ 不 会 吧 ？ 就 这 ¿ 就 这 ¿ 不 会 吧 ？ 就 这 ¿ 就 这 ¿ 就 这 ¿ 就 这 ¿ 不 会 吧 ？ 不 会 吧 ？ 就 这 ¿ 就 这 ¿ 不 会 吧 ？ 不 会 吧 ？ 就 这 ¿ 就 这 ¿ 就 这 ¿ 不 会 吧 ？ 不 会 吧 ？ 就 这 ¿ 不 会 吧 ？ 就 这 ¿ 就 这 ¿ 就 这 ¿ 就 这 ¿ 就 这 ¿ 不 会 吧 ？ 不 会 吧 ？ 就 这 ¿ 不 会 吧 ？ 就 这 ¿ 不 会 吧 ？<br></code></pre></td></tr></table></figure>
+
+<p>在线解密：<a target="_blank" rel="noopener" href="https://mmdjiji.gitee.io/yygq.js/">https://mmdjiji.gitee.io/yygq.js/</a></p>
+<h3><span id="bubblebabble">BubbleBabble</span><a href="#bubblebabble" class="header-anchor">#</a></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">编码格式每5个字符中间以-来分隔<br>xinik-samak-loxox<br></code></pre></td></tr></table></figure>
+
+<p>在线解密：<a target="_blank" rel="noopener" href="http://www.hiencode.com/bubble.html">http://www.hiencode.com/bubble.html</a></p>
+<h3><span id="qiao-ji-ma">敲击码</span><a href="#qiao-ji-ma" class="header-anchor">#</a></h3><img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/20231124111557.png" class title="img">
+
+<p>在线解密：<a target="_blank" rel="noopener" href="http://www.hiencode.com/tapcode.html">http://www.hiencode.com/tapcode.html</a></p>
+<h3><span id="type7-hun-yao-jia-mi">Type7混淆加密</span><a href="#type7-hun-yao-jia-mi" class="header-anchor">#</a></h3><p>简介：Type 7 是一种 Cisco 设备密码加密算法，用于将明文密码加密为不可逆的形式。这种加密算法采用了 XOR 和 MD5 哈希的混合方式，使用一个给定的密钥和额外的固定字符串来生成加密后的密码，因此也被称为 Type 7 混淆加密。</p>
+<p>原理：从一个有26个ASCII字符表中，产生一个种子值（Seed Value）（0-52之间）随机抽取一个用来和明文密码的第一个字符异或，产生的结果用16进制表示，放在加密后字符串的第2、3位，然后种子值+1，再去抽取一个用来和明文密码第二个字符异或，16进制结果放在随后的位置位……。</p>
+<p>在线解密：<a target="_blank" rel="noopener" href="http://www.atoolbox.net/Tool.php?Id=992&ac=csdn">http://www.atoolbox.net/Tool.php?Id=992&amp;ac=csdn</a></p>
+<h3><span id="bo-duo-mi-ma">博多密码</span><a href="#bo-duo-mi-ma" class="header-anchor">#</a></h3><p>博多密码，也叫巴拿马密码，是一种古典密码学中的替换密码。它采用了多个字母表，并通过一个基准词来确定加密和解密使用的具体字母表。</p>
+<p>原理：将基准词中出现的所有字母按照顺序排列并去除重复字母，得到字母表A；然后将剩余的字母按照字母表顺序排列并去除重复字母，得到字母表B，字母表A和B都包含26个字母；接下来，将明文中的每个字母在字母表A中的位置作为行数，将该字母在字母表B中的位置作为列数，找到对应的密文字母。同理，将密文中的每个字母在字母表B中的位置作为行数，在字母表A中的位置作为列数，找到对应的明文字母。</p>
+<p>博多密码的优点是具有较好的安全性，但缺点也很明显，即容易受到频率分析攻击等各种攻击手段的攻击。因此，它已经被更安全的加密算法所取代。</p>
+<p>在线解密：<a target="_blank" rel="noopener" href="https://www.boxentriq.com/code-breaking/baudot-code">https://www.boxentriq.com/code-breaking/baudot-code</a></p>
+<h2><span id="ren-zao-yu-yan">人造语言</span><a href="#ren-zao-yu-yan" class="header-anchor">#</a></h2><p>人造语言wiki：<a target="_blank" rel="noopener" href="https://yuyan.fandom.com/zh/wiki/Main_Page">https://yuyan.fandom.com/zh/wiki/Main_Page</a></p>
+<h3><span id="ba-gua-yu-fu-xi-liu-shi-si-gua">八卦与伏羲六十四卦</span><a href="#ba-gua-yu-fu-xi-liu-shi-si-gua" class="header-anchor">#</a></h3><img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/image-20240407192644392.png" class title="image-20240407192644392">
+
+<img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/image-20240407192902125.png" class title="image-20240407192902125">
+
+<p>伏羲六十四卦</p>
+<img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/image-20240407192744766.png" class title="image-20240407192744766">
+
+<img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/image-20240407192808029.png" class title="image-20240407192808029">
+
+<h3><span id="sheng-tang-wu-shi-mi-ma">圣堂武士密码</span><a href="#sheng-tang-wu-shi-mi-ma" class="header-anchor">#</a></h3><img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/20231124111637.png" class title="img">
+
+<h3><span id="qu-zhe-mi-ma-x2f-xia-duo-mi-ma">曲折密码&#x2F;夏多密码</span><a href="#qu-zhe-mi-ma-x2f-xia-duo-mi-ma" class="header-anchor">#</a></h3><img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/20231124145621.png" class title="img">
+
+<h3><span id="di-de-la-mi-ma">狄德拉密码</span><a href="#di-de-la-mi-ma" class="header-anchor">#</a></h3><img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/20231124145647.png" class title="img">
+
+<h3><span id="ai-ji-wen-zi">埃及文字</span><a href="#ai-ji-wen-zi" class="header-anchor">#</a></h3><img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/20231124151848.png" class title="img">
+
+<h3><span id="wai-xing-ren-mi-ma">外星人密码</span><a href="#wai-xing-ren-mi-ma" class="header-anchor">#</a></h3><img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/20231124145702.png" class title="img">
+
+<h3><span id="duo-si-la-ke-yu">多斯拉克语</span><a href="#duo-si-la-ke-yu" class="header-anchor">#</a></h3><img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/20231124145744.png" class title="img">
+
+<h3><span id="mo-ni-yu">模拟语</span><a href="#mo-ni-yu" class="header-anchor">#</a></h3><img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/20231124145820.png" class title="img">
+
+<h3><span id="hai-li-ya-yu">海利亚语</span><a href="#hai-li-ya-yu" class="header-anchor">#</a></h3><img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/20231124145839.png" class title="img">
+
+<h3><span id="fan-fan-yu">樊凡语</span><a href="#fan-fan-yu" class="header-anchor">#</a></h3><img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/20231124145855.png" class title="img">
+
+<h3><span id="tiao-wu-de-xiao-ren">跳舞的小人</span><a href="#tiao-wu-de-xiao-ren" class="header-anchor">#</a></h3><img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/20231124145910.png" class title="img">
+
+<h3><span id="shen-qi-bao-bei-mi-ma">神奇宝贝密码</span><a href="#shen-qi-bao-bei-mi-ma" class="header-anchor">#</a></h3><img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/20231124145930.png" class title="img">
+
+<h3><span id="yin-fu-jia-mi">音符加密</span><a href="#yin-fu-jia-mi" class="header-anchor">#</a></h3><img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/20231124145959.png" class title="img">
+
+<h3><span id="yin-le-mi-ma">音乐密码</span><a href="#yin-le-mi-ma" class="header-anchor">#</a></h3><img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/20231124151946.png" class title="img">
+
+<h3><span id="hai-jun-shou-qi-qi-yu">海军手旗旗语</span><a href="#hai-jun-shou-qi-qi-yu" class="header-anchor">#</a></h3><img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/20231124150012.png" class title="img">
+
+<h3><span id="liu-shi-jia-zi">六十甲子</span><a href="#liu-shi-jia-zi" class="header-anchor">#</a></h3><img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/20231124150029.png" class title="img">
+
+<h3><span id="guo-ji-chuan-yong-xin-hao-qi-mi-ma">国际船用信号旗密码</span><a href="#guo-ji-chuan-yong-xin-hao-qi-mi-ma" class="header-anchor">#</a></h3><img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/20231124150044.png" class title="img">
+
+<h3><span id="covenant-zi-ti">Covenant字体</span><a href="#covenant-zi-ti" class="header-anchor">#</a></h3><img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/20231124150115.png" class title="img">
+
+<h3><span id="fei-zi-xiang-xing-wen-zi">费兹象形文字</span><a href="#fei-zi-xiang-xing-wen-zi" class="header-anchor">#</a></h3><img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/20231124150131.png" class title="img">
+
+<h3><span id="wingdings-zi-ti">wingdings字体</span><a href="#wingdings-zi-ti" class="header-anchor">#</a></h3><p>wingding编码是一种用于打印的字体，不具有可读性，类似的系列编码还有web dings、wingding 2、wingding3编码</p>
+<p>根据编码的特征，doc文档设置字体为宋体、黑体即可看到原文内容</p>
+<img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/20231128084215.png" class title="img">
+
+<h3><span id="latex">LaTeX</span><a href="#latex" class="header-anchor">#</a></h3><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/zgj926503/article/details/52757631/">LaTex常见符号对照表</a><br>查阅表：<br><a target="_blank" rel="noopener" href="https://detexify.kirelabs.org/symbols.html">https://detexify.kirelabs.org/symbols.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.latexlive.com/">LaTex在线编辑器</a></p>
+<h3><span id="ti-wa-te-wen">提瓦特文</span><a href="#ti-wa-te-wen" class="header-anchor">#</a></h3><img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/i2Q185-kubrZ2jT3cSqp-zk.jpg.medium.jpg" class title="img">
+
+<h3><span id="lai-zi-xing-chen-yi-xing-wen-zi">《来自星尘》异星文字</span><a href="#lai-zi-xing-chen-yi-xing-wen-zi" class="header-anchor">#</a></h3><img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/-klbw3Q2t-fq9yK8T3cSia-76.png" class title="img">
+
+<h3><span id="gu-jing-ling-yu">古精灵语</span><a href="#gu-jing-ling-yu" class="header-anchor">#</a></h3><img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/20210214163804727.png" class title="在这里插入图片描述">
+
+<h3><span id="mang-wen">盲文</span><a href="#mang-wen" class="header-anchor">#</a></h3><p>表中第一行只用第1、2、4、5四个点，第二行由第一行加第3点而得，第三行除“w”外其余均由第一行加第3、6点而得，“w”则由第一行加第6点而得。第一行十个字母的符形也有一定规律，前三个字母（abc）和元音字母（aei）只有一个或两个凸点，第4、6、8、10个字母（dfhj）有三个凸点，剩下的g有四个凸点。</p>
+<p>特性是1必须有点，如果没有就是2和4必须有点，这样可以让盲人阅读时有一个原点来判断相对位置。</p>
+<p>不同点语言的盲文对标点、带音符的拉丁字母以及字母组合有不同的规定。例如盲符⠡，在英语盲文中表示字母组合ch，德语盲文中表示字母组合au，在法语盲文中表示带长音符的字母â。</p>
+<img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/image-20240407172651989.png" class title="image-20240407172651989">
+
+<p>布莱叶式用前十个字母表示1到0，安托万式的1-9是在布拉耶式基础上加6点，安托万式的0是布拉耶式的数字符号。</p>
+<img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/image-20240407172715659.png" class title="image-20240407172715659">
+
+<p>阿拉伯数字表示法有布莱叶和安托万两种。布莱叶式比较常用，英语盲文、汉语盲文等众多盲文都使用这种形式；安托万式主要用于法语盲文。</p>
+<h3><span id="ren-lei-yu-jiu-ren-lei-yu-you-xi-ren-sheng">人类语、旧人类语[游戏人生]</span><a href="#ren-lei-yu-jiu-ren-lei-yu-you-xi-ren-sheng" class="header-anchor">#</a></h3><p>世界观：人类语和日语一样，可是写的字不同，文字对应日语五十音拼音字母，数字使用7进制（骰子）。</p>
+<img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/v2-e8c58b35a421f9837f7ad090a1b623a1_720w-1712481436500-7.webp" class title="img">
+
+<img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/v2-64d576f0bff2359ca21d8af4fdb47eab_720w.webp" class title="img">
+
+<p>旧人类语：</p>
+<img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/20180224135705.jpg" class title="f:id:s172m:20180224135705j:image">
+
+<h3><span id="an-te-yi-su-la-yu-da-gong-ba-mo-wang-da-ren">安特·伊苏拉语 [打工吧!魔王大人]</span><a href="#an-te-yi-su-la-yu-da-gong-ba-mo-wang-da-ren" class="header-anchor">#</a></h3><img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/v2-63cb8008902f53aca03cb7be7345d83d_720w.webp" class title="img">
+
+<h3><span id="ta-yu">塔语</span><a href="#ta-yu" class="header-anchor">#</a></h3><img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/v2-1ec6376f0b74b2127e563230643a1ecf_720w.webp" class title="img">
+
+<h3><span id="wei-mei-hao-de-shi-jie-xian-shang-zhu-fu">《为[美好的世界]献上祝福！》</span><a href="#wei-mei-hao-de-shi-jie-xian-shang-zhu-fu" class="header-anchor">#</a></h3><img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/v2-ec398fd8a4c36ad53cd728851b73861e_720w.webp" class title="img">
+
+<h3><span id="mo-nu-wen-zi-mo-fa-shao-nu-xiao-yuan">魔女文字《魔法少女小圆》</span><a href="#mo-nu-wen-zi-mo-fa-shao-nu-xiao-yuan" class="header-anchor">#</a></h3><img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/v2-059ce5af6b368ff647ffd3b646dbcfcb_720w.webp" class title="img">
+
+<h3><span id="nai-luo-wen-zi-lai-zi-shen-yuan">奈落文字《来自深渊》</span><a href="#nai-luo-wen-zi-lai-zi-shen-yuan" class="header-anchor">#</a></h3><img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/v2-3f375d0d69af093012055910467fd850_720w.png" class title="img">
+
+<h3><span id="shao-nu-zhong-mo-lu-xing">《少女终末旅行》</span><a href="#shao-nu-zhong-mo-lu-xing" class="header-anchor">#</a></h3><img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/v2-50754e261ce550dbf8e646c8e07d258b_720w.webp" class title="img">
+
+<img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/v2-d87086c13b0baffcaba0d070a2bd5d97_720w.webp" class title="img">
+
+<h3><span id="nuo-de-lin-yu-huan-jing-nuo-de-lin">诺德林语《幻镜诺德琳》</span><a href="#nuo-de-lin-yu-huan-jing-nuo-de-lin" class="header-anchor">#</a></h3><img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/v2-ce1050c543c14fa6bc5da08f5f7113ee_720w.webp" class title="img">
+
+<img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/v2-2a447d26640d89e8c9a13a8f38888f8a_720w.webp" class title="img">
+
+<h3><span id="ao-tu-wen-ao-tu-shi-jie">凹凸文《凹凸世界》</span><a href="#ao-tu-wen-ao-tu-shi-jie" class="header-anchor">#</a></h3><img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/v2-9c9169ef4896c9ab05220ad386c82dd4_720w.webp" class title="img">
+
+<h3><span id="ke-lin-gong-yu-xing-ji-mi-hang">克林贡语《星际迷航》</span><a href="#ke-lin-gong-yu-xing-ji-mi-hang" class="header-anchor">#</a></h3><img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/v2-d49d978e3808da4f64c0a802b57b794a_720w.png" class title="img">
+
+<h3><span id="biao-zhun-yin-he-zi-mu">标准银河字母</span><a href="#biao-zhun-yin-he-zi-mu" class="header-anchor">#</a></h3><img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/v2-0132e00b45c760db6abafd5ce4ed6926_720w.webp" class title="img">
+
+<h3><span id="yuan-su-zhou-qi-biao">元素周期表</span><a href="#yuan-su-zhou-qi-biao" class="header-anchor">#</a></h3><img src="/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/image-20240407173917380.png" class title="image-20240407173917380">
+    
+  </article>
+
+  
+      
+    <div class="nexmoe-post-copyright">
+        <strong>本文作者：</strong>MiguoQAQ<br>
+        <strong>本文链接：</strong><a href="https://miguoqaq.github.io/2024/04/07/CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81/" title="https:&#x2F;&#x2F;miguoqaq.github.io&#x2F;2024&#x2F;04&#x2F;07&#x2F;CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81&#x2F;" target="_blank" rel="noopener">https:&#x2F;&#x2F;miguoqaq.github.io&#x2F;2024&#x2F;04&#x2F;07&#x2F;CTF%20%E5%B8%B8%E8%A7%81%E5%AF%86%E7%A0%81%E7%BC%96%E7%A0%81%E5%8F%8A%E5%85%B6%E7%89%B9%E5%BE%81&#x2F;</a><br>
+        
+            <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
+
+        
+    </div>
+    <div style="font-size: 13px">
+            <link rel="stylesheet" href="https://widget.heweather.net/standard/static/css/he-standard.css?v=1.4.0"><script src="https://widget.heweather.net/standard/static/js/he-standard.js?v=1.4.0"></script><script async="" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            本站总访问量  <a id="busuanzi_value_site_pv"></a> 次<br>
+            本站访客数<a id="busuanzi_value_site_uv"></a>人次
+    </div>
+
+
+  
+  
+  <div class="nexmoe-post-meta nexmoe-rainbow">
+   
+    
+        <a class="nexmoefont icon-tag-fill -none-link" href="/tags/Misc/" rel="tag">Misc</a>
+    
+</div>
+  
+  
+    <script async src="/js/copy-codeblock.js?v=1712490836891"></script>
+  
+
+  
+      <div class="nexmoe-post-footer">
+          <script src="https://giscus.app/client.js"
+        data-repo="miguoQAQ/MiguoQAQ.github.io"
+        data-repo-id="R_kgDOLIGx8w"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOLIGx884Ccngv"
+        data-mapping="title"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+<span id="runtime_span"></span>
+
+      </div>
+  
+</div></div><div class="nexmoe-post-right">    <div class="nexmoe-fixed">
+        <div class="nexmoe-tool">
+
+            
+
+            
+            
+            <button class="mdui-fab catalog" style="overflow:unset;">
+                <i class="nexmoefont icon-i-catalog"></i>
+                <div class="nexmoe-toc">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">CTF 常见密码编码及其解决方案</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">1.1.</span> <span class="toc-text">一些工具（在线）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">1.2.</span> <span class="toc-text">一些工具（离线）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">1.3.</span> <span class="toc-text">计算机常用编码类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.3.1.</span> <span class="toc-text">ASCII编码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.3.2.</span> <span class="toc-text">URL编码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.3.3.</span> <span class="toc-text">Base家族</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.3.4.</span> <span class="toc-text">Shellcode编码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.3.5.</span> <span class="toc-text">UUencode</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.3.6.</span> <span class="toc-text">XXEncode编码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.3.7.</span> <span class="toc-text">Unicode编码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.3.8.</span> <span class="toc-text">Escape编码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.3.9.</span> <span class="toc-text">Quoted-printable编码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.3.10.</span> <span class="toc-text">字符值引用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.3.11.</span> <span class="toc-text">RTF富文本格式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">1.4.</span> <span class="toc-text">哈希</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">1.5.</span> <span class="toc-text">替换密码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.5.1.</span> <span class="toc-text">ROT加密</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.5.2.</span> <span class="toc-text">凯撒密码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.5.3.</span> <span class="toc-text">变异凯撒</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.5.4.</span> <span class="toc-text">埃特巴什码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.5.5.</span> <span class="toc-text">Hill密码（希尔密码）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.5.6.</span> <span class="toc-text">仿射密码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">1.6.</span> <span class="toc-text">奇奇怪怪的加密</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.6.1.</span> <span class="toc-text">UTF-8，unicode乱码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.6.2.</span> <span class="toc-text">零宽字符隐写</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">1.6.2.0.1.</span> <span class="toc-text">在线工具</span></a></li><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-number">1.6.2.0.2.</span> <span class="toc-text">其他工具</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.6.3.</span> <span class="toc-text">文本加密字母&#x2F;汉字等等（有规律，写完文档去爆破一下）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.6.4.</span> <span class="toc-text">社会主义核心价值观编码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.6.5.</span> <span class="toc-text">与佛论禅</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.6.6.</span> <span class="toc-text">与熊论道</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.6.7.</span> <span class="toc-text">兽音</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.6.8.</span> <span class="toc-text">云影密码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.6.9.</span> <span class="toc-text">Rabbit密码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">1.7.</span> <span class="toc-text">非对称密码加密</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.7.1.</span> <span class="toc-text">RSA</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.7.2.</span> <span class="toc-text">DSA</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">1.8.</span> <span class="toc-text">对称密码加密</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.8.1.</span> <span class="toc-text">AES</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.8.2.</span> <span class="toc-text">DES</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.8.3.</span> <span class="toc-text">RC4</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.8.4.</span> <span class="toc-text">playfair密码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.8.5.</span> <span class="toc-text">serpent加密</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.8.6.</span> <span class="toc-text">twofish加密</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.8.7.</span> <span class="toc-text">博福特密码（Beaufort Cipher）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.8.8.</span> <span class="toc-text">维吉尼亚密码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.8.9.</span> <span class="toc-text">滚动密钥密码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.8.10.</span> <span class="toc-text">同音替换密码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.8.11.</span> <span class="toc-text">培根密码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.8.12.</span> <span class="toc-text">摩斯密码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.8.13.</span> <span class="toc-text">栅栏密码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.8.14.</span> <span class="toc-text">栅栏密码变种W型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.8.15.</span> <span class="toc-text">词频分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.8.16.</span> <span class="toc-text">键盘密码·QWE替换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.8.17.</span> <span class="toc-text">键盘密码·QWE包围</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.8.18.</span> <span class="toc-text">键盘密码·九一</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.8.19.</span> <span class="toc-text">键盘密码·九键</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.8.20.</span> <span class="toc-text">曲路密码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.8.21.</span> <span class="toc-text">猪圈密码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.8.22.</span> <span class="toc-text">猪圈密码变种</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.8.23.</span> <span class="toc-text">棋盘密码Polybius密码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.8.24.</span> <span class="toc-text">棋盘密码变种（ADFGX 密码）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.8.25.</span> <span class="toc-text">ADFGVX密码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.8.26.</span> <span class="toc-text">棋盘密码变种 (关键字密码Nihilist)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.8.27.</span> <span class="toc-text">双密码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.8.28.</span> <span class="toc-text">三分密码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.8.29.</span> <span class="toc-text">四方密码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.8.30.</span> <span class="toc-text">二方密码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.8.31.</span> <span class="toc-text">Porta密码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.8.32.</span> <span class="toc-text">波利比奥斯方阵</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.8.33.</span> <span class="toc-text">Bazeries密码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.8.34.</span> <span class="toc-text">Digrafid密码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.8.35.</span> <span class="toc-text">格朗普雷密码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.8.36.</span> <span class="toc-text">比尔密码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.8.37.</span> <span class="toc-text">当铺密码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">1.9.</span> <span class="toc-text">JS混淆类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.9.1.</span> <span class="toc-text">颜文字符号（aaencode）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.9.2.</span> <span class="toc-text">JJEncode编码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.9.3.</span> <span class="toc-text">jother编码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.9.4.</span> <span class="toc-text">JSFuck编码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.9.5.</span> <span class="toc-text">Brainfuck</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.9.6.</span> <span class="toc-text">Ook加密</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.9.7.</span> <span class="toc-text">.!?加密</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.9.8.</span> <span class="toc-text">阴阳怪气</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.9.9.</span> <span class="toc-text">BubbleBabble</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.9.10.</span> <span class="toc-text">敲击码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.9.11.</span> <span class="toc-text">Type7混淆加密</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.9.12.</span> <span class="toc-text">博多密码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">1.10.</span> <span class="toc-text">人造语言</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.10.1.</span> <span class="toc-text">八卦与伏羲六十四卦</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.10.2.</span> <span class="toc-text">圣堂武士密码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.10.3.</span> <span class="toc-text">曲折密码&#x2F;夏多密码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.10.4.</span> <span class="toc-text">狄德拉密码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.10.5.</span> <span class="toc-text">埃及文字</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.10.6.</span> <span class="toc-text">外星人密码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.10.7.</span> <span class="toc-text">多斯拉克语</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.10.8.</span> <span class="toc-text">模拟语</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.10.9.</span> <span class="toc-text">海利亚语</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.10.10.</span> <span class="toc-text">樊凡语</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.10.11.</span> <span class="toc-text">跳舞的小人</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.10.12.</span> <span class="toc-text">神奇宝贝密码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.10.13.</span> <span class="toc-text">音符加密</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.10.14.</span> <span class="toc-text">音乐密码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.10.15.</span> <span class="toc-text">海军手旗旗语</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.10.16.</span> <span class="toc-text">六十甲子</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.10.17.</span> <span class="toc-text">国际船用信号旗密码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.10.18.</span> <span class="toc-text">Covenant字体</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.10.19.</span> <span class="toc-text">费兹象形文字</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.10.20.</span> <span class="toc-text">wingdings字体</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.10.21.</span> <span class="toc-text">LaTeX</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.10.22.</span> <span class="toc-text">提瓦特文</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.10.23.</span> <span class="toc-text">《来自星尘》异星文字</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.10.24.</span> <span class="toc-text">古精灵语</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.10.25.</span> <span class="toc-text">盲文</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.10.26.</span> <span class="toc-text">人类语、旧人类语[游戏人生]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.10.27.</span> <span class="toc-text">安特·伊苏拉语 [打工吧!魔王大人]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.10.28.</span> <span class="toc-text">塔语</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.10.29.</span> <span class="toc-text">《为[美好的世界]献上祝福！》</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.10.30.</span> <span class="toc-text">魔女文字《魔法少女小圆》</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.10.31.</span> <span class="toc-text">奈落文字《来自深渊》</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.10.32.</span> <span class="toc-text">《少女终末旅行》</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.10.33.</span> <span class="toc-text">诺德林语《幻镜诺德琳》</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.10.34.</span> <span class="toc-text">凹凸文《凹凸世界》</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.10.35.</span> <span class="toc-text">克林贡语《星际迷航》</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.10.36.</span> <span class="toc-text">标准银河字母</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.10.37.</span> <span class="toc-text">元素周期表</span></a></li></ol></li></ol></li></ol>
+                </div>
+            </button>
+            
+
+            
+
+            <a href="#nexmoe-content" class="backtop toc-link" aria-label="Back To Top" title="top"><button class="mdui-fab mdui-ripple"><i class="nexmoefont icon-caret-top"></i></button></a>
+        </div>
+    </div>
+</div></div><div id="nexmoe-footer"><!--!--></div><div id="nexmoe-search-space"><div class="search-container"><div class="search-header"><div class="search-input-container"><input class="search-input" type="text" placeholder="搜索" onInput="sinput();"></div><a class="search-close" onclick="sclose();">×</a></div><div class="search-body"></div></div></div><div><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2058306854838448" crossorigin="anonymous"></script>
+<script color="0,0,0" opacity="0.5" count="99" src="https://cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.js" type="text/javascript" charset="utf-8"></script>
+</div></body></html>
